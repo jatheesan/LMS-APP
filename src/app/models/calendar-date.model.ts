@@ -1,9 +1,9 @@
 export class CalendarDate {
     public date : Date | undefined;
-    public is_thismonth : boolean | undefined;
+    public isThisMonth : boolean | undefined;
 
-    constructor(date : Date, is_thismonth : boolean){
+    constructor(date : Date, isThisMonth : boolean){
         this.date = date;
-        this.is_thismonth = is_thismonth;
+        this.isThisMonth = isThisMonth;
     }
 }
