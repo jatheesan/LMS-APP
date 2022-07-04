@@ -1,0 +1,8 @@
+<div class="calendar">
+    <div>
+        <div *ngFor="let day of Dates ">
+            <p>{{ day.date | date: "dd:MM:yyyy" }} ===> {{ day.date | date: "EEEE" }}</p>
+            <P>{{ day.is_thismonth }}</P>
+        </div>
+    </div>
+</div>

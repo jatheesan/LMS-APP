@@ -1,0 +1,20 @@
+.calendar{
+    padding: 20px;
+}
+.bgcolor-primary{
+    background-color: dodgerblue;
+}
+
+.header-columns{
+    display: flex;
+}
+
+.header-columns > *{
+    flex-basis: 100%;
+}
+
+p.headerfont{
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0px !important;
+}

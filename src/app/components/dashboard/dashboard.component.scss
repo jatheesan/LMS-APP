@@ -1,0 +1,25 @@
+.nav-bar{
+    height: 40px;
+    width: 100%;
+    background-color: rgb(255, 174, 0);
+
+    div.header{
+        display: flex;
+        align-items: center;
+
+        .headerstyle{
+            display: flex;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0px !important;
+        }
+    }
+}
+
+
+.body{
+    width: 100%;
+    height: 690px;
+    background-color: lightgrey;
+}
