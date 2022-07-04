@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   date = new Date('Wed jan 20 2022 00:00:00 GMT+0530 (India Standard Time)');
-  //[0 => Sunday, 1 => ]
+  //[0 => Sunday, 1 => Monday, 2 => Tuseday, 3 => Wednesday, 4 => Thursday, 5 => Friday, 6 => Saturday]
+  // here workweek first element is first day of week
   workweek = [3, 1, 2, 5, 4];
-  //workweek = [2, 5, 1, 3, 0]
   orderOfWorkWeekDays!: number[];
 
   constructor() {
