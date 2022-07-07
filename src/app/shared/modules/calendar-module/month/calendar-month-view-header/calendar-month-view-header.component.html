@@ -1,24 +1,22 @@
 
-<div class="calendar">
     <div class="row">
         <div class="col-lg-12 pb-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div></div>
-                <div>
-                    <button type="button" class="btn btn-outline-success"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+            <div class="header-title-bar">
+                <div class="header-title-bar-item">
+                    <a class="next-button" (click)="decrement()" title="previous month"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
                 </div>
-                    <div>
-                        <h3 class="d-flex justify-content-center align-items-center">{{monthName}}/{{year}}</h3>
-                    </div>
-                <div>
-                    <button type="button" class="btn btn-outline-success"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <div class="header-title-bar-item month-title">
+                    {{monthName}}/{{year}}
                 </div>
-                <div></div>
+                <div class="header-title-bar-item">
+                    <a class="next-button" (click)="increment()" title="next month"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    <!-- <button type="button" class="btn"><i class="fa fa-angle-right" aria-hidden="true"></i></button> -->
+                </div>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="header-columns">
-                <div *ngFor="let workweeksname of workweeksnames" class="bg-light border p-2 text-center">
+                <div *ngFor="let workweeksname of workweeksnames" class="header-cell text-center">
                     <p class="headerfont">{{ workweeksname }}</p>
                 </div>
             </div>
@@ -29,4 +27,3 @@
             </div> -->
         </div>
     </div>
-</div>

@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  date = new Date('Wed jan 20 2022 00:00:00 GMT+0530 (India Standard Time)');
+  date = new Date('Wed jul 20 2022 00:00:00 GMT+0530 (India Standard Time)');
   //[0 => Sunday, 1 => Monday, 2 => Tuseday, 3 => Wednesday, 4 => Thursday, 5 => Friday, 6 => Saturday]
   // here workweek first element is first day of week
-  workweek = [3, 1, 2, 5, 4];
+  //workweek = [];
+  workweek = [3, 1, 5, 2, 4];
   orderOfWorkWeekDays!: number[];
 
   constructor() {
@@ -32,20 +33,26 @@ export class DashboardComponent implements OnInit {
     let lengthOfWorkWeek = lowestToHighest.length;
     let orderOfWorkWeek: number[] = [];
     let i = startdayIndex;
-    while(i < lengthOfWorkWeek)
+    if(lengthOfWorkWeek > 0)
     {
-      orderOfWorkWeek.push(lowestToHighest[i]);
-      i = i + 1;
-    }
-
-    let y = 0;
-    if(startdayIndex > 0)
-    {
-      while(y < startdayIndex)
+      while(i < lengthOfWorkWeek)
       {
-        orderOfWorkWeek.push(lowestToHighest[y]);
-        y = y + 1;
+        orderOfWorkWeek.push(lowestToHighest[i]);
+        i = i + 1;
       }
+
+      let y = 0;
+      if(startdayIndex > 0)
+      {
+        while(y < startdayIndex)
+        {
+          orderOfWorkWeek.push(lowestToHighest[y]);
+          y = y + 1;
+        }
+      }
+    }
+    else{
+      orderOfWorkWeek = [1, 2, 3, 4, 5, 6, 0]
     }
 
     return orderOfWorkWeek;

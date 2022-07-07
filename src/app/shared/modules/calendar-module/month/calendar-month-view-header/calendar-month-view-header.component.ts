@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DaysOfWeek } from "../../../../../enum/days-of-week";
 
 @Component({
@@ -11,6 +11,9 @@ export class CalendarMonthViewHeaderComponent implements OnInit {
   @Input() workweek!: number[];
   @Input() orderOfWorkWeekDays!: number[];
   @Input() date!: Date;
+  @Output()  monthChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output()  yearChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() dateChange: EventEmitter<Date> = new EventEmitter<Date>();
   DaysofWeek = DaysOfWeek;
   workweeksnames!: String[];
   month !: number;
@@ -39,6 +42,34 @@ export class CalendarMonthViewHeaderComponent implements OnInit {
       workweeklenght = workweeklenght - 1
     }
     return workweeksnames;
+  }
+
+  increment() {
+    this.month++;
+    if(this.month == 12)
+    {
+      this.month = 0;
+      this.year++;
+    }
+    this.monthName = CalendarMonthViewHeaderComponent.findMonth(this.month);
+    this.date = new Date(this.year, this.month, 1);
+    this.monthChange.emit(this.month);
+    this.yearChange.emit(this.year);
+    this.dateChange.emit(this.date);
+  }
+
+  decrement() {
+    this.month--;
+    if(this.month == -1)
+    {
+      this.month = 11;
+      this.year--;
+    }
+    this.monthName = CalendarMonthViewHeaderComponent.findMonth(this.month);
+    this.date = new Date(this.year, this.month, 1);
+    this.monthChange.emit(this.month);
+    this.yearChange.emit(this.year);
+    this.dateChange.emit(this.date);
   }
 
   public static findMonth(monthNumber : number): string
