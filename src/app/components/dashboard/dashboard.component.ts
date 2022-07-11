@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Holiday } from 'src/app/models/holiday.model';
+import { HolidayService } from 'src/app/services/holiday.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'lms-dashboard',
@@ -6,25 +9,46 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  date = new Date('Wed jul 20 2022 00:00:00 GMT+0530 (India Standard Time)');
+  date = new Date('Wed jan 20 2022 00:00:00 GMT+0530 (India Standard Time)');
   //[0 => Sunday, 1 => Monday, 2 => Tuseday, 3 => Wednesday, 4 => Thursday, 5 => Friday, 6 => Saturday]
   // here workweek first element is first day of week
   //workweek = [];
   workweek = [3, 1, 5, 2, 4];
   orderOfWorkWeekDays!: number[];
 
-  constructor() {
+  holidays!: Holiday[];
+  holidaydates : Date[] = [];
+
+  constructor(private holidayService: HolidayService) {
 
   }
 
   ngOnInit(): void {
-    console.log("Date = " + this.date);
-    console.log('workweek ' + this.workweek);
     let weekStartDay = this.workweek[0];
     let lowestToHighest = this.workweek.sort((a, b) => a - b);
-    console.log('lowestToHighest ' + lowestToHighest);
     this.orderOfWorkWeekDays = DashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
-    console.log('orderOfWorkWeekDays ' + this.orderOfWorkWeekDays);
+
+    this.getAllHolidays();
+    
+  }
+
+  getAllHolidays(){
+    this.holidayService.getAllHolidays()
+      .subscribe(
+        response => {
+          this.holidays = response;
+          this.holidaydates = this.getAllHolidayDates(this.holidays);
+        }
+      );
+  }
+
+  getAllHolidayDates(data:any){
+    let dates : Date[] = [];
+    data.forEach((element: any) => {
+      let date: Date = element.date
+      dates.push(date);
+    });
+    return dates;
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

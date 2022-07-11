@@ -2,4 +2,9 @@
     <div class="date" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)'}">
         {{date}}
     </div>
+    <div class="holiday" *ngIf="dayHolidaylength != 0">
+        <div *ngFor="let holiday of dayHoliday">
+            {{holiday.description}}
+        </div>
+    </div>
 </div>

@@ -3,6 +3,9 @@ import { Component, DoCheck, Input, OnChanges, OnInit, SimpleChange, SimpleChang
 import { CalendarDate } from "../../../../../models/calendar-date.model";
 import { MonthView } from "../../../../../models/month-view"
 import { DaysOfWeek } from "../../../../../enum/days-of-week";
+import { Holiday } from 'src/app/models/holiday.model';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'lms-calendar-month-view',
@@ -19,6 +22,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   @Input() todayDate!: Date;
   @Input() workweek!: number[];
   @Input() orderOfWorkWeekDays!: number[];
+  @Input() holidays!: Holiday[];
+  monthHoliday: Holiday[] = [];
   workweekofmonth!: number[];
   index!: number;
   static isThisMonth: boolean;
@@ -92,6 +97,14 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.days = this.Dates,
       this.totalDaysVisibleInWeek = this.noOfWorkWeekDays
     );
+
+    if(this.holidays != null){
+      this.monthHoliday = this.getMonthHoliday(this.holidays, this.month, this.year);
+    }
+    else{
+      this.monthHoliday = [];
+    }
+
   }
 
   ngDoCheck()
@@ -151,6 +164,13 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.totalDaysVisibleInWeek = this.noOfWorkWeekDays
     );
     
+
+    if(this.holidays != null){
+      this.monthHoliday = this.getMonthHoliday(this.holidays, this.month, this.year);
+    }
+    else{
+      this.monthHoliday = [];
+    }
   }
 
 
@@ -231,6 +251,30 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       }
     }
     return rowoffsetsOfMonth;
+  }
+
+  getMonthHoliday(holi : Holiday[], month : number, year : number): any{
+    let monthHoliday : Holiday[] = [];
+    monthHoliday = holi.filter(x => moment(x.date).month() === month && moment(x.date).year() === year)
+    
+    console.log(monthHoliday);
+    return monthHoliday;
+  }
+
+  dayHoliday(dayDate: CalendarDate) : any{
+    let holiday;
+    if(this.monthHoliday != null)
+    {
+      holiday = this.monthHoliday.filter(x => 
+        moment(x.date).date() === dayDate.date?.getDate() 
+        && moment(x.date).month() === dayDate.date?.getMonth()
+        && moment(x.date).year() === dayDate.date?.getFullYear())
+    }
+    else{
+      holiday = null;
+    }
+    
+    return holiday;
   }
 
   counter(i: number) {

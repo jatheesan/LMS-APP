@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { CalendarDate } from 'src/app/models/calendar-date.model';
+import { Holiday } from 'src/app/models/holiday.model';
 
 @Component({
   selector: 'lms-calendar-month-cell',
@@ -9,6 +11,7 @@ import { CalendarDate } from 'src/app/models/calendar-date.model';
 export class CalendarMonthCellComponent implements OnInit {
 
   @Input() day !: CalendarDate;
+  @Input() dayHoliday!: Holiday[];
   cellDay !: CalendarDate;
   fullDate !: Date | undefined;
   date: any;
@@ -16,6 +19,8 @@ export class CalendarMonthCellComponent implements OnInit {
   monthName: any;
   year: any;
   isThisMonth: boolean | undefined;
+
+  dayHolidaylength : any;
 
   constructor() { }
 
@@ -27,6 +32,9 @@ export class CalendarMonthCellComponent implements OnInit {
     this.month = this.cellDay.date?.getMonth();
     this.monthName = CalendarMonthCellComponent.findMonth(this.month);
     this.year = this.cellDay.date?.getFullYear();
+
+    this.dayHolidaylength = this.dayHoliday.length;
+    console.log(this.dayHoliday);
   }
 
   public static findMonth(monthNumber : number): string

@@ -1,6 +1,12 @@
 <div class="calendar">
+    <div class="row">
+        <div *ngFor="let holiday of monthHoliday">
+          <span>{{ holiday.date | date:'full'}}</span>
+          <span>{{holiday.description}}</span>
+        </div>
+      </div>
     <lms-calendar-month-view-header 
-        [orderOfWorkWeekDays]="orderOfWorkWeekDays" 
+        [orderOfWorkWeekDays]="orderOfWorkWeekDays"
         [(date)]="todayDate"
         (monthChange)="receiveMonth($event)"
         (yearChange)="receiveYear($event)"
@@ -9,7 +15,7 @@
         <div *ngFor="let rowIndex of view.rowoffsets" class="col-lg-12">
             <div class="header-columns">
                 <div *ngFor='let day of view.days | slice: rowIndex:rowIndex + this.view.totalDaysVisibleInWeek'>
-                    <lms-calendar-month-cell [day]="day"></lms-calendar-month-cell>
+                    <lms-calendar-month-cell [day]="day" [dayHoliday] = "dayHoliday(day)"></lms-calendar-month-cell>
                 </div>
             </div>
         </div>
