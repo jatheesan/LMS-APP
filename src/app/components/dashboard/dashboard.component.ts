@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Holiday } from 'src/app/models/holiday.model';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common'
+import { LeaveRequestService } from 'src/app/services/leave-request.service';
+import { LeaveRequest } from 'src/app/models/leaverequest.model';
 
 @Component({
   selector: 'lms-dashboard',
@@ -9,7 +11,8 @@ import { DatePipe } from '@angular/common'
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  date = new Date('Wed jan 20 2022 00:00:00 GMT+0530 (India Standard Time)');
+  //date = new Date('Wed jan 20 2022 00:00:00 GMT+0530 (India Standard Time)');
+  date = new Date();
   //[0 => Sunday, 1 => Monday, 2 => Tuseday, 3 => Wednesday, 4 => Thursday, 5 => Friday, 6 => Saturday]
   // here workweek first element is first day of week
   //workweek = [];
@@ -17,9 +20,12 @@ export class DashboardComponent implements OnInit {
   orderOfWorkWeekDays!: number[];
 
   holidays!: Holiday[];
-  holidaydates : Date[] = [];
+  leaveRequests!: any;
 
-  constructor(private holidayService: HolidayService) {
+  constructor(
+    private holidayService: HolidayService,
+    private leaveRequestService: LeaveRequestService
+    ) {
 
   }
 
@@ -29,26 +35,25 @@ export class DashboardComponent implements OnInit {
     this.orderOfWorkWeekDays = DashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
 
     this.getAllHolidays();
-    
+    this.getAllLeaveRequest();
   }
-
+  
   getAllHolidays(){
     this.holidayService.getAllHolidays()
       .subscribe(
         response => {
           this.holidays = response;
-          this.holidaydates = this.getAllHolidayDates(this.holidays);
         }
       );
   }
 
-  getAllHolidayDates(data:any){
-    let dates : Date[] = [];
-    data.forEach((element: any) => {
-      let date: Date = element.date
-      dates.push(date);
-    });
-    return dates;
+  getAllLeaveRequest(){
+    this.leaveRequestService.getAllLeaveRequest()
+      .subscribe(
+        response => {
+          this.leaveRequests = response;
+        }
+      );
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

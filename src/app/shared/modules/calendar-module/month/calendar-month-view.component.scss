@@ -83,4 +83,22 @@ p.headerfont{
     left: 35px;
     line-height: 17px;
     font-size: 0.75rem;
+    padding-left: 5px;
+}
+
+.leave{
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    .leave-inner{
+        background-color:lightblue;
+        line-height: 17px;
+        font-size: 0.75rem;
+        margin-top: 2px;
+        border-radius: 5px;
+        padding-left: 5px;
+    }
 }

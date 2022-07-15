@@ -5,7 +5,9 @@ import { MonthView } from "../../../../../models/month-view"
 import { DaysOfWeek } from "../../../../../enum/days-of-week";
 import { Holiday } from 'src/app/models/holiday.model';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { last, Observable } from 'rxjs';
+import { LeaveRequest } from 'src/app/models/leaverequest.model';
+import { Rowevent } from 'src/app/models/rowevent.model';
 
 @Component({
   selector: 'lms-calendar-month-view',
@@ -23,12 +25,19 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   @Input() workweek!: number[];
   @Input() orderOfWorkWeekDays!: number[];
   @Input() holidays!: Holiday[];
+  @Input() leaveRequests!: LeaveRequest[];
   monthHoliday: Holiday[] = [];
+  monthLeaveRequest: LeaveRequest[] = [];
   workweekofmonth!: number[];
   index!: number;
   static isThisMonth: boolean;
   static date: Date;
   static DaysList: any;
+
+  rowEvent !: LeaveRequest | undefined;
+  rowEventStartDate !: Date | undefined;
+  rowEventEndDate !: Date | undefined;
+  rowEventWidth !: number | undefined;
 
   view!: MonthView;
   rowoffset !: number[];
@@ -44,7 +53,6 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   ngOnInit(): void {
-    
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -97,20 +105,29 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.days = this.Dates,
       this.totalDaysVisibleInWeek = this.noOfWorkWeekDays
     );
+    console.log(this.rowoffset);
+    
 
+    //List of holidays for this month
     if(this.holidays != null){
       this.monthHoliday = this.getMonthHoliday(this.holidays, this.month, this.year);
     }
     else{
       this.monthHoliday = [];
+    }
+
+    //List of leaveRequest for this month
+    if(this.leaveRequests != null){
+      this.monthLeaveRequest = this.getMonthLeaveRequest(this.leaveRequests, this.month, this.year);
+    }
+    else{
+      this.monthLeaveRequest = [];
     }
 
   }
 
-  ngDoCheck()
+  ngDoCheck(): void
   {
-    console.log(this.todayDate);
-
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -164,12 +181,20 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.totalDaysVisibleInWeek = this.noOfWorkWeekDays
     );
     
-
+    //List of holiday for this month
     if(this.holidays != null){
       this.monthHoliday = this.getMonthHoliday(this.holidays, this.month, this.year);
     }
     else{
       this.monthHoliday = [];
+    }
+
+    //List of leaveRequest for this month
+    if(this.leaveRequests != null){
+      this.monthLeaveRequest = this.getMonthLeaveRequest(this.leaveRequests, this.month, this.year);
+    }
+    else{
+      this.monthLeaveRequest = [];
     }
   }
 
@@ -255,10 +280,116 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   getMonthHoliday(holi : Holiday[], month : number, year : number): any{
     let monthHoliday : Holiday[] = [];
-    monthHoliday = holi.filter(x => moment(x.date).month() === month && moment(x.date).year() === year)
-    
-    console.log(monthHoliday);
+    monthHoliday = holi.filter(x => moment(x.date).month() === month && moment(x.date).year() === year);
     return monthHoliday;
+  }
+
+  getMonthLeaveRequest(request: LeaveRequest[], month: number, year: number): any{
+    let monthLeaves : LeaveRequest[] = [];
+    monthLeaves = request.filter(x => 
+      moment(x.startDate).month() === month && moment(x.startDate).year() === year);
+
+    return monthLeaves;
+  }
+
+  getWeekLeaveRequest(rowIndex: number): any{
+    let leaveRequest : LeaveRequest[] = [];
+    let rowLeaveRequest : Rowevent[] = [];
+    let firstday : any;
+    let firstdayOfWeek: moment.Moment;
+    let lastday : any;
+    let lastdayOfWeek: moment.Moment;
+    if(this.Dates != null){
+      firstday = this.Dates[rowIndex].date;
+      firstdayOfWeek = moment(firstday);
+      lastday = this.Dates[rowIndex + (this.noOfWorkWeekDays - 1)].date
+      lastdayOfWeek = moment(lastday);
+
+      if(this.leaveRequests != null){
+        this.leaveRequests.forEach((item: LeaveRequest) => {
+          let firstdayofLeave = moment(item.startDate);
+          let lastdayofLeave = moment(item.endDate);
+
+          if(
+            ((firstdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0)) &&
+            ((lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0 ) && (lastdayofLeave.diff(lastdayOfWeek, 'day') >= 0))
+          ){
+              let width = this.getWidth(firstdayofLeave, lastdayOfWeek)
+              rowLeaveRequest.push(
+                new Rowevent(
+                  this.rowEvent = item,
+                  this.rowEventStartDate = item.startDate,
+                  this.rowEventEndDate = lastday,
+                  this.rowEventWidth = width
+                )
+              );
+              leaveRequest.push(item);
+          }
+          else if(
+            ((firstdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0)) &&
+            ((lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0) && (lastdayOfWeek.diff(lastdayofLeave, 'day') >= 0))
+          ){
+            let width = this.getWidth(firstdayOfWeek,lastdayofLeave);
+              rowLeaveRequest.push(
+                new Rowevent(
+                  this.rowEvent = item,
+                  this.rowEventStartDate = firstday,
+                  this.rowEventEndDate = item.endDate,
+                  this.rowEventWidth = width
+                )
+              );
+              leaveRequest.push(item);
+          }
+          else if(
+            ((firstdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0)) &&
+            ((lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(lastdayOfWeek, 'day') >= 0))
+          ){
+            let width = this.getWidth(firstdayOfWeek,lastdayOfWeek);
+              rowLeaveRequest.push(
+                new Rowevent(
+                  this.rowEvent = item,
+                  this.rowEventStartDate = firstday,
+                  this.rowEventEndDate = lastday,
+                  this.rowEventWidth = width
+                )
+              );
+              leaveRequest.push(item);
+          }
+          else if(
+            ((firstdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0)) &&
+            ((lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(lastdayofLeave, 'day') >= 0))
+          ){
+            let width = this.getWidth(firstdayofLeave,lastdayofLeave);
+              rowLeaveRequest.push(
+                new Rowevent(
+                  this.rowEvent = item,
+                  this.rowEventStartDate = item.startDate,
+                  this.rowEventEndDate = item.endDate,
+                  this.rowEventWidth = width
+                )
+              );
+              leaveRequest.push(item);
+          }
+        });
+      }
+    }
+    let sortedrowLeaveRequest = rowLeaveRequest.sort((a, b) => 
+    (a.rowEventWidth< b.rowEventWidth) ? -1 : 1);
+    //console.log(sortedrowLeaveRequest);
+    return sortedrowLeaveRequest
+  }
+
+  getWidth(fdate: moment.Moment, ldate: moment.Moment) : number{
+    let width = 0
+    if(fdate != null && ldate != null){
+      while(ldate.diff(fdate, 'day') >= 0){
+        if(this.orderOfWorkWeekDays.indexOf(fdate.day()) >= 0){
+          width = width + 1;
+        }
+        fdate = moment(fdate).add(1, 'day');
+      }
+    }
+    return width;
   }
 
   dayHoliday(dayDate: CalendarDate) : any{
@@ -275,6 +406,36 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     }
     
     return holiday;
+  }
+
+  dayLeaveRequest(dayDate: CalendarDate) : any{
+    let leaverequest : LeaveRequest[] = [];
+    if(this.monthLeaveRequest != null)
+    {
+      // leaverequest = this.monthLeaveRequest.filter(x => 
+      //   moment(x.startDate).date() === dayDate.date?.getDate() 
+      //   && moment(x.startDate).month() === dayDate.date?.getMonth()
+      //   && moment(x.startDate).year() === dayDate.date?.getFullYear())
+      if(this.leaveRequests != null){
+        this.leaveRequests.forEach((item: LeaveRequest) => {
+          let fDate = moment(item.startDate);
+          let eDate = moment(item.endDate);
+          let dDate = moment(dayDate.date);
+  
+          if(fDate.format() == dDate.format() || 
+              (dDate.diff(fDate, 'day')) >= 0 && (eDate.diff(dDate, 'day')) >= 0
+            )
+          {
+            leaverequest.push(item);
+          }
+        })
+      }
+    }
+    else{
+      leaverequest = [];
+    }
+    
+    return leaverequest;
   }
 
   counter(i: number) {
@@ -305,3 +466,4 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     return days;
   }
 }
+

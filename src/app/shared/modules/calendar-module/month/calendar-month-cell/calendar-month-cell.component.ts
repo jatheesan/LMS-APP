@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { CalendarDate } from 'src/app/models/calendar-date.model';
 import { Holiday } from 'src/app/models/holiday.model';
+import { LeaveRequest } from 'src/app/models/leaverequest.model';
+import { Rowevent } from 'src/app/models/rowevent.model';
 
 @Component({
   selector: 'lms-calendar-month-cell',
@@ -12,6 +14,9 @@ export class CalendarMonthCellComponent implements OnInit {
 
   @Input() day !: CalendarDate;
   @Input() dayHoliday!: Holiday[];
+  @Input() dayLeaveRequest!: LeaveRequest[];
+  @Input() orderOfWorkWeekDays!: number[];
+  @Input() rowEvent!: Rowevent[];
   cellDay !: CalendarDate;
   fullDate !: Date | undefined;
   date: any;
@@ -20,21 +25,76 @@ export class CalendarMonthCellComponent implements OnInit {
   year: any;
   isThisMonth: boolean | undefined;
 
-  dayHolidaylength : any;
+  dayHolidayLength : any;
+  dayLeaveRequestLength : any;
+
+  leavelength !: number;
 
   constructor() { }
 
   ngOnInit(): void {
+    
     this.cellDay = this.day;
     this.fullDate = this.cellDay.date;
     this.isThisMonth = this.cellDay.isThisMonth;
     this.date = this.cellDay.date?.getDate();
     this.month = this.cellDay.date?.getMonth();
-    this.monthName = CalendarMonthCellComponent.findMonth(this.month);
+    //this.monthName = CalendarMonthCellComponent.findMonth(this.month);
+    this.monthName = moment(this.fullDate).format('MMMM')
+    console.log(this.monthName);
     this.year = this.cellDay.date?.getFullYear();
 
-    this.dayHolidaylength = this.dayHoliday.length;
-    console.log(this.dayHoliday);
+    this.dayHolidayLength = this.dayHoliday.length;
+    this.dayLeaveRequestLength = this.dayLeaveRequest.length;
+
+    this.leavelength = 100;
+    console.log(this.rowEvent);
+    
+  }
+
+  getlength(noOfCell : number): number{
+    console.log(noOfCell);
+    
+    let cellwidth: number = 0;
+    let celloffsetwidth: number = 0;
+    let widthstyle: number = 0;
+
+    let cellattr = document.getElementById('cell');
+    if(cellattr){
+      cellwidth = cellattr.clientWidth;
+      celloffsetwidth = cellattr.offsetWidth;
+    }
+      console.log('cellwidth ' + cellwidth);
+      console.log('celloffsetwidth ' + celloffsetwidth);
+      
+      widthstyle = cellwidth;
+      noOfCell = noOfCell - 1;
+      while(noOfCell > 0){
+        widthstyle = widthstyle + celloffsetwidth;
+        noOfCell = noOfCell - 1;
+      }
+    return widthstyle;
+  }
+
+  getPositionFromBottom(fullDate : CalendarDate): number{
+    let fromBottom = 0;
+    let dayrowEvent : Rowevent[] = [];
+    dayrowEvent = this.rowEvent.filter((item : Rowevent) => 
+      (moment(fullDate.date).diff(moment(item.rowEventStartDate), 'day') > 0) &&
+      (moment(item.rowEventEndDate).diff(moment(fullDate.date), 'day') >= 0)
+    );
+    fromBottom = dayrowEvent.length
+    console.log(fromBottom);
+    
+    return fromBottom * 19;
+  }
+
+  dayRowEvent(fullDate : CalendarDate) : Rowevent[]{
+    let dayrowEvent : Rowevent[] = [];
+    dayrowEvent = this.rowEvent.filter((item : Rowevent) => 
+      moment(item.rowEventStartDate).diff(moment(fullDate.date), 'day') == 0
+    );
+    return dayrowEvent;
   }
 
   public static findMonth(monthNumber : number): string
