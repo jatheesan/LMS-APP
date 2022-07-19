@@ -20,14 +20,21 @@
     ></lms-calendar-month-view-header>
     <div class="row">
         <div *ngFor="let rowIndex of view.rowoffsets" class="col-lg-12">
-            <div class="header-columns">
+            <div class="calendar-columns" id="columns">
                 <div *ngFor='let day of view.days | slice: rowIndex:rowIndex + this.view.totalDaysVisibleInWeek'>
-                    <lms-calendar-month-cell 
+                    <lms-calendar-month-cell id="calendar-cell"
                         [orderOfWorkWeekDays] = "orderOfWorkWeekDays"
                         [day]="day" 
                         [dayHoliday] = "dayHoliday(day)"
                         [dayLeaveRequest] = "dayLeaveRequest(day)"
                         [rowEvent] = "getWeekLeaveRequest(rowIndex)"></lms-calendar-month-cell>
+                </div>
+            </div>
+            <div class="calendar-event">
+                <div class="event-row" id="event" *ngFor="let rowEvent of getEventByRowIndex(getWeekLeaveRequest(rowIndex))" [ngStyle]="{'bottom' : getMoveByPixel(getEventByRowIndex(getWeekLeaveRequest(rowIndex))) + 'px' }">
+                    <div *ngFor="let event of rowEvent" class="event-inner" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px' }" [style.background-color]="event.rowEvent?.bgcolor">
+                        {{ event.rowEvent?.userId }}{{' - '}}{{ event.rowEvent?.reason }}
+                    </div>
                 </div>
             </div>
         </div>

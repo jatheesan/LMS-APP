@@ -374,8 +374,11 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       }
     }
     let sortedrowLeaveRequest = rowLeaveRequest.sort((a, b) => 
-    (a.rowEventWidth< b.rowEventWidth) ? -1 : 1);
+    (a.rowEventWidth > b.rowEventWidth) ? -1 : 1);
+
+    //this.getEventByRowIndex(sortedrowLeaveRequest);
     //console.log(sortedrowLeaveRequest);
+    
     return sortedrowLeaveRequest
   }
 
@@ -390,6 +393,124 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       }
     }
     return width;
+  }
+
+  getEventByRowIndex(sortedrowLeaveRequest: Rowevent[]) : any[][]{
+    let rowindexevent : number[][] = []; //2 dimention array of events for every row
+    let rowevents : Rowevent[][] = [];
+    let reverseRowEvents : Rowevent[][] = [];
+    if(sortedrowLeaveRequest != null){
+
+      sortedrowLeaveRequest.forEach((eventItem:Rowevent) => {
+        if(rowindexevent.length == 0){ // push very first element
+          rowindexevent.push([sortedrowLeaveRequest.indexOf(eventItem)]);
+          rowevents.push([eventItem]);
+        }
+        else{ // push other events
+          let breakPoint;
+          let checkEventStartDate = eventItem.rowEventStartDate; // start date of event
+          let checkEventEndDate = eventItem.rowEventEndDate;     // end date of event
+          let checkEventLength = eventItem.rowEventWidth;        // width(no of column fill) of event
+          
+          let rowLength = rowindexevent.length; //how many row are filled (length)
+          let k = 0;
+          let area = '';
+          for(let i = 0; i < rowLength; i++){
+
+            let rowEvents : number[] = rowindexevent[i];
+            let rowEventsLength = rowEvents.length;
+            let totalExitEventLength = 0;
+
+            for(let j = 0; j < rowEventsLength; j++){
+              let exitEvent = sortedrowLeaveRequest[rowEvents[j]];  // exit event in row
+              let exitEventStartDate = exitEvent.rowEventStartDate; // start date of exit event in row
+              let exitEventEndDate = exitEvent.rowEventEndDate;     // end date of exit event in row
+              let exitEventLength = exitEvent.rowEventWidth;        // width(no of column fill) exit event in row
+              //console.log('checkEvent : ' + eventItem.rowEvent?.reason +';;; checkEventStartDate : ' + checkEventStartDate + ';;; checkEventLength : ' + checkEventLength);
+              //console.log('exitEvent : ' + exitEvent.rowEvent?.reason +';;; exitEventEndDate : ' + exitEventEndDate + ';;; exitEventLength : ' + exitEventLength);
+
+              totalExitEventLength = totalExitEventLength + exitEventLength;
+              //console.log('totalExitEventLength : ' + totalExitEventLength)
+              if((5 - totalExitEventLength) < checkEventLength){
+                k = -1;
+                //console.log(k);
+                
+              }
+              else{
+                if(moment(exitEventStartDate).diff(moment(checkEventEndDate), 'day') > 0){
+                  k = i;
+                  area = 'before';
+                  //console.log(k);
+                  break;
+                }
+                else if(moment(checkEventStartDate).diff(moment(exitEventEndDate), 'day') > 0){
+                  k = i;
+                  area = 'after';
+                  //console.log(k);
+                  break;
+                }
+              }      
+            } 
+          }
+          if(k == -1){
+            rowindexevent.push([sortedrowLeaveRequest.indexOf(eventItem)]);
+            rowevents.push([eventItem]);
+            //console.log(rowindexevent);
+          }
+          else{
+            if(area == 'before'){
+              rowindexevent[k].unshift(sortedrowLeaveRequest.indexOf(eventItem));
+              rowevents[k].unshift(eventItem);
+            }
+            else if(area == 'after'){
+              rowindexevent[k].push(sortedrowLeaveRequest.indexOf(eventItem));
+              rowevents[k].push(eventItem);
+            }
+          }
+        }
+      });
+    }
+    reverseRowEvents = rowevents.reverse();
+    return reverseRowEvents;
+  }
+
+  getlength(noOfCell : number): number{
+    //console.log(noOfCell);
+    
+    let cellwidth: number = 0;
+    let celloffsetwidth: number = 0;
+    let widthstyle: number = 0;
+
+    let cellattr = document.getElementById('calendar-cell');
+    if(cellattr){
+      cellwidth = cellattr.clientWidth;
+      celloffsetwidth = cellattr.offsetWidth;
+    }
+      //console.log('cellwidth ' + cellwidth);
+      //console.log('celloffsetwidth ' + celloffsetwidth);
+      
+      widthstyle = cellwidth;
+      noOfCell = noOfCell;
+      while(noOfCell > 0){
+        widthstyle = widthstyle + celloffsetwidth;
+        noOfCell = noOfCell - 1;
+      }
+    console.log(widthstyle);
+    return widthstyle;
+  }
+
+  getMoveByPixel(row : Rowevent[][]): number{
+    let noOfRows = row.length;
+    let eventheight: number = 0;
+
+    let columnattr = document.getElementById('event');
+    if(columnattr){
+      //eventheight = columnattr.clientHeight * noOfRows;
+      eventheight = 19 * noOfRows + 1;
+    }
+
+    console.log(eventheight);
+    return eventheight
   }
 
   dayHoliday(dayDate: CalendarDate) : any{

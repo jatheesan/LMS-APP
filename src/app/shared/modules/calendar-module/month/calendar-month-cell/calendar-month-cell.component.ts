@@ -41,19 +41,19 @@ export class CalendarMonthCellComponent implements OnInit {
     this.month = this.cellDay.date?.getMonth();
     //this.monthName = CalendarMonthCellComponent.findMonth(this.month);
     this.monthName = moment(this.fullDate).format('MMMM')
-    console.log(this.monthName);
+    //console.log(this.monthName);
     this.year = this.cellDay.date?.getFullYear();
 
     this.dayHolidayLength = this.dayHoliday.length;
     this.dayLeaveRequestLength = this.dayLeaveRequest.length;
 
     this.leavelength = 100;
-    console.log(this.rowEvent);
+    //console.log(this.rowEvent);
     
   }
 
   getlength(noOfCell : number): number{
-    console.log(noOfCell);
+    //console.log(noOfCell);
     
     let cellwidth: number = 0;
     let celloffsetwidth: number = 0;
@@ -64,8 +64,8 @@ export class CalendarMonthCellComponent implements OnInit {
       cellwidth = cellattr.clientWidth;
       celloffsetwidth = cellattr.offsetWidth;
     }
-      console.log('cellwidth ' + cellwidth);
-      console.log('celloffsetwidth ' + celloffsetwidth);
+      //console.log('cellwidth ' + cellwidth);
+      //console.log('celloffsetwidth ' + celloffsetwidth);
       
       widthstyle = cellwidth;
       noOfCell = noOfCell - 1;
@@ -84,7 +84,7 @@ export class CalendarMonthCellComponent implements OnInit {
       (moment(item.rowEventEndDate).diff(moment(fullDate.date), 'day') >= 0)
     );
     fromBottom = dayrowEvent.length
-    console.log(fromBottom);
+    //console.log(fromBottom);
     
     return fromBottom * 19;
   }

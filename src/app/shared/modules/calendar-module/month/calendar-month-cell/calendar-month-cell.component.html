@@ -7,14 +7,9 @@
             {{holiday.description}}
         </div>
     </div>
-    <!-- <div class="leave" *ngIf="dayLeaveRequestLength != 0">
-        <div class="leave-inner" *ngFor="let leaverequest of dayLeaveRequest" id="{{'leaveinner' + leaverequest.id}}" [ngStyle]="{'width' : getLength('leaveinner' + leaverequest.id, leaverequest) + 'px' }">
-            {{ leaverequest.userId }}{{' - '}}{{ leaverequest.reason }}
-        </div>
-    </div> -->
-    <div class="leave" *ngIf = "dayRowEvent(cellDay) != null" [style.bottom.px]="getPositionFromBottom(cellDay)">
+    <!-- <div class="leave" *ngIf = "dayRowEvent(cellDay) != null" [style.bottom.px]="getPositionFromBottom(cellDay)">
         <div class="leave-inner" *ngFor="let event of dayRowEvent(cellDay)" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px' }" [style.background-color]="event.rowEvent?.bgcolor">
             {{ event.rowEvent?.userId }}{{' - '}}{{ event.rowEvent?.reason }}
         </div>
-    </div>
+    </div> -->
 </div>
