@@ -1,4 +1,4 @@
-<div class="cell" id="cell">
+<div class="cell" id="cell" [ngStyle]="{'background-color': isToday === false ? '#fff' : '#fff'}">
     <div class="date" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)'}">
         {{date}}
     </div>

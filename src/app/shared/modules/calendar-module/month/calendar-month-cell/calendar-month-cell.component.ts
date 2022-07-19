@@ -24,6 +24,7 @@ export class CalendarMonthCellComponent implements OnInit {
   monthName: any;
   year: any;
   isThisMonth: boolean | undefined;
+  isToday: boolean | undefined;
 
   dayHolidayLength : any;
   dayLeaveRequestLength : any;
@@ -37,6 +38,7 @@ export class CalendarMonthCellComponent implements OnInit {
     this.cellDay = this.day;
     this.fullDate = this.cellDay.date;
     this.isThisMonth = this.cellDay.isThisMonth;
+    this.isToday = this.cellDay.isToday
     this.date = this.cellDay.date?.getDate();
     this.month = this.cellDay.date?.getMonth();
     //this.monthName = CalendarMonthCellComponent.findMonth(this.month);

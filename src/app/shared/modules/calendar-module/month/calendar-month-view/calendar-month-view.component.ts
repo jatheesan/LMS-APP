@@ -21,6 +21,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   year: any;
   changeYear: any;
   Dates : CalendarDate[] | undefined;
+  static today: Date ;
   @Input() todayDate!: Date;
   @Input() workweek!: number[];
   @Input() orderOfWorkWeekDays!: number[];
@@ -31,6 +32,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   workweekofmonth!: number[];
   index!: number;
   static isThisMonth: boolean;
+  static isToday: boolean = false;
   static date: Date;
   static DaysList: any;
 
@@ -53,6 +55,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   ngOnInit(): void {
+    CalendarMonthViewComponent.today = this.todayDate;
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -128,6 +131,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   ngDoCheck(): void
   {
+    CalendarMonthViewComponent.today = this.todayDate;
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -208,10 +212,19 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       let d = weekdate.getDay();
       let i = workweek.findIndex(x => x === d);
       if(i != -1){
+        if( moment(weekdate).diff(moment(this.today), 'day') == 0){
+          console.log('today : ' + this.today);
+          console.log('workdate : ' + weekdate);
+          this.isToday = true;
+        }
+        else{
+          this.isToday = false;
+        }
         days.push(
           new CalendarDate(
             this.date = weekdate,
-            this.isThisMonth = true
+            this.isThisMonth = true,
+            this.isToday
           )
         );
       }
@@ -229,10 +242,19 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       setdateday = workdate.getDay();
       if(workweek[index-1] === setdateday)
       {
+        if( (moment(workdate).diff(moment(this.today), 'day')) == 0){
+          console.log('today : ' + this.today);
+          console.log('workdate : ' + workdate);
+          this.isToday = true;
+        }
+        else{
+          this.isToday = false;
+        }
         days.unshift(
           new CalendarDate(
             this.date = new Date(workdate),
-            this.isThisMonth = false
+            this.isThisMonth = false,
+            this.isToday
           )
         );
         index = index - 1;
@@ -251,10 +273,19 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       setdateday = workdate.getDay();
       if(workweek[index+1] === setdateday)
       {
+        if( moment(workdate).diff(moment(this.today), 'day') == 0){
+          console.log('today : ' + this.today);
+          console.log('workdate : ' + workdate);
+          this.isToday = true;
+        }
+        else{
+          this.isToday = false;
+        }
         days.push(
           new CalendarDate(
             this.date = new Date(workdate),
-            this.isThisMonth = false
+            this.isThisMonth = false,
+            this.isToday
           )
         );
         index = index + 1;
