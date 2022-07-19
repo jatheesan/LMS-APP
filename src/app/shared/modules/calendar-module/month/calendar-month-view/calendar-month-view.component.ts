@@ -495,7 +495,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         widthstyle = widthstyle + celloffsetwidth;
         noOfCell = noOfCell - 1;
       }
-    console.log(widthstyle);
+    //console.log(widthstyle);
     return widthstyle;
   }
 
@@ -505,12 +505,14 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
     let columnattr = document.getElementById('event');
     if(columnattr){
-      //eventheight = columnattr.clientHeight * noOfRows;
-      eventheight = 19 * noOfRows + 1;
+      eventheight = (columnattr.offsetHeight * noOfRows);
     }
 
+    if(eventheight == 0){
+      eventheight = 19;
+    }
     console.log(eventheight);
-    return eventheight
+    return (eventheight + 1)
   }
 
   dayHoliday(dayDate: CalendarDate) : any{
@@ -565,12 +567,12 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   receiveMonth($event: number){
     this.changeMonth = $event;
-    console.log(this.changeMonth);
+    //console.log(this.changeMonth);
   }
 
   receiveYear($event: number){
     this.changeYear = $event;
-    console.log(this.changeYear);
+    //console.log(this.changeYear);
   }
   // receiveDate($event: Date){
   //   this.todayDate = $event;

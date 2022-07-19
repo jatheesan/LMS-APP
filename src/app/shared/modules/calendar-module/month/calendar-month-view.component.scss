@@ -108,19 +108,22 @@ p.headerfont{
     z-index: 1;
     //bottom: 0px;
     //left: 0px;
-
-    .event-row{
-        display: flex;
+    .calendar-event-row{
         position: relative;
-        bottom: 10px;
 
-        .event-inner{
-            background-color:lightblue;
-            line-height: 17px;
-            font-size: 0.75rem;
-            margin-top: 2px;
-            border-radius: 5px;
-            padding-left: 5px;
+        .event-row{
+            display: flex;
+
+            .event-inner{
+                background-color:lightblue;
+                line-height: 17px;
+                font-size: 0.75rem;
+                margin-top: 2px;
+                border-radius: 5px;
+                padding-left: 5px;
+                max-height: 17px;
+                overflow: auto;
+            }
         }
     }
 }
