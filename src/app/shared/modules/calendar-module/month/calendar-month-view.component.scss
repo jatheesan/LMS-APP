@@ -110,6 +110,8 @@ p.headerfont{
     //left: 0px;
     .calendar-event-row{
         position: relative;
+        display: flex;
+        flex-direction:column-reverse;
 
         .event-row{
             display: flex;

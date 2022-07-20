@@ -27,6 +27,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   @Input() orderOfWorkWeekDays!: number[];
   @Input() holidays!: Holiday[];
   @Input() leaveRequests!: LeaveRequest[];
+  @Input() noOfEventsShowInWeek!: number;
   monthHoliday: Holiday[] = [];
   monthLeaveRequest: LeaveRequest[] = [];
   workweekofmonth!: number[];
@@ -55,7 +56,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   ngOnInit(): void {
-    CalendarMonthViewComponent.today = this.todayDate;
+    CalendarMonthViewComponent.today = new Date();
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -131,7 +132,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   ngDoCheck(): void
   {
-    CalendarMonthViewComponent.today = this.todayDate;
+    CalendarMonthViewComponent.today = new Date();
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
     this.year = this.todayDate.getFullYear();
@@ -501,8 +502,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         }
       });
     }
-    reverseRowEvents = rowevents.reverse();
-    return reverseRowEvents;
+    //reverseRowEvents = .reverse();
+    return rowevents;
   }
 
   getlength(noOfCell : number): number{
@@ -532,6 +533,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   getMoveByPixel(row : Rowevent[][]): number{
     let noOfRows = row.length;
+    if(noOfRows > this.noOfEventsShowInWeek){
+      noOfRows = this.noOfEventsShowInWeek
+    }
     let eventheight: number = 0;
 
     let columnattr = document.getElementById('event');
