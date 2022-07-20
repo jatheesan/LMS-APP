@@ -17,6 +17,7 @@ export class CalendarMonthCellComponent implements OnInit {
   @Input() dayLeaveRequest!: LeaveRequest[];
   @Input() orderOfWorkWeekDays!: number[];
   @Input() rowEvent!: Rowevent[];
+  @Input() noOfEventsShowInWeek!: number;
   cellDay !: CalendarDate;
   fullDate !: Date | undefined;
   date: any;
@@ -50,7 +51,8 @@ export class CalendarMonthCellComponent implements OnInit {
     this.dayLeaveRequestLength = this.dayLeaveRequest.length;
 
     this.leavelength = 100;
-    //console.log(this.rowEvent);
+    console.log(this.noOfEventsShowInWeek);
+    console.log(this.dayLeaveRequest);
     
   }
 

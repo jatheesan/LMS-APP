@@ -109,7 +109,6 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.days = this.Dates,
       this.totalDaysVisibleInWeek = this.noOfWorkWeekDays
     );
-    console.log(this.rowoffset);
     
 
     //List of holidays for this month
@@ -214,8 +213,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       let i = workweek.findIndex(x => x === d);
       if(i != -1){
         if( moment(weekdate).diff(moment(this.today), 'day') == 0){
-          console.log('today : ' + this.today);
-          console.log('workdate : ' + weekdate);
+          //console.log('today : ' + this.today);
+          //console.log('workdate : ' + weekdate);
           this.isToday = true;
         }
         else{
@@ -244,8 +243,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       if(workweek[index-1] === setdateday)
       {
         if( (moment(workdate).diff(moment(this.today), 'day')) == 0){
-          console.log('today : ' + this.today);
-          console.log('workdate : ' + workdate);
+          //console.log('today : ' + this.today);
+          //console.log('workdate : ' + workdate);
           this.isToday = true;
         }
         else{
@@ -275,8 +274,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       if(workweek[index+1] === setdateday)
       {
         if( moment(workdate).diff(moment(this.today), 'day') == 0){
-          console.log('today : ' + this.today);
-          console.log('workdate : ' + workdate);
+          //console.log('today : ' + this.today);
+          //console.log('workdate : ' + workdate);
           this.isToday = true;
         }
         else{
@@ -546,8 +545,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     if(eventheight == 0){
       eventheight = 19;
     }
-    console.log(eventheight);
-    return (eventheight + 1)
+    //console.log(eventheight);
+    return (eventheight + 11)
   }
 
   dayHoliday(dayDate: CalendarDate) : any{
