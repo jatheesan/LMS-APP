@@ -1,14 +1,32 @@
-<div class="cell" id="cell" [ngStyle]="{'background-color': isToday === false ? '#fff' : '#fff'}">
-    <div class="date" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)'}">
+<div class="cell" id="cell" [ngStyle]="{'background-color': findBgColor()}">
+    <div class="date" id="date" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)', 'font-size': isToday === false ? '1.2rem' : '2rem'}">
         {{date}}
     </div>
-    <div class="holiday" *ngIf="dayHolidayLength != 0">
+    <div class="holiday" *ngIf="dayHolidayLength != 0" [ngStyle]="{'width' : findHolidayWidth() + 'px' }">
         <div *ngFor="let holiday of dayHoliday">
             {{holiday.description}}
         </div>
     </div>
     <div class="leave" *ngIf="dayLeaveRequestLength > noOfEventsShowInWeek">
-        <button>...</button>
+        <!-- <button (click)="show()">click</button> -->
+        <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Item 1</button>
+            <button mat-menu-item>Item 2</button>
+            <button mat-menu-item>Item 1</button>
+            <button mat-menu-item>Item 2</button>
+            <button mat-menu-item>Item 1</button>
+            <button mat-menu-item>Item 2</button>
+        </mat-menu>
+        <div class="dropdown" *ngIf = "dayLeaveRequest != null">
+            <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ findMore() }} More
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                <li *ngFor="let event of dayLeaveRequest"><a class="dropdown-item" href="#">{{ event.userId }}{{' - '}}{{ event.reason }}</a></li>
+            </ul>
+        </div> -->
+        <button class="btn btn-warring more" mat-button (click)="openDialog()">{{ findMore() }} More</button>
     </div>
     <!-- <div class="leave" *ngIf = "dayRowEvent(cellDay) != null" [style.bottom.px]="getPositionFromBottom(cellDay)">
         <div class="leave-inner" *ngFor="let event of dayRowEvent(cellDay)" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px' }" [style.background-color]="event.rowEvent?.bgcolor">

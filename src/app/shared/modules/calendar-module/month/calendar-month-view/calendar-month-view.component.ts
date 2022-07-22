@@ -212,9 +212,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       let d = weekdate.getDay();
       let i = workweek.findIndex(x => x === d);
       if(i != -1){
-        if( moment(weekdate).diff(moment(this.today), 'day') == 0){
-          //console.log('today : ' + this.today);
-          //console.log('workdate : ' + weekdate);
+        console.log('today : ' + this.today);
+        console.log('workdate : ' + weekdate);
+          if( moment(this.today).format('DD-MM-YYYY') == moment(weekdate).format('DD-MM-YYYY')){
           this.isToday = true;
         }
         else{
@@ -520,14 +520,14 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       //console.log('cellwidth ' + cellwidth);
       //console.log('celloffsetwidth ' + celloffsetwidth);
       
-      widthstyle = cellwidth;
-      noOfCell = noOfCell;
+      //widthstyle = cellwidth;
+      //noOfCell = noOfCell;
       while(noOfCell > 0){
-        widthstyle = widthstyle + celloffsetwidth;
+        widthstyle = widthstyle + celloffsetwidth - 0.5;
         noOfCell = noOfCell - 1;
       }
     //console.log(widthstyle);
-    return widthstyle;
+    return (widthstyle * 2);
   }
 
   getMoveByPixel(row : Rowevent[][]): number{
@@ -545,8 +545,11 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     if(eventheight == 0){
       eventheight = 19;
     }
+    // if(noOfRows > this.noOfEventsShowInWeek){
+    //   eventheighteventheight + 15
+    // }
     //console.log(eventheight);
-    return (eventheight + 11)
+    return (eventheight + 17)
   }
 
   dayHoliday(dayDate: CalendarDate) : any{

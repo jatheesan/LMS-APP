@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   //workweek = [];
   workweek = [3, 1, 5, 2, 4];
   orderOfWorkWeekDays!: number[];
-  //no Of Events Show In EveryWeek 
+  //no Of Events Show In EveryWeek
   noOfEventsShowInWeek = 3;
   holidays!: Holiday[];
   leaveRequests!: any;

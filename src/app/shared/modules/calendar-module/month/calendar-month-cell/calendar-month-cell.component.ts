@@ -4,6 +4,8 @@ import { CalendarDate } from 'src/app/models/calendar-date.model';
 import { Holiday } from 'src/app/models/holiday.model';
 import { LeaveRequest } from 'src/app/models/leaverequest.model';
 import { Rowevent } from 'src/app/models/rowevent.model';
+import {MatDialog} from '@angular/material/dialog';
+import { MoreeventscartComponent } from 'src/app/shared/modals/moreeventscart/moreeventscart.component';
 
 @Component({
   selector: 'lms-calendar-month-cell',
@@ -32,7 +34,9 @@ export class CalendarMonthCellComponent implements OnInit {
 
   leavelength !: number;
 
-  constructor() { }
+  constructor(public dailog: MatDialog) {
+
+   }
 
   ngOnInit(): void {
     
@@ -51,13 +55,60 @@ export class CalendarMonthCellComponent implements OnInit {
     this.dayLeaveRequestLength = this.dayLeaveRequest.length;
 
     this.leavelength = 100;
-    console.log(this.noOfEventsShowInWeek);
-    console.log(this.dayLeaveRequest);
     
   }
 
+  openDialog(){
+    const dialogRef = this.dailog.open(MoreeventscartComponent, {
+      width : '500px',
+      data : {
+        leaves :this.dayLeaveRequest,
+        date : this.fullDate
+      }
+    });
+  }
+
+  findMore(): number{
+    let more : number = 0;
+    more = this.dayLeaveRequestLength - this.noOfEventsShowInWeek;
+    return more;
+  }
+
+  findBgColor() : string{
+    let bgcolor : string;
+
+    if(this.isToday){
+      bgcolor = '#e8fde7';
+    }
+    else if(this.dayHolidayLength > 0 || this.fullDate?.getDay() == 0 || this.fullDate?.getDay() == 6){
+      bgcolor = '#ffe8e5';
+    }
+    else{
+      bgcolor = '#fff';
+    }
+    return bgcolor;
+  }
+
+  findHolidayWidth() : number{
+    let cellwidth: number = 0;
+    let datewidth: number = 0;
+    let cellattr = document.getElementById('cell');
+    let dateattr = document.getElementById('date');
+    
+    if(cellattr){
+      cellwidth = cellattr.offsetWidth;
+      console.log(cellwidth);
+      
+    }
+
+    if(dateattr){
+      datewidth = dateattr.offsetWidth;
+      console.log(datewidth);
+    }
+    return (cellwidth - datewidth ) * 2;
+  }
+
   getlength(noOfCell : number): number{
-    //console.log(noOfCell);
     
     let cellwidth: number = 0;
     let celloffsetwidth: number = 0;
@@ -88,7 +139,6 @@ export class CalendarMonthCellComponent implements OnInit {
       (moment(item.rowEventEndDate).diff(moment(fullDate.date), 'day') >= 0)
     );
     fromBottom = dayrowEvent.length
-    //console.log(fromBottom);
     
     return fromBottom * 19;
   }

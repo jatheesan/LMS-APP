@@ -1,0 +1,14 @@
+<h1 mat-dialog-title class="text-center">{{date}} Leaves</h1>
+<div mat-dialog-content>
+  <div>
+    <p *ngFor="let leave of leaveRequests">
+        <span [ngStyle]="{'color' : leave.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </span>
+        <span>{{leave.userId + " OFF - " + leave.reason}}</span>
+    </p>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+    <button class="btn btn-success" mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

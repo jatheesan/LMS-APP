@@ -76,27 +76,36 @@ p.headerfont{
 }
 
 .holiday{
-    background-color: lightgreen;
-    width: 90%;
+    //background-color: darkturquoise;
+    width: 88%;
     position: absolute;
-    top: 10px;
+    top: 9px;
     left: 35px;
     line-height: 17px;
     font-size: 0.75rem;
-    padding-left: 5px;
+    padding-right: 5px;
+    text-align: right;
 }
 
 .leave{
     width: 100%;
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    //z-index: 1;
     position: absolute;
     bottom: 0px;
     left: 0px;
-    font-size: 0.5rem;
     line-height: 10px;
+
+    .more{
+        height: 12px;
+        line-height: 2px;
+        width: 100%;
+        background-color: #FFD7007D;
+        //margin: 1px;
+        font-size: 0.7rem;
+        border-radius: 0 !important;
+        padding-left: 4px;
+        text-align: left;
+        //border: 2px solid #ffff9e;
+    }
     .leave-inner{
         background-color:lightblue;
         line-height: 17px;
@@ -114,6 +123,7 @@ p.headerfont{
     //left: 0px;
     .calendar-event-row{
         position: relative;
+        left: 1px;
         display: flex;
         flex-direction:column-reverse;
 
