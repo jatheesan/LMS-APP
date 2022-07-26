@@ -21,6 +21,13 @@ export class LeaveRequestService {
     }))
   }
 
+  public ApplyLeaveRequest(leave: LeaveRequest): Observable<any>{
+    return this.http.post(this.baseUrl, leave);
+  }
+  // public ApplyLeaveRequest(leave: LeaveRequest){
+  //   console.log(leave);
+  // }
+
   //Mapping to LeaveRequest Model
   mapDataToLeaveRequest(data: any): any {
     let leaveRequests: LeaveRequest[] = [];

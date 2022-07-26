@@ -81,7 +81,7 @@ export class CalendarMonthCellComponent implements OnInit {
       bgcolor = '#e8fde7';
     }
     else if(this.dayHolidayLength > 0 || this.fullDate?.getDay() == 0 || this.fullDate?.getDay() == 6){
-      bgcolor = '#ffe8e5';
+      bgcolor = 'rgb(243, 206, 201)';
     }
     else{
       bgcolor = '#fff';
@@ -97,13 +97,13 @@ export class CalendarMonthCellComponent implements OnInit {
     
     if(cellattr){
       cellwidth = cellattr.offsetWidth;
-      console.log(cellwidth);
+      //console.log(cellwidth);
       
     }
 
     if(dateattr){
       datewidth = dateattr.offsetWidth;
-      console.log(datewidth);
+      //console.log(datewidth);
     }
     return (cellwidth - datewidth ) * 2;
   }

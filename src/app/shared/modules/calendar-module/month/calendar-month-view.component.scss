@@ -62,17 +62,18 @@ p.headerfont{
 }
 
 .date{
-    //display: flex;
     position: absolute;
     top: 10px;
     left: 10px;
-    //background-color: aqua;
     line-height: 15px;
     font-size: 1.2rem;
-    //width: 30px;
-    //height: 30px;
-    //justify-content: center;
-    //align-items: center;
+}
+.todaydate{
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    line-height: 15px;
+    font-size: 2rem;
 }
 
 .holiday{
@@ -82,7 +83,7 @@ p.headerfont{
     top: 9px;
     left: 35px;
     line-height: 17px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding-right: 5px;
     text-align: right;
 }
@@ -95,16 +96,19 @@ p.headerfont{
     line-height: 10px;
 
     .more{
-        height: 12px;
-        line-height: 2px;
+        height: 14px;
+        line-height: 0px;
         width: 100%;
-        background-color: #FFD7007D;
-        //margin: 1px;
         font-size: 0.7rem;
         border-radius: 0 !important;
         padding-left: 4px;
-        text-align: left;
-        //border: 2px solid #ffff9e;
+        text-align: center;
+        padding-top: 0px;
+        padding-bottom: 0px;
+
+        .icon{
+            margin-left: 5px;
+        }
     }
     .leave-inner{
         background-color:lightblue;

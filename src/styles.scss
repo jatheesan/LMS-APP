@@ -43,3 +43,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.custom-modalbox {
+  mat-dialog-container {
+      padding: 0 0 15px 0;
+  }
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:#85fea1; 
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color:#85fea1;
+  background-color:#85fea1;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color:#023b1f;
+}

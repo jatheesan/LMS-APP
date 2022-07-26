@@ -1,5 +1,5 @@
 <div class="cell" id="cell" [ngStyle]="{'background-color': findBgColor()}">
-    <div class="date" id="date" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)', 'font-size': isToday === false ? '1.2rem' : '2rem'}">
+    <div class="date" id="date" [ngClass]="{'todaydate' : isToday === true}" [ngStyle]="{'color': isThisMonth === true ? '#000' : 'rgb(177, 177, 177)'}">
         {{date}}
     </div>
     <div class="holiday" *ngIf="dayHolidayLength != 0" [ngStyle]="{'width' : findHolidayWidth() + 'px' }">
@@ -26,7 +26,10 @@
                 <li *ngFor="let event of dayLeaveRequest"><a class="dropdown-item" href="#">{{ event.userId }}{{' - '}}{{ event.reason }}</a></li>
             </ul>
         </div> -->
-        <button class="btn btn-warring more" mat-button (click)="openDialog()">{{ findMore() }} More</button>
+        <button class="btn btn-secondary more" (click)="openDialog()"> 
+            +{{ findMore() }} More 
+            <span class="icon"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+        </button>
     </div>
     <!-- <div class="leave" *ngIf = "dayRowEvent(cellDay) != null" [style.bottom.px]="getPositionFromBottom(cellDay)">
         <div class="leave-inner" *ngFor="let event of dayRowEvent(cellDay)" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px' }" [style.background-color]="event.rowEvent?.bgcolor">

@@ -4,6 +4,9 @@ import { HolidayService } from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common'
 import { LeaveRequestService } from 'src/app/services/leave-request.service';
 import { LeaveRequest } from 'src/app/models/leaverequest.model';
+import { AddLeaveComponent } from 'src/app/shared/modals/leaves/add-leave/add-leave.component';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'lms-dashboard',
@@ -22,10 +25,24 @@ export class DashboardComponent implements OnInit {
   noOfEventsShowInWeek = 3;
   holidays!: Holiday[];
   leaveRequests!: any;
+  leave !: LeaveRequest;
+  leavedata !: any;
+  leaveuserId : number | undefined;
+  leavestartDate : Date | undefined;
+  leaveendDate : Date = null as any;
+  leavetimeOfLeaveday : string = '';
+  leavereason : string = '';
+  leaveisAvailableResPersion : boolean = null as any;
+  leaveresPersionId : number = null as any;
+  leaveisAdminApproved : boolean = null as any;
+  leaveisSuperAdminApproved : boolean  = null as any;
+  leavebgcolor : string  = null as any;
 
   constructor(
+    public dailog: MatDialog,
     private holidayService: HolidayService,
-    private leaveRequestService: LeaveRequestService
+    private leaveRequestService: LeaveRequestService,
+    private http: HttpClient
     ) {
 
   }
@@ -55,6 +72,35 @@ export class DashboardComponent implements OnInit {
           this.leaveRequests = response;
         }
       );
+  }
+  applyLeave(): void{
+    const dialogRef = this.dailog.open(AddLeaveComponent, {
+      width : '500px',
+      panelClass: 'custom-modalbox',
+      data : {
+        reason: "sqwddwwc",
+        resPersionId: 4,
+        timeOfLeaveday: "",
+        userId: 2,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // this.leave.userId = result.userId;
+      // this.leave.startDate = result.startDate;
+      // this.leave.endDate = result.endDate;
+      // this.leave.reason = result.reason;
+      // this.leave.timeOfLeaveday = result.timeOfLeaveday;
+      // this.leave.resPersionId = result.resPersionId;
+      console.log(this.leave);
+      this.leavedata = result;
+      console.log(this.leavedata);
+      this.leaveRequestService.ApplyLeaveRequest(result).subscribe(result => {
+        alert('New leave added');
+      });
+      // this.leaveRequestService.ApplyLeaveRequest(result);
+    });
+    console.log(this.leavedata);
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

@@ -212,21 +212,19 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       let d = weekdate.getDay();
       let i = workweek.findIndex(x => x === d);
       if(i != -1){
-        console.log('today : ' + this.today);
-        console.log('workdate : ' + weekdate);
           if( moment(this.today).format('DD-MM-YYYY') == moment(weekdate).format('DD-MM-YYYY')){
           this.isToday = true;
-        }
-        else{
-          this.isToday = false;
-        }
-        days.push(
-          new CalendarDate(
-            this.date = weekdate,
-            this.isThisMonth = true,
-            this.isToday
-          )
-        );
+          }
+          else{
+            this.isToday = false;
+          }
+          days.push(
+            new CalendarDate(
+              this.date = weekdate,
+              this.isThisMonth = true,
+              this.isToday
+            )
+          );
       }
       date.setDate(date.getDate() + 1);
     }
@@ -242,9 +240,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       setdateday = workdate.getDay();
       if(workweek[index-1] === setdateday)
       {
-        if( (moment(workdate).diff(moment(this.today), 'day')) == 0){
-          //console.log('today : ' + this.today);
-          //console.log('workdate : ' + workdate);
+        if( moment(this.today).format('DD-MM-YYYY') == moment(workdate).format('DD-MM-YYYY')){
           this.isToday = true;
         }
         else{
@@ -273,9 +269,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       setdateday = workdate.getDay();
       if(workweek[index+1] === setdateday)
       {
-        if( moment(workdate).diff(moment(this.today), 'day') == 0){
-          //console.log('today : ' + this.today);
-          //console.log('workdate : ' + workdate);
+        if( moment(this.today).format('DD-MM-YYYY') == moment(workdate).format('DD-MM-YYYY')){
           this.isToday = true;
         }
         else{

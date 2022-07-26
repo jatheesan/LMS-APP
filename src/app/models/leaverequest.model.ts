@@ -9,7 +9,7 @@ export class LeaveRequest {
     resPersionId : number = null as any;
     isAdminApproved : boolean = null as any;
     isSuperAdminApproved : boolean  = null as any;
-    bgcolor : string | undefined
+    bgcolor : string  = null as any;
 
     constructor(data: any, colors : string[]){
         this.id = data.id;

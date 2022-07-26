@@ -1,0 +1,89 @@
+
+<div class="mat-dialog-header py-2">
+    <h1 class="text-center fs-2">Leave Apply</h1>
+</div>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-lg-12 mt-2">
+            <form class="example-form" [formGroup]="LeaveApplyForm" (ngSubmit)="onSubmit()">
+                <!-- <div class="col-lg-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Select your role (required)</mat-label>
+                        <select matNativeControl required formControlName="roleFormControl">
+                          <option value="0">Admin</option>
+                          <option value="1">User</option>
+                        </select>
+                        <mat-error *ngIf="submitted && f['roleFormControl'].errors" class="invalid-feedback">
+                            <mat-error *ngIf="f['roleFormControl'].errors['required']">This field is <strong>required</strong></mat-error>
+                        </mat-error>
+                        <mat-hint>You can pick up your role</mat-hint>
+                    </mat-form-field>
+                </div> -->
+                <div class="col-lg-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>UserId</mat-label>
+                    <input type="number" formControlName="userId" class="form-control" matInput placeholder="userId">
+                    <mat-error *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
+                        <mat-error *ngIf="f['userId'].errors['required']">User is <strong>required</strong></mat-error>
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <mat-form-field appearance="fill" class="example-form-field">
+                        <mat-label>Leave date range</mat-label>
+                        <mat-date-range-input [rangePicker]="rangePicker">
+                          <input matStartDate formControlName="startDate" placeholder="Start date">
+                          <input matEndDate formControlName="endDate" placeholder="End date">
+                        </mat-date-range-input>
+                        <!-- <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint> -->
+                        <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #rangePicker>
+                          <mat-date-range-picker-actions>
+                            <button mat-button matDateRangePickerCancel>Cancel</button>
+                            <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                          </mat-date-range-picker-actions>
+                        </mat-date-range-picker>
+                        <mat-error *ngIf="submitted && f['startDate'].errors" class="invalid-feedback">
+                            <mat-error *ngIf="f['startDate'].errors['required']">Leave date is <strong>required</strong></mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Reason</mat-label>
+                    <input type="text" class="form-control" matInput formControlName="reason" placeholder="password">
+                    <mat-error *ngIf="submitted && f['reason'].errors" class="invalid-feedback">
+                        <mat-error *ngIf="f['reason'].errors['required']">Reason is <strong>required</strong></mat-error>
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12 mb-4">
+                        <mat-label>Time(for halfday leave)</mat-label>
+                        <br>
+                        <mat-radio-group formControlName="timeOfLeaveday" aria-label="Select an option">
+                            <mat-radio-button value="Morning">Morning(08:30 AM - 12:30PM)</mat-radio-button>
+                            <mat-radio-button value="Evening">Evening(12:30 PM - 05:30PM)</mat-radio-button>
+                        </mat-radio-group>                  
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Select the responsible persion</mat-label>
+                    <input type="number" formControlName="resPersionId" class="form-control" matInput placeholder="userId">
+                    <mat-error *ngIf="submitted && f['resPersionId'].errors" class="invalid-feedback">
+                        <mat-error *ngIf="f['resPersionId'].errors['required']">Responsible persion is <strong>required</strong></mat-error>
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button class="btn btn-secondary" mat-button mat-dialog-close>Cancel</button>
+                        <button class="btn btn-success" type="submit">Add</button>
+                    </div>
+                </div>
+            </form>                  
+        </div>           
+    </div>
+</div>
+<!-- <mat-dialog-actions align="end">
+    <button class="btn btn-success" mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions> -->
