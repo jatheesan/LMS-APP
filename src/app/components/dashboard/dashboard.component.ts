@@ -7,6 +7,9 @@ import { LeaveRequest } from 'src/app/models/leaverequest.model';
 import { AddLeaveComponent } from 'src/app/shared/modals/leaves/add-leave/add-leave.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Leave, LeaveRequestOfLeaveType } from 'src/app/models/leave.model';
+import { Serializer } from 'ts-json-api-formatter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'lms-dashboard',
@@ -25,18 +28,9 @@ export class DashboardComponent implements OnInit {
   noOfEventsShowInWeek = 3;
   holidays!: Holiday[];
   leaveRequests!: any;
-  leave !: LeaveRequest;
   leavedata !: any;
-  leaveuserId : number | undefined;
-  leavestartDate : Date | undefined;
-  leaveendDate : Date = null as any;
-  leavetimeOfLeaveday : string = '';
-  leavereason : string = '';
-  leaveisAvailableResPersion : boolean = null as any;
-  leaveresPersionId : number = null as any;
-  leaveisAdminApproved : boolean = null as any;
-  leaveisSuperAdminApproved : boolean  = null as any;
-  leavebgcolor : string  = null as any;
+
+  JsonSerialized='';
 
   constructor(
     public dailog: MatDialog,
@@ -86,21 +80,34 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // this.leave.userId = result.userId;
-      // this.leave.startDate = result.startDate;
-      // this.leave.endDate = result.endDate;
-      // this.leave.reason = result.reason;
-      // this.leave.timeOfLeaveday = result.timeOfLeaveday;
-      // this.leave.resPersionId = result.resPersionId;
-      console.log(this.leave);
-      this.leavedata = result;
-      console.log(this.leavedata);
-      this.leaveRequestService.ApplyLeaveRequest(result).subscribe(result => {
-        alert('New leave added');
+      let leave = new Leave();
+      leave.id = -1;
+      leave.type  = 'leaverequest';
+      leave.userId = result.userId;
+      leave.startDate = moment(result.startDate).format("YYYY-MM-DDTHH:mm:ss");
+      leave.endDate = moment(result.endDate).format("YYYY-MM-DDTHH:mm:ss");
+      leave.reason = result.reason;
+      leave.timeOfLeaveday = result.timeOfLeaveday;
+      leave.resPersionId = result.resPersionId;
+
+      leave.leaveRequestOfLeaveTypes = [];
+      var lrlt=new LeaveRequestOfLeaveType();
+      lrlt.id = 0;
+      lrlt.leaveReguestId = 0;
+      lrlt.leaveTypeId = 0;
+      lrlt.noOfDays = 0;
+      leave.leaveRequestOfLeaveTypes.push(lrlt);
+
+      this.JsonSerialized=((new Serializer()).serialize(leave));
+      console.log(leave);
+      console.log(this.JsonSerialized);
+      this.leaveRequestService.ApplyLeaveRequest(this.JsonSerialized).subscribe(result => {
+        console.log(result);
+        
+        //alert('New leave added');
       });
       // this.leaveRequestService.ApplyLeaveRequest(result);
     });
-    console.log(this.leavedata);
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

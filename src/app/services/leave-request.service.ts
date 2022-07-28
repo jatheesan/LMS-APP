@@ -21,7 +21,11 @@ export class LeaveRequestService {
     }))
   }
 
-  public ApplyLeaveRequest(leave: LeaveRequest): Observable<any>{
+  public ApplyLeaveRequest(leave: any): Observable<any>{
+    leave.data.id = "0";
+    leave.data.relationships.leaveRequestOfLeaveTypes.data = [];
+    leave.included = [];
+    console.log(leave);
     return this.http.post(this.baseUrl, leave);
   }
   // public ApplyLeaveRequest(leave: LeaveRequest){
