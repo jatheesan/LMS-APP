@@ -32,11 +32,12 @@
                 </div>
             </div>
             <div class="calendar-event">
-                <div class="calendar-event-row" [ngStyle]="{'bottom' : getMoveByPixel(getEventByRowIndex(getWeekLeaveRequest(rowIndex))) + 'px' }">
+                <div class="calendar-event-row" [ngStyle]="{'bottom' : getMoveByBottom(getEventByRowIndex(getWeekLeaveRequest(rowIndex))) + 'px' }">
                     <div class="event-row" id="event" *ngFor="let rowEvent of getEventByRowIndex(getWeekLeaveRequest(rowIndex)); let i = index">
                         <ng-container *ngIf="(i + 1) <= noOfEventsShowInWeek">
-                            <div *ngFor="let event of rowEvent" class="event-inner" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px' }" [style.background-color]="event.rowEvent?.bgcolor">
-                                {{ event.rowEvent?.userId }}{{' - '}}{{ event.rowEvent?.reason }}
+                            <div *ngFor="let event of rowEvent; let j = index" class="event-inner" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px', 'left.px' : getMoveByLeft(event, rowIndex, rowEvent, j) }" [style.background-color]="event.rowEvent?.bgcolor">
+                                <div>{{ event.rowEvent?.userId }}{{' - '}}{{ event.rowEvent?.reason }}</div>
+                                <div>{{event.rowEventStartDate | date:'dd'}}-{{event.rowEventEndDate | date:'dd'}}</div>
                             </div>
                         </ng-container>
                     </div>

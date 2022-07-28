@@ -402,7 +402,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     (a.rowEventWidth > b.rowEventWidth) ? -1 : 1);
 
     //this.getEventByRowIndex(sortedrowLeaveRequest);
-    //console.log(sortedrowLeaveRequest);
+    console.log(sortedrowLeaveRequest);
     
     return sortedrowLeaveRequest
   }
@@ -451,31 +451,40 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               let exitEventStartDate = exitEvent.rowEventStartDate; // start date of exit event in row
               let exitEventEndDate = exitEvent.rowEventEndDate;     // end date of exit event in row
               let exitEventLength = exitEvent.rowEventWidth;        // width(no of column fill) exit event in row
-              //console.log('checkEvent : ' + eventItem.rowEvent?.reason +';;; checkEventStartDate : ' + checkEventStartDate + ';;; checkEventLength : ' + checkEventLength);
-              //console.log('exitEvent : ' + exitEvent.rowEvent?.reason +';;; exitEventEndDate : ' + exitEventEndDate + ';;; exitEventLength : ' + exitEventLength);
+              console.log('checkEvent : ' + eventItem.rowEvent?.reason +';;; checkEventStartDate : ' + checkEventStartDate + ';;; checkEventLength : ' + checkEventLength);
+              console.log('exitEvent : ' + exitEvent.rowEvent?.reason +';;; exitEventEndDate : ' + exitEventEndDate + ';;; exitEventLength : ' + exitEventLength);
 
               totalExitEventLength = totalExitEventLength + exitEventLength;
               //console.log('totalExitEventLength : ' + totalExitEventLength)
-              if((5 - totalExitEventLength) < checkEventLength){
+              if((
+                5 - totalExitEventLength) < checkEventLength || 
+                moment(checkEventStartDate).diff(moment(exitEventStartDate), 'day') == 0 ||
+                moment(checkEventStartDate).diff(moment(exitEventEndDate), 'day') == 0){
                 k = -1;
-                //console.log(k);
-                
+                console.log("-1k totalExitEventLength: " + totalExitEventLength);
+                console.log("-1k checkEventLength: " + checkEventLength);
+                break;
               }
               else{
+                console.log("k totalExitEventLength: " + totalExitEventLength);
+                console.log("k checkEventLength: " + checkEventLength);
                 if(moment(exitEventStartDate).diff(moment(checkEventEndDate), 'day') > 0){
                   k = i;
                   area = 'before';
                   //console.log(k);
-                  break;
+                  //break;
                 }
                 else if(moment(checkEventStartDate).diff(moment(exitEventEndDate), 'day') > 0){
                   k = i;
                   area = 'after';
                   //console.log(k);
-                  break;
+                  //break;
                 }
               }      
-            } 
+            }
+            if(k != -1){
+              break;
+            }
           }
           if(k == -1){
             rowindexevent.push([sortedrowLeaveRequest.indexOf(eventItem)]);
@@ -524,7 +533,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     return (widthstyle * 2);
   }
 
-  getMoveByPixel(row : Rowevent[][]): number{
+  getMoveByBottom(row : Rowevent[][]): number{
     let noOfRows = row.length;
     if(noOfRows > this.noOfEventsShowInWeek){
       noOfRows = this.noOfEventsShowInWeek
@@ -544,6 +553,62 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     // }
     //console.log(eventheight);
     return (eventheight + 17)
+  }
+
+  getMoveByLeft(event : Rowevent, index : number, rowEvent : Rowevent[], j : number) :number{
+    console.log("rowEvent : " + rowEvent);
+    let diff = 0;
+    let eventFirstday : any;
+    let firstdateOfWeek: any;
+    let indextOfFirstdateOfWeek: any;
+    let indextOfFirstdayOfEvent: any;
+
+    let cellwidth: number = 0;
+    let celloffsetwidth: number = 0;
+    let widthstyle!: number | undefined;
+
+    let cellattr = document.getElementById('calendar-cell');
+    if(cellattr){
+      cellwidth = cellattr.clientWidth;
+      celloffsetwidth = cellattr.offsetWidth;
+    }
+    
+    if(this.Dates != null){
+      firstdateOfWeek = this.Dates[index].date;
+      indextOfFirstdateOfWeek = this.workweekofmonth.indexOf(moment(firstdateOfWeek).day());
+      indextOfFirstdayOfEvent = this.workweekofmonth.indexOf(moment(event.rowEventStartDate).day());
+
+      let eventindex = rowEvent.indexOf(event);
+
+      if(eventindex > 0){
+        let beforeevent = rowEvent[eventindex - 1];
+        let indextOfEnddayOfBeforeEvent = this.workweekofmonth.indexOf(moment(beforeevent.rowEventEndDate).day());
+        let aftereevent = rowEvent[eventindex + 1];
+        let indextOfStartdayOfAfterEvent = this.workweekofmonth.indexOf(moment(beforeevent.rowEventStartDate).day());
+
+        diff = indextOfFirstdayOfEvent - indextOfEnddayOfBeforeEvent - 1;
+        //diff = indextOfEnddayOfBeforeEvent - indextOfFirstdayOfEvent - 1;
+        console.log(diff);
+        widthstyle = 0;
+          while(diff > 0){
+            widthstyle = widthstyle + celloffsetwidth;
+            diff = diff - 1;
+          }
+      }
+      else{
+        diff = indextOfFirstdayOfEvent - indextOfFirstdateOfWeek;
+        widthstyle = 0;
+          while(diff > 0){
+            widthstyle = widthstyle + celloffsetwidth;
+            diff = diff - 1;
+          }
+      }
+    }
+    else{
+      widthstyle = 0;
+    }
+    return (widthstyle * 2);
+    
   }
 
   dayHoliday(dayDate: CalendarDate) : any{
