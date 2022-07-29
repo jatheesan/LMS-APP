@@ -1,5 +1,5 @@
 import { getLocaleDayNames } from '@angular/common';
-import { Component, DoCheck, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, HostListener, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { CalendarDate } from "../../../../../models/calendar-date.model";
 import { MonthView } from "../../../../../models/month-view"
 import { DaysOfWeek } from "../../../../../enum/days-of-week";
@@ -508,29 +508,33 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     return rowevents;
   }
 
-  getlength(noOfCell : number): number{
-    //console.log(noOfCell);
+  @HostListener('window:resize') getlength(noOfCell : number): number{
     
-    let cellwidth: number = 0;
-    let celloffsetwidth: number = 0;
-    let widthstyle: number = 0;
+    let cellwidth: number = 0.0;
+    let celloffsetwidth: number = 0.0;
+    let columnoffsetwidth: number = 0.0;
+    let widthstyle: number = 0.0;
 
     let cellattr = document.getElementById('calendar-cell');
     if(cellattr){
       cellwidth = cellattr.clientWidth;
       celloffsetwidth = cellattr.offsetWidth;
     }
-      //console.log('cellwidth ' + cellwidth);
-      //console.log('celloffsetwidth ' + celloffsetwidth);
-      
-      //widthstyle = cellwidth;
-      //noOfCell = noOfCell;
+
+    let columnattr = document.getElementById('columns');
+    if(columnattr){
+      columnoffsetwidth = columnattr.offsetWidth;
+    }
+
       while(noOfCell > 0){
-        widthstyle = widthstyle + celloffsetwidth - 0.5;
+        widthstyle = widthstyle + celloffsetwidth + 0.5;
         noOfCell = noOfCell - 1;
       }
-    //console.log(widthstyle);
-    return (widthstyle * 2);
+      console.log(columnoffsetwidth);
+      if(widthstyle > columnoffsetwidth){
+        widthstyle = columnoffsetwidth;
+      }
+    return ((widthstyle * 2 ) - 3);
   }
 
   getMoveByBottom(row : Rowevent[][]): number{
@@ -589,15 +593,15 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         diff = indextOfFirstdayOfEvent - indextOfEnddayOfBeforeEvent - 1;
         //diff = indextOfEnddayOfBeforeEvent - indextOfFirstdayOfEvent - 1;
         console.log(diff);
-        widthstyle = 0;
+        widthstyle = 2;
           while(diff > 0){
-            widthstyle = widthstyle + celloffsetwidth;
+            widthstyle = widthstyle + celloffsetwidth + 0;
             diff = diff - 1;
           }
       }
       else{
         diff = indextOfFirstdayOfEvent - indextOfFirstdateOfWeek;
-        widthstyle = 0;
+        widthstyle = 0.25;
           while(diff > 0){
             widthstyle = widthstyle + celloffsetwidth;
             diff = diff - 1;
@@ -607,7 +611,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     else{
       widthstyle = 0;
     }
-    return (widthstyle * 2);
+    return ((widthstyle * 2));
     
   }
 
