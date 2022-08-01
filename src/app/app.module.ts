@@ -22,6 +22,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MoreeventscartComponent } from './shared/modals/moreeventscart/moreeventscart.component';
 import { AddLeaveComponent } from './shared/modals/leaves/add-leave/add-leave.component'; 
 import { MatNativeDateModule } from '@angular/material/core';
+import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     CalendarMonthCellComponent,
     MoreeventscartComponent,
     AddLeaveComponent,
+    ShowLeaveComponent,
   ],
   imports: [
     FormsModule,

@@ -1,0 +1,30 @@
+<h1 mat-dialog-title class="text-center">{{ event.rowEvent?.reason }}</h1>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-5 text-end">User ID :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.userId }}</div>
+        <div class="col-5 text-end">Reason :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.reason }}</div>
+        <div class="col-5 text-end">Startdate :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.startDate | date:'mediumDate' }}</div>
+        <div class="col-5 text-end">Enddate :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.endDate | date:'mediumDate' }}</div>
+        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-5 text-end">Period :</div>
+        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="offset-1 col-6">{{ event.rowEvent?.timeOfLeaveday}}</div>
+        <div class="col-5 text-end">Is approved by admin :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.isAdminApproved}}</div>
+        <div class="col-5 text-end">Is approved by superadmin :</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.isSuperAdminApproved}}</div>
+        <div class="col-5 text-end">Who is coverd this leave?</div>
+        <div class="offset-1 col-6">{{ event.rowEvent?.resPersionId}}</div>
+      <!-- <p *ngFor="let leave of leaveRequests">
+          <span [ngStyle]="{'color' : leave.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
+              <i class="fa fa-circle" aria-hidden="true"></i>
+          </span>
+          <span>{{leave.userId + " OFF - " + leave.reason}}</span>
+      </p> -->
+    </div>
+  </div>
+  <mat-dialog-actions align="end">
+      <button class="btn btn-success" mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>

@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import { last, Observable } from 'rxjs';
 import { LeaveRequest } from 'src/app/models/leaverequest.model';
 import { Rowevent } from 'src/app/models/rowevent.model';
+import { ShowLeaveComponent } from 'src/app/shared/modals/leaves/show-leave/show-leave.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'lms-calendar-month-view',
@@ -51,7 +53,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   noOfWeeks !: number;
   days : CalendarDate[] | undefined;
 
-  constructor() {
+  constructor(public dailog: MatDialog) {
 
   }
 
@@ -402,7 +404,6 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     (a.rowEventWidth > b.rowEventWidth) ? -1 : 1);
 
     //this.getEventByRowIndex(sortedrowLeaveRequest);
-    console.log(sortedrowLeaveRequest);
     
     return sortedrowLeaveRequest
   }
@@ -451,8 +452,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               let exitEventStartDate = exitEvent.rowEventStartDate; // start date of exit event in row
               let exitEventEndDate = exitEvent.rowEventEndDate;     // end date of exit event in row
               let exitEventLength = exitEvent.rowEventWidth;        // width(no of column fill) exit event in row
-              console.log('checkEvent : ' + eventItem.rowEvent?.reason +';;; checkEventStartDate : ' + checkEventStartDate + ';;; checkEventLength : ' + checkEventLength);
-              console.log('exitEvent : ' + exitEvent.rowEvent?.reason +';;; exitEventEndDate : ' + exitEventEndDate + ';;; exitEventLength : ' + exitEventLength);
+              //console.log('checkEvent : ' + eventItem.rowEvent?.reason +';;; checkEventStartDate : ' + checkEventStartDate + ';;; checkEventLength : ' + checkEventLength);
+              //console.log('exitEvent : ' + exitEvent.rowEvent?.reason +';;; exitEventEndDate : ' + exitEventEndDate + ';;; exitEventLength : ' + exitEventLength);
 
               totalExitEventLength = totalExitEventLength + exitEventLength;
               //console.log('totalExitEventLength : ' + totalExitEventLength)
@@ -461,13 +462,13 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
                 moment(checkEventStartDate).diff(moment(exitEventStartDate), 'day') == 0 ||
                 moment(checkEventStartDate).diff(moment(exitEventEndDate), 'day') == 0){
                 k = -1;
-                console.log("-1k totalExitEventLength: " + totalExitEventLength);
-                console.log("-1k checkEventLength: " + checkEventLength);
+                //console.log("-1k totalExitEventLength: " + totalExitEventLength);
+                //console.log("-1k checkEventLength: " + checkEventLength);
                 break;
               }
               else{
-                console.log("k totalExitEventLength: " + totalExitEventLength);
-                console.log("k checkEventLength: " + checkEventLength);
+                //console.log("k totalExitEventLength: " + totalExitEventLength);
+                //console.log("k checkEventLength: " + checkEventLength);
                 if(moment(exitEventStartDate).diff(moment(checkEventEndDate), 'day') > 0){
                   k = i;
                   area = 'before';
@@ -530,11 +531,10 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         widthstyle = widthstyle + celloffsetwidth + 0.5;
         noOfCell = noOfCell - 1;
       }
-      console.log(columnoffsetwidth);
       if(widthstyle > columnoffsetwidth){
         widthstyle = columnoffsetwidth;
       }
-    return ((widthstyle * 2 ) - 3);
+    return ((widthstyle * 2 ) - 2.5);
   }
 
   getMoveByBottom(row : Rowevent[][]): number{
@@ -560,7 +560,6 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   getMoveByLeft(event : Rowevent, index : number, rowEvent : Rowevent[], j : number) :number{
-    console.log("rowEvent : " + rowEvent);
     let diff = 0;
     let eventFirstday : any;
     let firstdateOfWeek: any;
@@ -592,8 +591,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
         diff = indextOfFirstdayOfEvent - indextOfEnddayOfBeforeEvent - 1;
         //diff = indextOfEnddayOfBeforeEvent - indextOfFirstdayOfEvent - 1;
-        console.log(diff);
-        widthstyle = 2;
+        widthstyle = 1.5;
           while(diff > 0){
             widthstyle = widthstyle + celloffsetwidth + 0;
             diff = diff - 1;
@@ -603,7 +601,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         diff = indextOfFirstdayOfEvent - indextOfFirstdateOfWeek;
         widthstyle = 0.25;
           while(diff > 0){
-            widthstyle = widthstyle + celloffsetwidth;
+            widthstyle = widthstyle + celloffsetwidth + 0.5;
             diff = diff - 1;
           }
       }
@@ -688,5 +686,15 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     }
     return days;
   }
+
+  showLeave(event : Rowevent){
+    if(event){
+      const dialogRef = this.dailog.open(ShowLeaveComponent, {
+        width : '500px',
+        data : event
+      });
+    }
+  }
+
 }
 
