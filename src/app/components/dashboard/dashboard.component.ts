@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { Leave, LeaveRequestOfLeaveType } from 'src/app/models/leave.model';
 import { Serializer } from 'ts-json-api-formatter';
 import * as moment from 'moment';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'lms-dashboard',
@@ -27,6 +29,8 @@ export class DashboardComponent implements OnInit {
   //no Of Events Show In EveryWeek
   noOfEventsShowInWeek = 3;
   holidays!: Holiday[];
+  users!: any;
+  user!: User;
   leaveRequests!: any;
   leavedata !: any;
 
@@ -36,6 +40,7 @@ export class DashboardComponent implements OnInit {
     public dailog: MatDialog,
     private holidayService: HolidayService,
     private leaveRequestService: LeaveRequestService,
+    private userServise: UserService,
     private http: HttpClient
     ) {
 
@@ -46,8 +51,11 @@ export class DashboardComponent implements OnInit {
     let lowestToHighest = this.workweek.sort((a, b) => a - b);
     this.orderOfWorkWeekDays = DashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
 
+    this.getAllUsers();
     this.getAllHolidays();
     this.getAllLeaveRequest();
+    //this.getUserById(7);
+    
   }
   
   getAllHolidays(){
@@ -67,15 +75,36 @@ export class DashboardComponent implements OnInit {
         }
       );
   }
+
+  getAllUsers(){
+    this.userServise.getAllUsers()
+      .subscribe(
+        response => {
+          this.users = response;
+        }
+      );
+      
+  }
+
+  getUserById(id: number){
+    this.userServise.getUserById(id)
+      .subscribe(
+        response => {
+          this.user = response;
+        }
+      );
+  }
+
   applyLeave(): void{
     const dialogRef = this.dailog.open(AddLeaveComponent, {
       width : '500px',
       panelClass: 'custom-modalbox',
       data : {
-        reason: "sqwddwwc",
-        resPersionId: 4,
-        timeOfLeaveday: "",
-        userId: 2,
+        // reason: "sqwddwwc",
+        // resPersionId: 4,
+        // timeOfLeaveday: "",
+        // userId: 2,
+        staffs : this.users
       }
     });
 
@@ -103,10 +132,8 @@ export class DashboardComponent implements OnInit {
       console.log(this.JsonSerialized);
       this.leaveRequestService.ApplyLeaveRequest(this.JsonSerialized).subscribe(result => {
         console.log(result);
-        
-        //alert('New leave added');
       });
-      // this.leaveRequestService.ApplyLeaveRequest(result);
+      //this.leaveRequestService.ApplyLeaveRequest(this.JsonSerialized);
     });
   }
 

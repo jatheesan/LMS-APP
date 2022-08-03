@@ -18,6 +18,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select'; 
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
 import { MoreeventscartComponent } from './shared/modals/moreeventscart/moreeventscart.component';
 import { AddLeaveComponent } from './shared/modals/leaves/add-leave/add-leave.component'; 
@@ -51,7 +52,8 @@ import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave
     MatCheckboxModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

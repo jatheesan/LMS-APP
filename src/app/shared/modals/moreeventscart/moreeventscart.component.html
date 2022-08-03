@@ -1,12 +1,18 @@
 <h1 mat-dialog-title class="text-center">{{date}} Leaves</h1>
 <div mat-dialog-content>
   <div>
-    <p *ngFor="let leave of leaveRequests">
+    <p *ngFor="let leave of rowEvent">
+      <span [ngStyle]="{'color' : leave.rowEvent?.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
+          <i class="fa fa-circle" aria-hidden="true"></i>
+      </span>
+      <span>{{leave.rowEventUser?.fullname + " OFF - " + leave.rowEvent?.reason}}</span>
+  </p>
+    <!-- <p *ngFor="let leave of leaveRequests">
         <span [ngStyle]="{'color' : leave.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
             <i class="fa fa-circle" aria-hidden="true"></i>
         </span>
         <span>{{leave.userId + " OFF - " + leave.reason}}</span>
-    </p>
+    </p> -->
   </div>
 </div>
 <mat-dialog-actions align="end">

@@ -63,6 +63,7 @@ export class CalendarMonthCellComponent implements OnInit {
       width : '500px',
       data : {
         leaves :this.dayLeaveRequest,
+        rowEvent : this.dayRowEvent(this.day),
         date : this.fullDate
       }
     });
@@ -148,6 +149,7 @@ export class CalendarMonthCellComponent implements OnInit {
     dayrowEvent = this.rowEvent.filter((item : Rowevent) => 
       moment(item.rowEventStartDate).diff(moment(fullDate.date), 'day') == 0
     );
+    console.log(dayrowEvent);
     return dayrowEvent;
   }
 

@@ -10,6 +10,8 @@ import { LeaveRequest } from 'src/app/models/leaverequest.model';
 import { Rowevent } from 'src/app/models/rowevent.model';
 import { ShowLeaveComponent } from 'src/app/shared/modals/leaves/show-leave/show-leave.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'lms-calendar-month-view',
@@ -29,9 +31,11 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   @Input() orderOfWorkWeekDays!: number[];
   @Input() holidays!: Holiday[];
   @Input() leaveRequests!: LeaveRequest[];
+  @Input() users!: User[];
   @Input() noOfEventsShowInWeek!: number;
   monthHoliday: Holiday[] = [];
   monthLeaveRequest: LeaveRequest[] = [];
+  staffs:  User[] = [];
   workweekofmonth!: number[];
   index!: number;
   static isThisMonth: boolean;
@@ -43,6 +47,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   rowEventStartDate !: Date | undefined;
   rowEventEndDate !: Date | undefined;
   rowEventWidth !: number | undefined;
+  rowEventUser !: User | undefined;
+  rowEventResponsiblePerson !: User | undefined;
 
   view!: MonthView;
   rowoffset !: number[];
@@ -53,11 +59,15 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   noOfWeeks !: number;
   days : CalendarDate[] | undefined;
 
-  constructor(public dailog: MatDialog) {
+  user!: User;
+
+  constructor(public dailog: MatDialog,
+              private userService: UserService) {
 
   }
 
   ngOnInit(): void {
+   
     CalendarMonthViewComponent.today = new Date();
     this.month = this.todayDate.getMonth();
     this.changeMonth = this.todayDate.getMonth();
@@ -129,6 +139,10 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       this.monthLeaveRequest = [];
     }
 
+    //List of User
+    if(this.users != null){
+      this.staffs = this.users
+    }
   }
 
   ngDoCheck(): void
@@ -201,6 +215,11 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     }
     else{
       this.monthLeaveRequest = [];
+    }
+
+    //List of User
+    if(this.users != null){
+      this.staffs = this.users
     }
   }
 
@@ -347,7 +366,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
                   this.rowEvent = item,
                   this.rowEventStartDate = item.startDate,
                   this.rowEventEndDate = lastday,
-                  this.rowEventWidth = width
+                  this.rowEventWidth = width,
+                  this.rowEventUser = this.findUser(item.userId),
+                  this.rowEventResponsiblePerson = this.findUser(item.resPersionId)
                 )
               );
               leaveRequest.push(item);
@@ -362,7 +383,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
                   this.rowEvent = item,
                   this.rowEventStartDate = firstday,
                   this.rowEventEndDate = item.endDate,
-                  this.rowEventWidth = width
+                  this.rowEventWidth = width,
+                  this.rowEventUser = this.findUser(item.userId),
+                  this.rowEventResponsiblePerson = this.findUser(item.resPersionId)
                 )
               );
               leaveRequest.push(item);
@@ -377,7 +400,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
                   this.rowEvent = item,
                   this.rowEventStartDate = firstday,
                   this.rowEventEndDate = lastday,
-                  this.rowEventWidth = width
+                  this.rowEventWidth = width,
+                  this.rowEventUser = this.findUser(item.userId),
+                  this.rowEventResponsiblePerson = this.findUser(item.resPersionId)
                 )
               );
               leaveRequest.push(item);
@@ -392,7 +417,9 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
                   this.rowEvent = item,
                   this.rowEventStartDate = item.startDate,
                   this.rowEventEndDate = item.endDate,
-                  this.rowEventWidth = width
+                  this.rowEventWidth = width,
+                  this.rowEventUser = this.findUser(item.userId),
+                  this.rowEventResponsiblePerson = this.findUser(item.resPersionId)
                 )
               );
               leaveRequest.push(item);
@@ -613,6 +640,17 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     
   }
 
+  findUser(id : number | undefined) : User{
+    //let user : User[] = [];
+    let user : User = {} as User;
+    //user = this.staffs.filter((x: User) => x.id == id);
+    let index = this.staffs.findIndex((x: User) => x.id == id);
+    if(index != -1){
+      user = this.staffs[index];
+    }
+    return user;
+  }
+
   dayHoliday(dayDate: CalendarDate) : any{
     let holiday;
     if(this.monthHoliday != null)
@@ -631,6 +669,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
   dayLeaveRequest(dayDate: CalendarDate) : any{
     let leaverequest : LeaveRequest[] = [];
+    let rowevent : Rowevent[] = [];
     if(this.monthLeaveRequest != null)
     {
       // leaverequest = this.monthLeaveRequest.filter(x => 
@@ -647,6 +686,16 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               (dDate.diff(fDate, 'day')) >= 0 && (eDate.diff(dDate, 'day')) >= 0
             )
           {
+            rowevent.push(
+              new Rowevent(
+                this.rowEvent = item,
+                this.rowEventStartDate = item.startDate,
+                this.rowEventEndDate = item.endDate,
+                this.rowEventWidth = 0,
+                this.rowEventUser = this.findUser(item.userId),
+                this.rowEventResponsiblePerson = this.findUser(item.resPersionId)
+              )
+            );
             leaverequest.push(item);
           }
         })
@@ -654,9 +703,10 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     }
     else{
       leaverequest = [];
+      rowevent = [];
     }
     
-    return leaverequest;
+    return rowevent;
   }
 
   counter(i: number) {
@@ -687,11 +737,20 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     return days;
   }
 
-  showLeave(event : Rowevent){
+  showLeave(event : Rowevent, userId : number, responsiblePersonId : number){
     if(event){
       const dialogRef = this.dailog.open(ShowLeaveComponent, {
         width : '500px',
-        data : event
+        panelClass: 'custom-Leavebox',
+        data : {
+          leave :event,
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+          if(result != null){
+            alert(result);
+          }
       });
     }
   }

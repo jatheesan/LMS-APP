@@ -51,6 +51,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+.custom-Leavebox{
+  mat-dialog-container {
+    padding: 12px 24px 12px 24px !important;
+}
+}
+
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
   border-color:#85fea1; 
 }

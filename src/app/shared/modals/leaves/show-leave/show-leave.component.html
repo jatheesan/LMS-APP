@@ -1,30 +1,37 @@
-<h1 mat-dialog-title class="text-center">{{ event.rowEvent?.reason }}</h1>
+<!-- <h1 mat-dialog-title class="text-center">{{ event.rowEvent?.reason }}</h1> -->
 <div mat-dialog-content>
     <div class="row">
-        <div class="col-5 text-end">User ID :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.userId }}</div>
-        <div class="col-5 text-end">Reason :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.reason }}</div>
-        <div class="col-5 text-end">Startdate :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.startDate | date:'mediumDate' }}</div>
-        <div class="col-5 text-end">Enddate :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.endDate | date:'mediumDate' }}</div>
-        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-5 text-end">Period :</div>
-        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="offset-1 col-6">{{ event.rowEvent?.timeOfLeaveday}}</div>
-        <div class="col-5 text-end">Is approved by admin :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.isAdminApproved}}</div>
-        <div class="col-5 text-end">Is approved by superadmin :</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.isSuperAdminApproved}}</div>
-        <div class="col-5 text-end">Who is coverd this leave?</div>
-        <div class="offset-1 col-6">{{ event.rowEvent?.resPersionId}}</div>
-      <!-- <p *ngFor="let leave of leaveRequests">
-          <span [ngStyle]="{'color' : leave.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
-              <i class="fa fa-circle" aria-hidden="true"></i>
-          </span>
-          <span>{{leave.userId + " OFF - " + leave.reason}}</span>
-      </p> -->
+        <div class="col-12 d-flex">
+            <div class="icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
+            <div class="ps-3 pt-2">
+                <h3 class="header-user">{{ event.rowEventUser?.id }}{{' - '}}{{ event.rowEventUser?.fullname }}</h3>
+                <p class="subheader-user">Staff</p>
+            </div>
+        </div>
+        <div class="col-4 text-start">ID :</div>
+        <div class="col-8 text-end">{{ event.rowEvent?.id }}</div>
+        <div class="col-4 text-start">Reason :</div>
+        <div class="col-8 text-end">{{ event.rowEvent?.reason }}</div>
+        <div class="col-8 text-start">Startdate :</div>
+        <div class="col-4 text-end">{{ event.rowEvent?.startDate | date:'mediumDate' }}</div>
+        <div class="col-8 text-start">Enddate :</div>
+        <div class="col-4 text-end">{{ event.rowEvent?.endDate | date:'mediumDate' }}</div>
+        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-8 text-start">Period :</div>
+        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-4 text-end">{{ event.rowEvent?.timeOfLeaveday}}</div>
+        <div *ngIf="event.rowEvent?.isAdminApproved != null" class="col-8 text-start">Is approved by admin?</div>
+        <div *ngIf="event.rowEvent?.isAdminApproved == true" class="col-4 text-end">Yes</div>
+        <div *ngIf="event.rowEvent?.isAdminApproved == false" class="col-4 text-end">No</div>
+        <div *ngIf="event.rowEvent?.isSuperAdminApproved != null" class="col-8 text-start">Is approved by superadmin?</div>
+        <div *ngIf="event.rowEvent?.isSuperAdminApproved == true" class="col-4 text-end">Yes</div>
+        <div *ngIf="event.rowEvent?.isSuperAdminApproved == false" class="col-4 text-end">No</div>
+        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-8 text-start">Who is coverd this leave?</div>
+        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-4 text-end">{{ event.rowEventResponsiblePerson?.fullname}}</div>
+        <div class="col-12 py-3 d-flex justify-content-end">
+            <button type="button" class="btn btn-danger" (click)="deleteEvent(event.rowEvent?.id)">Delete</button>
+            <button class="ms-2 btn btn-success" mat-dialog-close (click)="onCancel()">Close</button>
+        </div>
     </div>
   </div>
-  <mat-dialog-actions align="end">
+  <!-- <mat-dialog-actions align="end">
       <button class="btn btn-success" mat-button mat-dialog-close>Close</button>
-  </mat-dialog-actions>
+  </mat-dialog-actions> -->

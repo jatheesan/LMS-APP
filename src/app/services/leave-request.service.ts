@@ -24,13 +24,30 @@ export class LeaveRequestService {
   public ApplyLeaveRequest(leave: any): Observable<any>{
     leave.data.id = "0";
     leave.data.relationships.leaveRequestOfLeaveTypes.data = [];
-    leave.included = [];
+    leave.included = []; 
     console.log(leave);
     return this.http.post(this.baseUrl, leave);
   }
-  // public ApplyLeaveRequest(leave: LeaveRequest){
+  // public ApplyLeaveRequest(leave: any){
+  //   console.log(leave);
+  //   leave.data.id = "0";
+  //   leave.data.relationships.leaveRequestOfLeaveTypes.data = [];
+  //   leave.included = [];
   //   console.log(leave);
   // }
+
+  public deleteLeaveRequest(id : number): Observable<any>{
+    let result : any;
+    if(id != null){
+      result = this.http.delete(this.baseUrl + '/' + id);
+      console.log(result);
+      return result;
+    }
+    else{
+      return result;
+    }
+  }
+
 
   //Mapping to LeaveRequest Model
   mapDataToLeaveRequest(data: any): any {
