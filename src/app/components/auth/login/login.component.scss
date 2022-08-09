@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+h1{
+    font-family: 'Bungee', cursive;
+}
+
+.center{
+    //position: absolute;
+    //top: 50%;
+    //left: 50%;
+    //translate: -50% -50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    height: 100%;
+    background-color: #89d8d3 !important;
+    background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%) !important;
+}
+
+.example-card {
+    max-width: 450px;
+  }
+  
+.example-header-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 90px;
+    background-image: url('https://img.icons8.com/external-flaticons-flat-circular-flat-icons/64/000000/external-user-web-flaticons-flat-circular-flat-icons.png');
+    background-size: cover;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+  
+.example-full-width {
+    width: 100%;
+}
+
+.btn-green{
+    background-color: #03c8a8 !important;
+    //background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%) !important;
+}

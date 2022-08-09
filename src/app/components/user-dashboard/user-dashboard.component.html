@@ -1,0 +1,32 @@
+<div class="nav-bar">
+    <div class="header">
+      <div class="headerstyle">
+        <p>Nav Bar</p>
+      </div>
+      <div class="headerstyle">
+        <button type="button" class="logoutbutton" (click)="lockOut()"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+      </div>
+    </div>
+</div>
+  
+<div class="body">
+    <section class="addleave-section">
+      <div class="example-button-row">
+        <div class="example-flex-container">
+          <div class="example-button-container">
+            <button  class="addleave" (click)="applyLeave()" mat-fab aria-label="Apply The Leave">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <lms-calendar-month-view 
+    [todayDate]="date" 
+    [orderOfWorkWeekDays]="orderOfWorkWeekDays" 
+    [holidays] = "holidays" 
+    [leaveRequests] = "leaveRequests"
+    [users] = "users"
+    [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
+</div>

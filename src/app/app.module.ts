@@ -1,30 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { JwtModule } from "@auth0/angular-jwt";
 import { AppComponent } from './app.component';
 import { CalendarMonthViewComponent } from './shared/modules/calendar-module/month/calendar-month-view/calendar-month-view.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalendarMonthViewHeaderComponent } from './shared/modules/calendar-module/month/calendar-month-view-header/calendar-month-view-header.component';
 import { CalendarMonthCellComponent } from './shared/modules/calendar-module/month/calendar-month-cell/calendar-month-cell.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule} from '@angular/material/menu';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select'; 
-import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import { AngularMaterialModule } from './angular-material/angular-material.module';
 import { MoreeventscartComponent } from './shared/modals/moreeventscart/moreeventscart.component';
 import { AddLeaveComponent } from './shared/modals/leaves/add-leave/add-leave.component'; 
-import { MatNativeDateModule } from '@angular/material/core';
 import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { AuthguardServiceService } from './services/authguard-service.service';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('Session-User');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +32,8 @@ import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave
     MoreeventscartComponent,
     AddLeaveComponent,
     ShowLeaveComponent,
+    LoginComponent,
+    UserDashboardComponent,
   ],
   imports: [
     FormsModule,
@@ -43,19 +42,18 @@ import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatMenuModule,
-    MatIconModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule
+    AngularMaterialModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:4200"],
+        disallowedRoutes: [],
+      },
+    }),
   ],
-  providers: [],
+  providers: [
+    AuthguardServiceService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

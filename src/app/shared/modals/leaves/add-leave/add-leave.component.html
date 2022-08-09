@@ -10,7 +10,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select User</mat-label>
                         <mat-select matNativeControl required formControlName="userId">
-                          <mat-option *ngFor="let staff of staffs"  value="staff.id">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
+                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
                             <mat-error *ngIf="f['userId'].errors['required']">User is <strong>required</strong></mat-error>
@@ -67,7 +67,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select the Responsible Persion</mat-label>
                         <mat-select matNativeControl required formControlName="resPersionId">
-                          <mat-option *ngFor="let staff of staffs"  value="staff.id">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
+                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="submitted && f['resPersionId'].errors" class="invalid-feedback">
                             <mat-error *ngIf="f['resPersionId'].errors['required']">Responsible persion is <strong>required</strong></mat-error>

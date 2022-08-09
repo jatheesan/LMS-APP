@@ -1,0 +1,56 @@
+<div class="center">
+    <mat-card class="example-card">
+        <div class="position-relative mt-4">
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <div mat-card-avatar class="example-header-image"></div>
+            </div>
+        </div>
+        <div class="text-center"><h1>Sign in</h1></div>
+        <div class="row">
+            <div *ngIf="invalidLogin" class="col-lg-12">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{errorMessage}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-lg-12 mt-2">
+                <form class="example-form" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+                    <div class="col-lg-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input type="text" formControlName="emailFormControl" class="form-control" matInput placeholder="Ex. pat@example.com">
+                        <mat-error *ngIf="submitted && f['emailFormControl'].errors" class="invalid-feedback">
+                            <mat-error *ngIf="f['emailFormControl'].errors['required']">Email is <strong>required</strong></mat-error>
+                            <mat-error *ngIf="f['emailFormControl'].errors['email']">Email is invalid</mat-error>
+                        </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input type="password" class="form-control" matInput formControlName="passwordFormControl" placeholder="password">
+                        <mat-error *ngIf="submitted && f['passwordFormControl'].errors" class="invalid-feedback">
+                            <mat-error *ngIf="f['passwordFormControl'].errors['required']">Password is <strong>required</strong></mat-error>
+                            <mat-error *ngIf="f['passwordFormControl'].errors['minLength']">Password is invalid</mat-error>
+                        </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-12 mb-2">
+                        <mat-checkbox class="example-margin" formControlName="remembermeFormControl">Remember me</mat-checkbox>
+                    </div>
+                    <hr />
+                    <div class="col-lg-12 mb-2">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" type="submit">sign in</button>
+                        </div>
+                    </div>
+                </form>                  
+            </div>
+            <div class="col-lg-12 mt-2 text-center">
+                <p>Don't have an account?<span style="color:green !important;"><a  routerLink="/sign_up" routerLinkActive="active"> Sign up</a></span></p>
+            </div>               
+        </div>
+    </mat-card>
+</div>

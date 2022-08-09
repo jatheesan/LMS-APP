@@ -21,6 +21,12 @@ export class LeaveRequestService {
     }))
   }
 
+  getAllLeaveRequestsByUser(id : number): Observable<any>{
+    return this.http.get<any>(this.baseUrl + "/User/" + id).pipe(map((data:any) => {
+      return this.mapDataToLeaveRequest(data.data)
+    }))
+  }
+
   public ApplyLeaveRequest(leave: any): Observable<any>{
     leave.data.id = "0";
     leave.data.relationships.leaveRequestOfLeaveTypes.data = [];
