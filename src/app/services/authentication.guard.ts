@@ -4,7 +4,6 @@ import { map, observable, Observable } from 'rxjs';
 import { AuthguardServiceService } from './authguard-service.service';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { RoleService } from './role.service';
-import { Role } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +11,6 @@ import { Role } from '../models/role.model';
 export class AuthenticationGuard implements CanActivate {
   sessionToken !: any;
   canRoute !: Observable<boolean>;
-  userRoles !: Role;
-  role !: any;
-  roles !: Observable<Role[]>;
-  loadedroles : Role[] = [];
-  singlerole !: Observable<Role>;
-  authuserRole !: Role;
 
   constructor(private authguardServiceService : AuthguardServiceService,
               private router : Router,
@@ -39,11 +32,11 @@ export class AuthenticationGuard implements CanActivate {
 
     // token and decodedToken
     const helper = new JwtHelperService();
-    const decodedToken = helper.decodeToken(this.sessionToken.token);
+    const decodedToken = helper.decodeToken(token);
 
     return this.roleService.getAllRoleById(decodedToken.Role).pipe(map((roledata) =>{
         
-        if(!helper.isTokenExpired(this.sessionToken.token) &&
+        if(!helper.isTokenExpired(token) &&
           route.data['role'].indexOf(roledata.roleType) != -1){
           return true;
         }

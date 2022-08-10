@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
 import { Holiday } from 'src/app/models/holiday.model';
 import { Leave, LeaveRequestOfLeaveType } from 'src/app/models/leave.model';
@@ -33,6 +34,8 @@ export class UserDashboardComponent implements OnInit {
   leaveRequests!: any;
   leavedata !: any;
   JsonSerialized='';
+  sessionToken !: any;
+  authUserId !: number
 
   constructor(
     public dailog: MatDialog,
@@ -51,9 +54,17 @@ export class UserDashboardComponent implements OnInit {
     let lowestToHighest = this.workweek.sort((a, b) => a - b);
     this.orderOfWorkWeekDays = UserDashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
 
+    this.sessionToken = JSON.parse(this.authguardServiceService.getToken()!);
+    if(this.sessionToken != null){
+      const helper = new JwtHelperService();
+      const decodedToken = helper.decodeToken(this.sessionToken.token);
+      console.log(decodedToken);
+      this.authUserId = decodedToken.userId;
+    }
+
     this.getAllUsers();
     this.getAllHolidays();
-    this.getAllLeaveRequest(7);
+    this.getAllLeaveRequestForUser(this.authUserId);
     //this.getUserById(7);
     
   }
@@ -67,7 +78,7 @@ export class UserDashboardComponent implements OnInit {
       );
   }
 
-  getAllLeaveRequest(id : number){
+  getAllLeaveRequestForUser(id : number){
     this.leaveRequestService.getAllLeaveRequestsByUser(id)
       .subscribe(
         response => {
