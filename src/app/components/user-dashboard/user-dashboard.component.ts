@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Holiday } from 'src/app/models/holiday.model';
 import { Leave, LeaveRequestOfLeaveType } from 'src/app/models/leave.model';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { AuthguardServiceService } from 'src/app/services/authguard-service.service';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { LeaveRequestService } from 'src/app/services/leave-request.service';
@@ -43,6 +44,7 @@ export class UserDashboardComponent implements OnInit {
     private leaveRequestService: LeaveRequestService,
     private userServise: UserService,
     private authguardServiceService : AuthguardServiceService,
+    private authService : AuthService,
     private http: HttpClient,
     private router : Router
     ) {
@@ -58,7 +60,6 @@ export class UserDashboardComponent implements OnInit {
     if(this.sessionToken != null){
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(this.sessionToken.token);
-      console.log(decodedToken);
       this.authUserId = decodedToken.userId;
     }
 
@@ -145,8 +146,7 @@ export class UserDashboardComponent implements OnInit {
   }
 
   lockOut(){
-    this.authguardServiceService.signOut();
-    this.router.navigate(['/login']);
+    this.authService.logOut();
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

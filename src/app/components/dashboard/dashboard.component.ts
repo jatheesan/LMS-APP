@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { AuthguardServiceService } from 'src/app/services/authguard-service.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'lms-dashboard',
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
     private leaveRequestService: LeaveRequestService,
     private userServise: UserService,
     private authguardServiceService : AuthguardServiceService,
+    private authService : AuthService,
     private http: HttpClient,
     private router : Router
     ) {
@@ -142,8 +144,7 @@ export class DashboardComponent implements OnInit {
   }
 
   lockOut(){
-    this.authguardServiceService.signOut();
-    this.router.navigate(['/login']);
+    this.authService.logOut();
   }
 
   public static orderOfWorkWeek(lowestToHighest: number[], startday: number) : number[]

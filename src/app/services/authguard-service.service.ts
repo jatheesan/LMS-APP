@@ -7,11 +7,6 @@ export class AuthguardServiceService {
 
   constructor() { }
 
-  signOut(){
-    //localStorage.clear();
-    localStorage.removeItem('Session-User');
-  }
-
   public saveToken(token : any, userid : number){
     var user_details = {
       token : token,
