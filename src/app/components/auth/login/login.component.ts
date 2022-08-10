@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
     remembermeFormControl: new FormControl(''),
   });
   submitted = false;
+  hide = true;
 
   constructor(
     private fb: FormBuilder, 
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.LoginForm = this.fb.group(
       {
-        emailFormControl: ['', [Validators.required, Validators.email]],
+        emailFormControl: ['', [Validators.required]],
         passwordFormControl: ['', [ Validators.required, Validators.minLength(6)]],
         remembermeFormControl: [''],
       },
