@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-11">
+            <h1 class="text-center">Staff Roles</h1>
+        </div>
+        <div class="col-1 add-btn">
+            <button  class="btn btn-success shadow-sm" color="accent" (click)="createRole()" aria-label="Create the new staff">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">No</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Role Type</th>
+                    <th scope="col">#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let role of roles;let i = index" class="text-center">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{role.id}}</td>
+                    <td>{{role.roleType}}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-danger" (click)="deleteRole(role.id)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-success" (click)="editRole(role.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

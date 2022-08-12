@@ -61,6 +61,30 @@ export class RoleService {
     }))
   }
 
+  public deleteRole(id : number): Observable<any>{
+    let result : any;
+    if(id != null){
+      result = this.http.delete(this.baseUrl + '/' + id);
+      console.log(result);
+      return result;
+    }
+    else{
+      return result;
+    }
+  }
+
+  public createRole(role: any): Observable<any>{
+    role.data.id = "0";
+    role.data.type = "role";
+    return this.http.post(this.baseUrl, role);
+  }
+
+  public updateRole(id: number | undefined, role: any): Observable<any>{
+    role.data.id = id;
+    role.data.type = "role";
+    return this.http.put((this.baseUrl + '/'+ id), role);
+  }
+
   mapDataToRoles(data:any){
     let roles:Role[]=[];
     data.forEach((element: any) => {
