@@ -24,6 +24,30 @@ export class StaffPositionService {
     }))
   }
 
+  public deletePosition(id : number): Observable<any>{
+    let result : any;
+    if(id != null){
+      result = this.http.delete(this.baseUrl + '/' + id);
+      console.log(result);
+      return result;
+    }
+    else{
+      return result;
+    }
+  }
+
+  public createStaffPosition(position: any): Observable<any>{
+    position.data.id = "0";
+    position.data.type = "staffposition";
+    return this.http.post(this.baseUrl, position);
+  }
+
+  public updateStaffPosition(id: number | undefined, position: any): Observable<any>{
+    position.data.id = id;
+    position.data.type = "staffposition";
+    return this.http.put((this.baseUrl + '/'+ id), position);
+  }
+
   mapDataToPositions(data:any){
     let positions:StaffPosition[]=[];
     data.forEach((element: any) => {

@@ -13,7 +13,7 @@ import { StaffPosition } from 'src/app/models/staff-position.model';
 @Component({
   selector: 'lms-add-edit-staff',
   templateUrl: './add-edit-staff.component.html',
-  styleUrls: ['./add-edit-staff.component.scss']
+  styleUrls: ['../../add-edit-modal-styles.scss']
 })
 export class AddEditStaffComponent implements OnInit {
 
@@ -86,7 +86,7 @@ export class AddEditStaffComponent implements OnInit {
     }
     this.data = this.StaffAddForm.value;
     console.log(this.data);
-    //this.LeaveApplyForm.reset();
+    //this.StaffAddForm.reset();
     this.dialogRef.close(this.data);
   }
 

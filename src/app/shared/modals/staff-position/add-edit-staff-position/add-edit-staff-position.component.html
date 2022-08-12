@@ -1,0 +1,30 @@
+<div class="mat-dialog-header py-2">
+    <h1 *ngIf="!isAddMode" class="text-center fs-2">Update Staff Position</h1>
+    <h1 *ngIf="isAddMode" class="text-center fs-2">Add Staff Position</h1>
+</div>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-lg-12 mt-2">
+            <form class="example-form" [formGroup]="StaffPositionAddForm">
+
+                <div class="col-lg-12 mb-2 mt-4">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Position Type</mat-label>
+                    <input type="text" formControlName="position" class="form-control" matInput placeholder="Position type">
+                    <mat-error *ngIf="submitted && f['position'].errors" class="invalid-feedback">
+                        <mat-error *ngIf="f['position'].errors['required']">Position type is <strong>required</strong></mat-error>
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12 mb-2">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button class="btn btn-secondary" type="button" mat-dialog-close (click)="onCancel()">Cancel</button>
+                        <button *ngIf="isAddMode" class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="StaffPositionAddForm.invalid">Add</button>
+                        <button *ngIf="!isAddMode" class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="StaffPositionAddForm.invalid">Update</button>
+                    </div>
+                </div>
+            </form>                  
+        </div>           
+    </div>
+</div>

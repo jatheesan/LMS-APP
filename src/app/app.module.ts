@@ -20,6 +20,8 @@ import { AuthguardServiceService } from './services/authguard-service.service';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { StaffComponent } from './components/pages/staff/staff.component';
 import { AddEditStaffComponent } from './shared/modals/staffs/add-edit-staff/add-edit-staff.component';
+import { StaffPositionComponent } from './components/pages/staff-position/staff-position.component';
+import { AddEditStaffPositionComponent } from './shared/modals/staff-position/add-edit-staff-position/add-edit-staff-position.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -38,6 +40,8 @@ export function tokenGetter() {
     UserDashboardComponent,
     StaffComponent,
     AddEditStaffComponent,
+    StaffPositionComponent,
+    AddEditStaffPositionComponent,
   ],
   imports: [
     FormsModule,
