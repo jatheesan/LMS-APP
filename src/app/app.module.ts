@@ -18,6 +18,8 @@ import { ShowLeaveComponent } from './shared/modals/leaves/show-leave/show-leave
 import { LoginComponent } from './components/auth/login/login.component';
 import { AuthguardServiceService } from './services/authguard-service.service';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { StaffComponent } from './components/pages/staff/staff.component';
+import { AddEditStaffComponent } from './shared/modals/staffs/add-edit-staff/add-edit-staff.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -34,6 +36,8 @@ export function tokenGetter() {
     ShowLeaveComponent,
     LoginComponent,
     UserDashboardComponent,
+    StaffComponent,
+    AddEditStaffComponent,
   ],
   imports: [
     FormsModule,

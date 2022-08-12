@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { StaffComponent } from './components/pages/staff/staff.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { AuthenticationGuard } from './services/authentication.guard';
 
@@ -12,6 +13,12 @@ const routes: Routes = [
 
   { path: 'dashboard', 
     component: DashboardComponent, 
+    children: [
+      {
+        path: 'staff',
+        component: StaffComponent
+      }
+    ],
     canActivate: [AuthenticationGuard],
     data: {
       role: 'Admin'
@@ -22,6 +29,12 @@ const routes: Routes = [
   canActivate: [AuthenticationGuard],
   data: {
     role: ['Admin', 'User']
+  }},
+  { path: 'staff', 
+  component: StaffComponent, 
+  canActivate: [AuthenticationGuard],
+  data: {
+    role: ['Admin']
   }},
 ];
 

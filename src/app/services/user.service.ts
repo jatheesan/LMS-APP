@@ -25,6 +25,28 @@ export class UserService {
     }))
   }
 
+  public deleteUser(id : number): Observable<any>{
+    let result : any;
+    if(id != null){
+      result = this.http.delete(this.baseUrl + '/' + id);
+      console.log(result);
+      return result;
+    }
+    else{
+      return result;
+    }
+  }
+
+  public updateUser(id: number, user: any): Observable<any>{
+    return this.http.put((this.baseUrl + '/'+ id), user);
+  }
+
+  public createUser(user: any): Observable<any>{
+    user.data.id = "0";
+    user.data.type = "user";
+    return this.http.post(this.baseUrl, user);
+  }
+
   //Mapping to User Model
   mapDataToUsers(data: any) : User[]{
     let users: User[] = [];
@@ -32,14 +54,11 @@ export class UserService {
       let user:User = new User(element);
       users.push(user);
     });
-    console.log(users);
     return users;
   }
 
   mapDataToUser(data: any): any {
-    console.log(data);
     let user:User = new User(data);
-    console.log(user);
     return user;
   }
 }

@@ -20,6 +20,12 @@ export class AuthService {
     .pipe(tap(this.handelUser.bind(this)));
   }
 
+  userRegister(authdetails: any): Observable<any>{
+    authdetails.data.id = "0";
+    authdetails.data.type = "user";
+    return this.http.post(this.baseUrl + '/register', authdetails)
+  }
+
   private handelUser(response : any){
     
     const helper = new JwtHelperService();

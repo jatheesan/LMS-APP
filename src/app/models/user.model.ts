@@ -4,7 +4,7 @@ export class User {
     lastname : string | undefined;
     username : string | undefined;
     email : string | undefined;
-    passwordHash : string | undefined;
+    passwordHash : string = null as any;
     staffPositionId : number | undefined;
     roleId : number | undefined;
     fullname : string | undefined;

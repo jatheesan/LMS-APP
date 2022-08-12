@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-11">
+            <h1 class="text-center">Staffs</h1>
+        </div>
+        <div class="col-1 add-btn">
+            <button  class="btn btn-success shadow-sm" color="accent" (click)="createStaff()" aria-label="Create the new staff">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">No</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let staff of staffs;let i = index" class="text-center">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{staff.id}}</td>
+                    <td>{{staff.fullname}}</td>
+                    <td>{{staff.username}}</td>
+                    <td>{{staff.email}}</td>
+                    <td>{{staff.roleId}}</td>
+                    <td>{{staff.staffPositionId}}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-danger" (click)="deletestaff(staff.id)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-success" (click)="editstaff(staff.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
