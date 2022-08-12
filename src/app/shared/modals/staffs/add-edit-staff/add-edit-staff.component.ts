@@ -7,6 +7,8 @@ import { first, map } from 'rxjs/operators';
 import { Role } from 'src/app/models/role.model';
 import { RoleService } from 'src/app/services/role.service';
 import { Observable } from 'rxjs';
+import { StaffPositionService } from 'src/app/services/staff-position.service';
+import { StaffPosition } from 'src/app/models/staff-position.model';
 
 @Component({
   selector: 'lms-add-edit-staff',
@@ -19,6 +21,7 @@ export class AddEditStaffComponent implements OnInit {
   staff !: User;
   isAddMode!: boolean;
   roles!: Role[];
+  staffPosition !: StaffPosition[];
   selectedrole: any;
   StaffAddForm: FormGroup = new FormGroup({
     firstname: new FormControl(''),
@@ -35,7 +38,8 @@ export class AddEditStaffComponent implements OnInit {
     public dialogRef : MatDialogRef<AddEditStaffComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userServise: UserService,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private staffPositionService: StaffPositionService
     ) { }
 
   ngOnInit(): void {
@@ -54,7 +58,8 @@ export class AddEditStaffComponent implements OnInit {
     );
 
     //this.roleService.getAllRoles().pipe(map((roledata) =>{this.roles = roledata}));
-    this.getAllRole()
+    this.getAllRole();
+    this.getAllStaffPositions();
     
     if(!this.isAddMode){
       this.userServise.getUserById(this.staffId)
@@ -92,6 +97,12 @@ export class AddEditStaffComponent implements OnInit {
   getAllRole(){
     this.roleService.getAllRoles().subscribe(response => {
       this.roles = response
+    })
+  }
+
+  getAllStaffPositions(){
+    this.staffPositionService.getAllPositions().subscribe(response => {
+      this.staffPosition = response
     })
   }
 

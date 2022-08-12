@@ -59,6 +59,19 @@
                     </mat-form-field>
                     <!-- <p>{{ this.StaffAddForm.get('roleId')?.value }}</p> -->
                 </div>
+
+                <div class="col-lg-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Select the Position</mat-label>
+                        <mat-select matNativeControl required formControlName="staffPositionId">
+                          <mat-option *ngFor="let position of staffPosition"  [value]="position.id">{{position.id}}{{' - '}}{{position.position}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="submitted && f['staffPositionId'].errors" class="invalid-feedback">
+                            <mat-error *ngIf="f['staffPositionId'].errors['required']">Staff Position is <strong>required</strong></mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- <p>{{ this.StaffAddForm.get('roleId')?.value }}</p> -->
+                </div>
                 <!-- <div class="col-lg-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Select the staff role</mat-label>
@@ -69,7 +82,7 @@
                     </mat-form-field>
                 </div> -->
 
-                <div class="col-lg-12 mb-2">
+                <!-- <div class="col-lg-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Select the staff position</mat-label>
                     <input type="number" formControlName="staffPositionId" class="form-control" matInput placeholder="Position Id">
@@ -77,7 +90,7 @@
                         <mat-error *ngIf="f['staffPositionId'].errors['required']">staff Position is <strong>required</strong></mat-error>
                     </mat-error>
                     </mat-form-field>
-                </div>
+                </div> -->
                 <div class="col-lg-12 mb-2">
                     <div class="d-flex gap-2 justify-content-end">
                         <button class="btn btn-secondary" type="button" mat-dialog-close (click)="onCancel()">Cancel</button>
