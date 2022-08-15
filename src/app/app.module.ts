@@ -24,6 +24,8 @@ import { StaffPositionComponent } from './components/pages/staff-position/staff-
 import { AddEditStaffPositionComponent } from './shared/modals/staff-position/add-edit-staff-position/add-edit-staff-position.component';
 import { RoleComponent } from './components/pages/role/role.component';
 import { AddEditRoleComponent } from './shared/modals/role/add-edit-role/add-edit-role.component';
+import { TeamComponent } from './components/pages/team/team.component';
+import { AddEditTeamComponent } from './shared/modals/team/add-edit-team/add-edit-team.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -46,6 +48,8 @@ export function tokenGetter() {
     AddEditStaffPositionComponent,
     RoleComponent,
     AddEditRoleComponent,
+    TeamComponent,
+    AddEditTeamComponent,
   ],
   imports: [
     FormsModule,
