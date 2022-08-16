@@ -60,7 +60,8 @@ export class StaffComponent implements OnInit {
         passwordHash: null as any,
         staffPositionId: result.staffPositionId,
         roleId: result.roleId,
-        fullname: null as any
+        fullname: null as any,
+        team: null as any
       };
       this.JsonSerialized=((new Serializer()).serialize(editresult));
       console.log(this.JsonSerialized);
@@ -89,7 +90,8 @@ export class StaffComponent implements OnInit {
         passwordHash: "b6CoqLH6CwxXVKQizVxwU3mSwtacqUfzgB1G2/7MOnw=",
         staffPositionId: result.staffPositionId,
         roleId: result.roleId,
-        fullname: null as any
+        fullname: null as any,
+        team: null as any
       };
       this.JsonSerialized=((new Serializer()).serialize(newstaff));
       // this.userServise.createUser(this.JsonSerialized).subscribe(result =>

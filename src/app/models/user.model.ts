@@ -1,3 +1,5 @@
+import { Team } from "./team.model";
+
 export class User {
     id : number | undefined;
     firstname : string | undefined;
@@ -8,6 +10,7 @@ export class User {
     staffPositionId : number | undefined;
     roleId : number | undefined;
     fullname : string | undefined;
+    team : number[]
 
     constructor(data:any){
         this.id = data.id;
@@ -19,6 +22,13 @@ export class User {
         this.staffPositionId = data.attributes.staffPositionId;
         this.roleId = data.attributes.roleId;
         this.fullname = data.attributes.fullName;
+
+        let userteam = data.relationships.staff_Teams.data
+        let teamids : number[] = [];
+        userteam.forEach((x : any)=> {
+            teamids.push(x.id)
+        })
+        this.team = teamids;
 
     }
 }
