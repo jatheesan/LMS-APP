@@ -28,6 +28,8 @@ import { TeamComponent } from './components/pages/team/team.component';
 import { AddEditTeamComponent } from './shared/modals/team/add-edit-team/add-edit-team.component';
 import { LeavetypeComponent } from './components/pages/leavetype/leavetype.component';
 import { AddEditLeavetypeComponent } from './shared/modals/leavetype/add-edit-leavetype/add-edit-leavetype.component';
+import { AddEditHolidayComponent } from './shared/modals/holiday/add-edit-holiday/add-edit-holiday.component';
+import { HolidayComponent } from './components/pages/holiday/holiday.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -54,6 +56,8 @@ export function tokenGetter() {
     AddEditTeamComponent,
     LeavetypeComponent,
     AddEditLeavetypeComponent,
+    AddEditHolidayComponent,
+    HolidayComponent,
   ],
   imports: [
     FormsModule,

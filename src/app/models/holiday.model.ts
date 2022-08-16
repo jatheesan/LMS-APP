@@ -1,6 +1,6 @@
 export class Holiday {
     id : number | undefined;
-    date : Date | undefined;
+    date : Date | string;
     description : string | undefined;
 
     constructor(data:any){

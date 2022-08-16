@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HolidayComponent } from './components/pages/holiday/holiday.component';
 import { LeavetypeComponent } from './components/pages/leavetype/leavetype.component';
 import { RoleComponent } from './components/pages/role/role.component';
 import { StaffPositionComponent } from './components/pages/staff-position/staff-position.component';
@@ -60,6 +61,12 @@ const routes: Routes = [
   }},
   { path: 'leavetype', 
   component: LeavetypeComponent, 
+  canActivate: [AuthenticationGuard],
+  data: {
+    role: ['Admin']
+  }},
+  { path: 'holiday', 
+  component: HolidayComponent, 
   canActivate: [AuthenticationGuard],
   data: {
     role: ['Admin']
