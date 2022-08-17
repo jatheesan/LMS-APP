@@ -1,5 +1,125 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav #sidenav mode="side" opened="isExpanded" [ngClass]="{expanded: isExpanded}">
+    <mat-nav-list>
 
-<div class="nav-bar">
+      <mat-list-item (click)="isExpanded = !isExpanded">
+        <mat-icon mat-list-icon class="chevron-button" [ngClass]="{ rotated: isExpanded }">chevron_right
+        </mat-icon>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'dashboard'" (click)="showCalendar()">
+        <mat-icon mat-list-icon>calendar_today</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Dashboard</span>
+      </mat-list-item>
+
+      <mat-list-item [routerLink]="'info'">
+        <mat-icon mat-list-icon>important_devices</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Info</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showStaff()">
+        <mat-icon mat-list-icon>supervisor_account</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Staff</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showHoliday()">
+        <mat-icon mat-list-icon>event</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Holiday</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showTeam()">
+        <mat-icon mat-list-icon>group_add</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Team</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showPosition()">
+        <mat-icon mat-list-icon>ac_unit</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Position</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showRole()">
+        <mat-icon mat-list-icon>layers</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Role</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="showLeaveType()">
+        <mat-icon mat-list-icon>filter_none</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Leave Type</span>
+      </mat-list-item>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Content - rendered Content for the current router path into the <router-outlet>, e.g. /dashboard or /info-->
+  <mat-sidenav-content>
+      <div class="nav-bar">
+        <div class="header">
+          <div class="headerstyle">
+            <!-- <p>Nav Bar</p> -->
+            <img src="assets/images/lms.png" class="img-logo" alt="lms">
+          </div>
+          <div class="headerstyle">
+            <button type="button" class="logoutbutton" (click)="lockOut()"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <section class="addleave-section" *ngIf="showComponent == 'calendar'">
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <div class="example-button-container">
+                <button  class="addleave" (click)="applyLeave()" mat-fab aria-label="Apply The Leave">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <div *ngIf="showComponent == 'calendar'">
+          <lms-calendar-month-view 
+          [todayDate]="date" 
+          [orderOfWorkWeekDays]="orderOfWorkWeekDays" 
+          [holidays] = "holidays" 
+          [leaveRequests] = "leaveRequests"
+          [users] = "users"
+          [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
+        </div>
+
+        <div *ngIf="showComponent == 'staff'">
+          <lms-staff></lms-staff>
+        </div>
+
+        <div *ngIf="showComponent == 'holiday'">
+          <lms-holiday></lms-holiday>
+        </div>
+
+        <div *ngIf="showComponent == 'team'">
+          <lms-team></lms-team>
+        </div>
+
+        <div *ngIf="showComponent == 'position'">
+          <lms-staff-position></lms-staff-position>
+        </div>
+
+        <div *ngIf="showComponent == 'role'">
+          <lms-role></lms-role>
+        </div>
+
+        <div *ngIf="showComponent == 'leavetype'">
+          <lms-leavetype></lms-leavetype>
+        </div>
+
+      </div>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+
+<!-- <div class="nav-bar">
   <div class="header">
     <div class="headerstyle">
       <p>Nav Bar</p>
@@ -30,4 +150,4 @@
     [leaveRequests] = "leaveRequests"
     [users] = "users"
     [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
-</div>
+</div> -->

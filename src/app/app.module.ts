@@ -30,6 +30,7 @@ import { LeavetypeComponent } from './components/pages/leavetype/leavetype.compo
 import { AddEditLeavetypeComponent } from './shared/modals/leavetype/add-edit-leavetype/add-edit-leavetype.component';
 import { AddEditHolidayComponent } from './shared/modals/holiday/add-edit-holiday/add-edit-holiday.component';
 import { HolidayComponent } from './components/pages/holiday/holiday.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -58,6 +59,7 @@ export function tokenGetter() {
     AddEditLeavetypeComponent,
     AddEditHolidayComponent,
     HolidayComponent,
+    SidenavComponent,
   ],
   imports: [
     FormsModule,

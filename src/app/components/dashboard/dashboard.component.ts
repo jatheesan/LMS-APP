@@ -15,6 +15,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthguardServiceService } from 'src/app/services/authguard-service.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'lms-dashboard',
@@ -39,6 +40,15 @@ export class DashboardComponent implements OnInit {
 
   JsonSerialized='';
 
+  options = this._formBuilder.group({
+    bottom: 0,
+    fixed: true,
+    top: 0,
+  });
+
+  isExpanded: boolean = false;
+  showComponent: string = '';
+
   constructor(
     public dailog: MatDialog,
     private holidayService: HolidayService,
@@ -47,12 +57,14 @@ export class DashboardComponent implements OnInit {
     private authguardServiceService : AuthguardServiceService,
     private authService : AuthService,
     private http: HttpClient,
-    private router : Router
+    private router : Router,
+    private _formBuilder: FormBuilder
     ) {
 
   }
 
   ngOnInit(): void {
+    this.showComponent = 'calendar';
     let weekStartDay = this.workweek[0];
     let lowestToHighest = this.workweek.sort((a, b) => a - b);
     this.orderOfWorkWeekDays = DashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
@@ -176,6 +188,34 @@ export class DashboardComponent implements OnInit {
     }
 
     return orderOfWorkWeek;
+  }
+
+  showStaff(){
+    this.showComponent = 'staff';
+  }
+
+  showCalendar(){
+    this.showComponent = 'calendar';
+  }
+
+  showHoliday(){
+    this.showComponent = 'holiday';
+  }
+
+  showTeam(){
+    this.showComponent = 'team';
+  }
+
+  showPosition(){
+    this.showComponent = 'position';
+  }
+
+  showRole(){
+    this.showComponent = 'role';
+  }
+
+  showLeaveType(){
+    this.showComponent = 'leavetype';
   }
 
 }

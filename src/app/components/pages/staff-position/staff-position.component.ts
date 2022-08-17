@@ -6,7 +6,7 @@ import { AddEditStaffPositionComponent } from 'src/app/shared/modals/staff-posit
 import { Serializer } from 'ts-json-api-formatter';
 
 @Component({
-  selector: 'app-staff-position',
+  selector: 'lms-staff-position',
   templateUrl: './staff-position.component.html',
   styleUrls: ['./staff-position.component.scss']
 })
