@@ -12,7 +12,7 @@ import { Rowevent } from 'src/app/models/rowevent.model';
 })
 export class MoreeventscartComponent implements OnInit {
 
-  leaveRequests: LeaveRequest[] = [];
+  leaveRequests: any[] = [];
   rowEvent: Rowevent[] = [];
   date!: string;
 

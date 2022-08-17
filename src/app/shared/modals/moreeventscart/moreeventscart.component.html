@@ -1,7 +1,7 @@
 <h1 mat-dialog-title class="text-center">{{date}} Leaves</h1>
 <div mat-dialog-content>
   <div>
-    <p *ngFor="let leave of rowEvent">
+    <p *ngFor="let leave of leaveRequests">
       <span [ngStyle]="{'color' : leave.rowEvent?.bgcolor , 'margin-right' : '10px', 'display' : 'inline-block'}">
           <i class="fa fa-circle" aria-hidden="true"></i>
       </span>
