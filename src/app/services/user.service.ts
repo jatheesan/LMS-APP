@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { Deserializer } from 'ts-json-api-formatter';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -15,13 +16,18 @@ export class UserService {
   //Get All Holidays....
   getAllUsers(): Observable<any>{
     return this.http.get<any>(this.baseUrl).pipe(map((data:any)=>{
-      return this.mapDataToUsers(data.data)
+      //return this.mapDataToUsers(data.data)
+      let staffsObj=((new Deserializer()).deserialize(data));
+      console.log(staffsObj);
+      return staffsObj
     }))
   }
 
   getUserById(userid : number): Observable<any>{
     return this.http.get<any>(this.baseUrl + "/" + userid).pipe(map((data:any)=>{
-      return this.mapDataToUser(data.data)
+      //return this.mapDataToUser(data.data)
+      let staffObj=((new Deserializer()).deserialize(data));
+      return staffObj
     }))
   }
 
@@ -29,7 +35,6 @@ export class UserService {
     let result : any;
     if(id != null){
       result = this.http.delete(this.baseUrl + '/' + id);
-      console.log(result);
       return result;
     }
     else{

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
+import { AddEditStaffTeamComponent } from 'src/app/shared/modals/staff-team/add-edit-staff-team/add-edit-staff-team.component';
 import { AddEditStaffComponent } from 'src/app/shared/modals/staffs/add-edit-staff/add-edit-staff.component';
 import { Serializer } from 'ts-json-api-formatter';
 
@@ -14,12 +17,17 @@ import { Serializer } from 'ts-json-api-formatter';
 export class StaffComponent implements OnInit {
   
   staffs!: any;
+  teams!: Team[];
   JsonSerialized='';
 
-  constructor(private userServise: UserService,private authService: AuthService, public dailog: MatDialog,) { }
+  constructor(private userServise: UserService,
+              private authService: AuthService, 
+              private teamService : TeamService,
+              public dailog: MatDialog,) { }
 
   ngOnInit(): void {
-    this.getAllUsers()
+    this.getAllUsers();
+    this.getAllTeams();
   }
 
   getAllUsers(){
@@ -30,6 +38,15 @@ export class StaffComponent implements OnInit {
         }
       );
       
+  }
+
+  getAllTeams(){
+    this.teamService.getAllTeams()
+      .subscribe(
+        response => {
+          this.teams = response;
+        }
+      )
   }
 
   deletestaff(id : number){
@@ -102,6 +119,34 @@ export class StaffComponent implements OnInit {
       );
 
     })
+  }
+
+  updateTeam(id : number){
+    const dialogRef = this.dailog.open(AddEditStaffTeamComponent, {
+      width : '500px',
+      panelClass: 'custom-modalbox',
+      data : {
+        staffId : id
+      }
+    });
+  }
+
+
+  getTeamNames(teams : any[]) :any{
+    let teamNameArr : string[] = [];
+    if(teams.length == 0){
+      teamNameArr = [];
+    }
+    else{
+      let teamId = teams[0].teamId;
+      teams.forEach(x => {
+        let name = this.teams.find(y => y.id == x.teamId)?.teamName;
+        if(name != undefined){
+          teamNameArr.push(name);
+        }
+      })
+    }
+    return teamNameArr;
   }
 
 }

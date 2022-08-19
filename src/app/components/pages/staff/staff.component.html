@@ -21,6 +21,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Position</th>
+                    <th scope="col">Teams</th>
                     <th scope="col">#</th>
                   </tr>
                 </thead>
@@ -28,11 +29,31 @@
                   <tr *ngFor="let staff of staffs;let i = index" class="text-center">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{staff.id}}</td>
-                    <td>{{staff.fullname}}</td>
+                    <td>{{staff.fullName}}</td>
                     <td>{{staff.username}}</td>
                     <td>{{staff.email}}</td>
-                    <td>{{staff.roleId}}</td>
-                    <td>{{staff.staffPositionId}}</td>
+                    <td>{{staff.role.roleType}}</td>
+                    <td>{{staff.staffPosition.position}}</td>
+                    <!-- <td>{{ getTeamNames(staff.staff_Teams).length }}</td> -->
+                    <td>
+                        <div *ngIf="getTeamNames(staff.staff_Teams).length != 0">
+                            <mat-chip-list class="mat-chip-list-stacked">
+                                <mat-chip class="mat-chip-cell" *ngFor="let team of getTeamNames(staff.staff_Teams)">
+                                    {{team}}
+                                </mat-chip>
+                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <div *ngIf="getTeamNames(staff.staff_Teams).length == 0">
+                            <mat-chip-list class="mat-chip-list-stacked">
+                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                    </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <button type="button" class="btn btn-danger" (click)="deletestaff(staff.id)">
