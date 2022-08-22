@@ -136,6 +136,8 @@ export class DashboardComponent implements OnInit {
       leave.reason = result.reason;
       leave.timeOfLeaveday = result.timeOfLeaveday;
       leave.resPersionId = result.resPersionId;
+      leave.isAdminApproved = false;
+      leave.isSuperAdminApproved = false;
 
       leave.leaveRequestOfLeaveTypes = [];
       var lrlt=new LeaveRequestOfLeaveType();
