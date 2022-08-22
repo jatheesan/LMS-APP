@@ -21,6 +21,7 @@ export class ShowLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.event = this.data.leave;
+    console.log(this.event);
   }
 
   deleteEvent(id: number | undefined) {

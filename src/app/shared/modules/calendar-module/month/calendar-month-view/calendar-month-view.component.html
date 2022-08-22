@@ -36,7 +36,7 @@
                     <div class="event-row" id="event" *ngFor="let rowEvent of getEventByRowIndex(getWeekLeaveRequest(rowIndex)); let i = index">
                         <ng-container *ngIf="(i + 1) <= noOfEventsShowInWeek">
                             <div *ngFor="let event of rowEvent; let j = index" class="event-inner" [ngStyle]="{'width' : getlength(event.rowEventWidth) + 'px', 'left.px' : getMoveByLeft(event, rowIndex, rowEvent, j) }" [style.background-color]="event.rowEvent?.bgcolor" (click)="showLeave(event, event.rowEvent?.userId, event.rowEvent?.resPersionId)">
-                                <div>{{event.rowEvent?.userId}}{{' - '}}{{ event.rowEventUser?.fullname }}{{' - '}}{{ event.rowEvent?.reason }}</div>
+                                <div>{{event.rowEvent?.userId}}{{' - '}}{{ event.rowEventUser?.fullName }}{{' - '}}{{ event.rowEvent?.reason }}</div>
                                 <!-- <div>{{ findUserName(event.rowEvent?.userId)[0].firstname }}{{event.rowEventStartDate | date:'dd'}}-{{event.rowEventEndDate | date:'dd'}}</div> -->
                             </div>
                         </ng-container>

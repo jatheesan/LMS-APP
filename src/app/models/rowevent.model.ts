@@ -6,8 +6,8 @@ export class Rowevent {
     rowEventStartDate : any | undefined;
     rowEventEndDate : any | undefined;
     rowEventWidth : number;
-    rowEventUser : User | undefined;
-    rowEventResponsiblePerson : User | undefined;
+    rowEventUser : any | undefined;
+    rowEventResponsiblePerson : any | undefined;
 
     constructor(rowEvent : LeaveRequest, rowEventStartDate : any, rowEventEndDate : any, rowEventWidth : number, rowEventUser : User, rowEventResponsiblePerson : User){
         this.rowEvent = rowEvent;

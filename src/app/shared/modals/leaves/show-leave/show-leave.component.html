@@ -4,7 +4,7 @@
         <div class="col-12 d-flex">
             <div class="icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
             <div class="ps-3 pt-2">
-                <h3 class="header-user">{{ event.rowEventUser?.id }}{{' - '}}{{ event.rowEventUser?.fullname }}</h3>
+                <h3 class="header-user">{{ event.rowEventUser?.id }}{{' - '}}{{ event.rowEventUser?.fullName }}</h3>
                 <p class="subheader-user">Staff</p>
             </div>
         </div>
@@ -25,7 +25,7 @@
         <div *ngIf="event.rowEvent?.isSuperAdminApproved == true" class="col-4 text-end">Yes</div>
         <div *ngIf="event.rowEvent?.isSuperAdminApproved == false" class="col-4 text-end">No</div>
         <div *ngIf="event.rowEvent?.resPersionId != null" class="col-8 text-start">Who is coverd this leave?</div>
-        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-4 text-end">{{ event.rowEventResponsiblePerson?.fullname}}</div>
+        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-4 text-end">{{ event.rowEventResponsiblePerson?.fullName}}</div>
         <div class="col-12 py-3 d-flex justify-content-end">
             <button type="button" class="btn btn-danger" (click)="deleteEvent(event.rowEvent?.id)">Delete</button>
             <button class="ms-2 btn btn-success" mat-dialog-close (click)="onCancel()">Close</button>
