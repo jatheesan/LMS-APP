@@ -41,14 +41,14 @@
                                 <mat-chip class="mat-chip-cell" *ngFor="let team of getTeamNames(staff.staff_Teams)">
                                     {{team}}
                                 </mat-chip>
-                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id)">
+                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id, staff)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </mat-chip>
                             </mat-chip-list>
                         </div>
                         <div *ngIf="getTeamNames(staff.staff_Teams).length == 0">
                             <mat-chip-list class="mat-chip-list-stacked">
-                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id)">
+                                <mat-chip class="mat-chip-cell" (click)="updateTeam(staff.id, staff)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </mat-chip>
                             </mat-chip-list>

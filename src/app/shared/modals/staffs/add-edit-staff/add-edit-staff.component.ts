@@ -24,8 +24,8 @@ export class AddEditStaffComponent implements OnInit {
   staffPosition !: StaffPosition[];
   selectedrole: any;
   StaffAddForm: FormGroup = new FormGroup({
-    firstname: new FormControl(''),
-    lastname: new FormControl(''),
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
     username: new FormControl(''),
     email: new FormControl(''),
     roleId:new FormControl(''),
@@ -48,8 +48,8 @@ export class AddEditStaffComponent implements OnInit {
 
     this.StaffAddForm = this.fb.group(
       {
-        firstname: ['', [Validators.required]],
-        lastname: ['', [Validators.required]],
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]],
         username: ['', [Validators.required]],
         email: ['', [Validators.required]],
         roleId: ['', [Validators.required]],

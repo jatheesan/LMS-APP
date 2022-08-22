@@ -18,7 +18,6 @@ export class UserService {
     return this.http.get<any>(this.baseUrl).pipe(map((data:any)=>{
       //return this.mapDataToUsers(data.data)
       let staffsObj=((new Deserializer()).deserialize(data));
-      console.log(staffsObj);
       return staffsObj
     }))
   }

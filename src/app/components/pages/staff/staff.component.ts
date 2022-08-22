@@ -121,12 +121,14 @@ export class StaffComponent implements OnInit {
     })
   }
 
-  updateTeam(id : number){
+  updateTeam(id : number, staff : any){
     const dialogRef = this.dailog.open(AddEditStaffTeamComponent, {
       width : '500px',
       panelClass: 'custom-modalbox',
       data : {
-        staffId : id
+        staffId : id,
+        teams : this.teams,
+        staff : staff
       }
     });
   }

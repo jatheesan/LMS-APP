@@ -31,6 +31,7 @@ import { AddEditLeavetypeComponent } from './shared/modals/leavetype/add-edit-le
 import { AddEditHolidayComponent } from './shared/modals/holiday/add-edit-holiday/add-edit-holiday.component';
 import { HolidayComponent } from './components/pages/holiday/holiday.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { AddEditStaffTeamComponent } from './shared/modals/staff-team/add-edit-staff-team/add-edit-staff-team.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -60,6 +61,7 @@ export function tokenGetter() {
     AddEditHolidayComponent,
     HolidayComponent,
     SidenavComponent,
+    AddEditStaffTeamComponent,
   ],
   imports: [
     FormsModule,
