@@ -34,6 +34,29 @@ export class LeaveRequestService {
     console.log(leave);
     return this.http.post(this.baseUrl, leave);
   }
+
+  public ApprovedBySuperAdmin(id: number | undefined, value: boolean): void{
+    this.http.patch((this.baseUrl + '/'+ id + '/ApprovedBySuperAdmin'), value).subscribe(
+      res => { 
+        console.log('received ok response from patch request');
+      },
+      error => {
+        console.error('There was an error during the request');
+        console.log(error);
+      });
+  }
+
+  public ApprovedByAdmin(id: number | undefined, value: boolean): void{
+    this.http.patch((this.baseUrl + '/'+ id + '/ApprovedByAdmin'), value).subscribe(
+      res => { 
+        console.log('received ok response from patch request');
+      },
+      error => {
+        console.error('There was an error during the request');
+        console.log(error);
+      });
+  }
+
   // public ApplyLeaveRequest(leave: any){
   //   console.log(leave);
   //   leave.data.id = "0";

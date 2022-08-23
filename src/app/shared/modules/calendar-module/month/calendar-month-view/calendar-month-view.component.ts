@@ -12,6 +12,7 @@ import { ShowLeaveComponent } from 'src/app/shared/modals/leaves/show-leave/show
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
+import { LeaveRequestService } from 'src/app/services/leave-request.service';
 
 @Component({
   selector: 'lms-calendar-month-view',
@@ -62,7 +63,8 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   user!: User;
 
   constructor(public dailog: MatDialog,
-              private userService: UserService) {
+              private userService: UserService,
+              private leaveRequestService : LeaveRequestService) {
 
   }
 
@@ -587,7 +589,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   getMoveByLeft(event : Rowevent, index : number, rowEvent : Rowevent[], j : number) :number{
-    console.log('-----');
+    //console.log('-----');
     
     let diff = 0;
     let eventFirstday : any;
@@ -612,13 +614,13 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
       let sortedrowLeaveRequest = rowEvent.sort((a, b) => 
         (a.rowEventStartDate < b.rowEventStartDate) ? -1 : 1);
-      console.log(sortedrowLeaveRequest);
-      console.log(event);
+      //console.log(sortedrowLeaveRequest);
+      //console.log(event);
       
       //let eventindex = rowEvent.indexOf(event);
       let eventindex = sortedrowLeaveRequest.findIndex((leave: any) => leave.rowEvent.id === event.rowEvent?.id && leave === event);
-      console.log(event.rowEvent?.id);
-      console.log(eventindex);
+      //console.log(event.rowEvent?.id);
+      //console.log(eventindex);
       
       if(eventindex > 0){
         let beforeevent = sortedrowLeaveRequest[eventindex - 1];
@@ -646,7 +648,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     else{
       widthstyle = 0;
     }
-    console.log(widthstyle * 2);
+    //console.log(widthstyle * 2);
     return ((widthstyle * 2));
     
   }
@@ -760,7 +762,27 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
 
       dialogRef.afterClosed().subscribe(result => {
           if(result != null){
-            alert(result);
+            let value : boolean;
+            if(result.whoApproved == 'SuperAdmin'){
+
+              if(result.isApproved == 'true'){
+                value = true;
+              }
+              else{
+                value = false;
+              }
+              this.leaveRequestService.ApprovedBySuperAdmin(event.rowEvent?.id, value)
+            }
+            if(result.whoApproved == 'Admin'){
+
+              if(result.isApproved == 'true'){
+                value = true;
+              }
+              else{
+                value = false;
+              }
+              this.leaveRequestService.ApprovedByAdmin(event.rowEvent?.id, value)
+            }
           }
       });
     }

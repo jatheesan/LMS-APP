@@ -1,37 +1,72 @@
 <!-- <h1 mat-dialog-title class="text-center">{{ event.rowEvent?.reason }}</h1> -->
 <div mat-dialog-content>
     <div class="row">
-        <div class="col-12 d-flex">
+        <div class="col-9 d-flex">
             <div class="icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
             <div class="ps-3 pt-2">
                 <h3 class="header-user">{{ event.rowEventUser?.id }}{{' - '}}{{ event.rowEventUser?.fullName }}</h3>
                 <p class="subheader-user">Staff</p>
             </div>
         </div>
-        <div class="col-4 text-start">ID :</div>
-        <div class="col-8 text-end">{{ event.rowEvent?.id }}</div>
-        <div class="col-4 text-start">Reason :</div>
-        <div class="col-8 text-end">{{ event.rowEvent?.reason }}</div>
-        <div class="col-8 text-start">Startdate :</div>
-        <div class="col-4 text-end">{{ event.rowEvent?.startDate | date:'mediumDate' }}</div>
-        <div class="col-8 text-start">Enddate :</div>
-        <div class="col-4 text-end">{{ event.rowEvent?.endDate | date:'mediumDate' }}</div>
-        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-8 text-start">Period :</div>
-        <div *ngIf="event.rowEvent?.timeOfLeaveday != null" class="col-4 text-end">{{ event.rowEvent?.timeOfLeaveday}}</div>
-        <div *ngIf="event.rowEvent?.isAdminApproved != null" class="col-8 text-start">Is approved by admin?</div>
-        <div *ngIf="event.rowEvent?.isAdminApproved == true" class="col-4 text-end">Yes</div>
-        <div *ngIf="event.rowEvent?.isAdminApproved == false" class="col-4 text-end">No</div>
-        <div *ngIf="event.rowEvent?.isSuperAdminApproved != null" class="col-8 text-start">Is approved by superadmin?</div>
-        <div *ngIf="event.rowEvent?.isSuperAdminApproved == true" class="col-4 text-end">Yes</div>
-        <div *ngIf="event.rowEvent?.isSuperAdminApproved == false" class="col-4 text-end">No</div>
-        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-8 text-start">Who is coverd this leave?</div>
-        <div *ngIf="event.rowEvent?.resPersionId != null" class="col-4 text-end">{{ event.rowEventResponsiblePerson?.fullName}}</div>
-        <div class="col-12 py-3 d-flex justify-content-end">
+        <div *ngIf="showSuperAdminApproved || showAdminApproved" class="col-3">
+            <div>
+                <mat-button-toggle-group #group="matButtonToggleGroup">
+                    <mat-button-toggle [ngClass]="{'listview' : listview === true}" (click)="showlistview()" mat-stroked-button aria-label="listview">
+                      <mat-icon>list</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle [ngClass]="{'editview' : editview === true}" (click)="showeditview()" mat-stroked-button aria-label="editview">
+                      <mat-icon>edit</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>                
+            </div>
+        </div>
+        <div *ngIf="listview" class="col-4 text-start">ID :</div>
+        <div *ngIf="listview" class="col-8 text-end">{{ event.rowEvent?.id }}</div>
+        <div *ngIf="listview" class="col-4 text-start">Reason :</div>
+        <div *ngIf="listview" class="col-8 text-end">{{ event.rowEvent?.reason }}</div>
+        <div *ngIf="listview" class="col-8 text-start">Startdate :</div>
+        <div *ngIf="listview" class="col-4 text-end">{{ event.rowEvent?.startDate | date:'mediumDate' }}</div>
+        <div *ngIf="listview" class="col-8 text-start">Enddate :</div>
+        <div *ngIf="listview" class="col-4 text-end">{{ event.rowEvent?.endDate | date:'mediumDate' }}</div>
+        <div *ngIf="listview && event.rowEvent?.timeOfLeaveday != null" class="col-8 text-start">Period :</div>
+        <div *ngIf="listview && event.rowEvent?.timeOfLeaveday != null" class="col-4 text-end">{{ event.rowEvent?.timeOfLeaveday}}</div>
+        <div *ngIf="listview" class="col-8 text-start">Is approved by admin?</div>
+        <div *ngIf="listview && event.rowEvent?.isAdminApproved == true" class="col-4 text-end">Yes</div>
+        <div *ngIf="listview && event.rowEvent?.isAdminApproved == false" class="col-4 text-end">No</div>
+        <div *ngIf="listview && event.rowEvent?.isAdminApproved == null" class="col-4 text-end">Pending</div>
+        <div *ngIf="listview" class="col-8 text-start">Is approved by superadmin?</div>
+        <div *ngIf="listview && event.rowEvent?.isSuperAdminApproved == true" class="col-4 text-end">Yes</div>
+        <div *ngIf="listview && event.rowEvent?.isSuperAdminApproved == false" class="col-4 text-end">No</div>
+        <div *ngIf="listview && event.rowEvent?.isSuperAdminApproved == null" class="col-4 text-end">Pending</div>
+        <div *ngIf="listview && event.rowEvent?.resPersionId != null" class="col-8 text-start">Who is coverd this leave?</div>
+        <div *ngIf="listview && event.rowEvent?.resPersionId != null" class="col-4 text-end">{{ event.rowEventResponsiblePerson?.fullName}}</div>
+        <div *ngIf="listview" class="col-12 py-3 d-flex justify-content-end">
             <button type="button" class="btn btn-danger" (click)="deleteEvent(event.rowEvent?.id)">Delete</button>
             <button class="ms-2 btn btn-success" mat-dialog-close (click)="onCancel()">Close</button>
         </div>
+
+        <div *ngIf="editview" class="col-lg-12 mt-2">
+            <form [formGroup]="form">
+                <div class="col-lg-12 mb-4">
+                    <mat-label *ngIf="showSuperAdminApproved">Approved By Super Admin</mat-label>
+                    <mat-label *ngIf="showAdminApproved">Approved By Admin</mat-label>
+                    <br>
+                    <mat-radio-group formControlName="isApproved" aria-label="Select an option">
+                        <mat-radio-button [checked]="isTrueCheck()" value="true">Accepted</mat-radio-button>
+                        <br/>
+                        <mat-radio-button [checked]="isFalseCheck()" value="false">Rejected</mat-radio-button>
+                        <br/>
+                        <!-- <mat-radio-button value="null">Pending</mat-radio-button>
+                        <br/> -->
+                    </mat-radio-group>                  
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button class="btn btn-secondary" type="button" mat-dialog-close (click)="onCancel()">Cancel</button>
+                        <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="form.invalid">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
   </div>
-  <!-- <mat-dialog-actions align="end">
-      <button class="btn btn-success" mat-button mat-dialog-close>Close</button>
-  </mat-dialog-actions> -->
