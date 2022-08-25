@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from 'src/app/models/user.model';
+import { AuthguardServiceService } from 'src/app/services/authguard-service.service';
 
 @Component({
   selector: 'lms-add-leave',
@@ -10,7 +11,11 @@ import { User } from 'src/app/models/user.model';
 })
 export class AddLeaveComponent implements OnInit {
 
-  staffs !: User[];
+  staffs !: any[];
+  authRoleId !: number;
+  authUserId !: number;
+  showApplyForMe!: boolean;
+  showApplyForSpecial!: boolean;
   LeaveApplyForm: FormGroup = new FormGroup({
     userId: new FormControl(''),
     startDate:new FormControl(''),
@@ -23,14 +28,19 @@ export class AddLeaveComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private authguardServiceService : AuthguardServiceService,
     public dialogRef : MatDialogRef<AddLeaveComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
   ngOnInit(): void {
     this.staffs = this.data.staffs;
-    console.log(this.staffs);
-    
+
+    this.authRoleId = this.authguardServiceService.getAuthRole();
+    this.authUserId = this.authguardServiceService.getAuthUserId();
+    this.showApplyForMe = true;
+    this.showApplyForSpecial = false;
+
     this.LeaveApplyForm = this.fb.group(
       {
         userId: ['', [Validators.required]],
@@ -42,10 +52,22 @@ export class AddLeaveComponent implements OnInit {
       },
     );
 
+    this.LeaveApplyForm.controls['userId'].setValue(this.authUserId)
+
   }
 
   get f(): { [key: string]: AbstractControl } {
     return this.LeaveApplyForm.controls;
+  }
+
+  applyForMe(){
+    this.showApplyForMe = true;
+    this.showApplyForSpecial = false;
+  }
+
+  applyForSpecial(){
+    this.showApplyForMe = false;
+    this.showApplyForSpecial = true;
   }
 
   onSubmit(): void {
@@ -54,8 +76,7 @@ export class AddLeaveComponent implements OnInit {
       return;
     }
     this.data = this.LeaveApplyForm.value;
-    console.log(this.data);
-    //this.LeaveApplyForm.reset();
+
     this.dialogRef.close(this.data);
   }
 

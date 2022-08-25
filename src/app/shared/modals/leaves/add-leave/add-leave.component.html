@@ -1,16 +1,27 @@
 
 <div class="mat-dialog-header py-2">
-    <h1 class="text-center fs-2">Leave Apply</h1>
+    <h1 *ngIf="showApplyForMe" class="text-center fs-2">Leave Apply</h1>
+    <h1 *ngIf="showApplyForSpecial" class="text-center fs-2">Special Leave Apply</h1>
 </div>
 <div mat-dialog-content>
     <div class="row">
+        <div *ngIf="authRoleId == 1 || authRoleId == 2" class="col-lg-12 mt-2 mb-2">
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-radio-button (click)="applyForMe()" [checked]="showApplyForMe">My Request</mat-radio-button>
+                </div>
+                <div class="col-sm-6">
+                    <mat-radio-button (click)="applyForSpecial()" [checked]="showApplyForSpecial">Special Request</mat-radio-button>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12 mt-2">
             <form class="example-form" [formGroup]="LeaveApplyForm" (ngSubmit)="onSubmit()">
-                <div class="col-lg-12 mb-2">
+                <div *ngIf="showApplyForSpecial" class="col-lg-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select User</mat-label>
                         <mat-select matNativeControl required formControlName="userId">
-                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
+                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
                             <mat-error *ngIf="f['userId'].errors['required']">User is <strong>required</strong></mat-error>
@@ -68,7 +79,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Select the Responsible Persion</mat-label>
                         <mat-select matNativeControl required formControlName="resPersionId">
-                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullname}}</mat-option>
+                          <mat-option *ngFor="let staff of staffs"  value="{{staff.id}}">{{staff.id}}{{' - '}}{{staff.fullName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="submitted && f['resPersionId'].errors" class="invalid-feedback">
                             <mat-error *ngIf="f['resPersionId'].errors['required']">Responsible persion is <strong>required</strong></mat-error>

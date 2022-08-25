@@ -55,6 +55,13 @@ export class AuthguardServiceService {
     this.sessionToken = JSON.parse(this.getToken()!);
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(this.sessionToken.token);
-    return decodedToken.Role;
+    return +decodedToken.Role;
+  }
+
+  public getAuthUserId(){
+    this.sessionToken = JSON.parse(this.getToken()!);
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(this.sessionToken.token);
+    return +decodedToken.userId;
   }
 }
