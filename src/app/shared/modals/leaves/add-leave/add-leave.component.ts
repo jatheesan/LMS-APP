@@ -12,6 +12,7 @@ import { AuthguardServiceService } from 'src/app/services/authguard-service.serv
 export class AddLeaveComponent implements OnInit {
 
   staffs !: any[];
+  respersion!: any[];
   authRoleId !: number;
   authUserId !: number;
   showApplyForMe!: boolean;
@@ -35,11 +36,35 @@ export class AddLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.staffs = this.data.staffs;
-
     this.authRoleId = this.authguardServiceService.getAuthRole();
     this.authUserId = this.authguardServiceService.getAuthUserId();
     this.showApplyForMe = true;
     this.showApplyForSpecial = false;
+
+    if(this.authRoleId == 1){
+      this.respersion = this.staffs.filter(x => x.roleId == 1);
+    }
+    else if(this.authRoleId == 2){
+      this.respersion = this.staffs.filter(x => x.roleId == 1 || x.roleId == 2);
+    }
+    else{
+      let authuser = this.staffs.find(x => x.id == this.authUserId);
+      let authUserTeams : number[] = [];
+      authuser.staff_Teams.forEach((element : any)=> {
+        authUserTeams.push(element.teamId);
+      });
+      this.respersion = [];
+      this.staffs.forEach((element : any) => {
+        if(element.staff_Teams.length > 0){
+          element.staff_Teams.forEach((team : any) => {
+            if(authUserTeams.some(x => x == team.teamId) == true){
+              this.respersion.push(element);
+            }
+          })
+        }
+      })
+    }
+    
 
     this.LeaveApplyForm = this.fb.group(
       {
@@ -48,7 +73,7 @@ export class AddLeaveComponent implements OnInit {
         endDate: [''],
         reason: ['', [Validators.required]],
         timeOfLeaveday: [''],
-        resPersionId: ['', [ Validators.required]],
+        resPersionId: [''],
       },
     );
 
@@ -68,6 +93,7 @@ export class AddLeaveComponent implements OnInit {
   applyForSpecial(){
     this.showApplyForMe = false;
     this.showApplyForSpecial = true;
+    this.respersion = this.staffs;
   }
 
   onSubmit(): void {
