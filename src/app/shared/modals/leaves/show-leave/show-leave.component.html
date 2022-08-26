@@ -5,10 +5,10 @@
             <div class="icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
             <div class="ps-3 pt-2">
                 <h3 class="header-user">{{ event.rowEventUser?.id }}{{' - '}}{{ event.rowEventUser?.fullName }}</h3>
-                <p class="subheader-user">Staff</p>
+                <p class="subheader-user">{{ event.rowEventUser.role.roleType}}<span [ngStyle]="{'font-size': '0.6rem'}">{{'('}}{{ event.rowEventUser.staffPosition.position}}{{')'}}</span></p>
             </div>
         </div>
-        <div *ngIf="showSuperAdminApproved || showAdminApproved" class="col-3">
+        <div *ngIf="showSuperAdminApproved || showAdminApproved" class="col-3 btn-toggle">
             <div>
                 <mat-button-toggle-group #group="matButtonToggleGroup">
                     <mat-button-toggle [ngClass]="{'listview' : listview === true}" (click)="showlistview()" mat-stroked-button aria-label="listview">
