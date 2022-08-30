@@ -26,14 +26,14 @@ const routes: Routes = [
     ],
     canActivate: [AuthenticationGuard],
     data: {
-      role: 'Admin'
+      role: ['Admin', 'User']
     } },
     
   { path: 'userdashboard', 
   component: UserDashboardComponent, 
   canActivate: [AuthenticationGuard],
   data: {
-    role: ['Admin', 'User']
+    role: []
   }},
   { path: 'staff', 
   component: StaffComponent, 

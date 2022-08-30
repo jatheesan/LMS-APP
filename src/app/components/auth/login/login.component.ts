@@ -69,12 +69,13 @@ export class LoginComponent implements OnInit {
         if(result.loginuser.token){
           this.authguardServiceService.saveToken(result.loginuser.token, result.loginuser.id);
           this.invalidLogin = false;
-          if(result.loginuser.roleId == 1 || result.loginuser.roleId == 2){
-            this.router.navigate(["/dashboard"]);
-          }
-          else{
-            this.router.navigate(["/userdashboard"]);
-          }
+          this.router.navigate(["/dashboard"]);
+          // if(result.loginuser.roleId == 1 || result.loginuser.roleId == 2){
+          //   this.router.navigate(["/dashboard"]);
+          // }
+          // else{
+          //   this.router.navigate(["/userdashboard"]);
+          // }
           
         }
         else{

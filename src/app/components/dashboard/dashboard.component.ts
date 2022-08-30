@@ -37,6 +37,11 @@ export class DashboardComponent implements OnInit {
   user!: User;
   leaveRequests!: any;
   leavedata !: any;
+  authUserId !: number;
+  authUserRole !: number;
+  authUserName !: string;
+  adminMode: boolean = false;
+  userMode: boolean = false;
 
   JsonSerialized='';
 
@@ -69,11 +74,35 @@ export class DashboardComponent implements OnInit {
     let lowestToHighest = this.workweek.sort((a, b) => a - b);
     this.orderOfWorkWeekDays = DashboardComponent.orderOfWorkWeek(lowestToHighest, weekStartDay);
 
-    this.getAllUsers();
     this.getAllHolidays();
-    this.getAllLeaveRequest();
-    //this.getUserById(7);
-    
+
+    this.authUserId = this.authguardServiceService.getAuthUserId();
+    this.authUserName = this.authguardServiceService.getAuthUserName();
+    this.authUserRole = this.authguardServiceService.getAuthRole();
+
+    if(this.authUserRole == 1 || this.authUserRole == 2){
+      this.getAllLeaveRequest();
+      this.getAllUsers();
+      this.adminMode = true;
+      this.userMode = false;
+      
+    }
+    else if(this.authUserRole == 3){
+      if(this.authUserId == null){
+        this.leaveRequests = [];
+      }
+      else{
+        this.getAllLeaveRequestForUser(this.authUserId);
+      }
+      this.users = [];
+      this.adminMode = false;
+      this.userMode = true;
+    }
+    else{
+      this.leaveRequests = [];
+      this.adminMode = false;
+      this.userMode = false;
+    }
   }
   
   getAllHolidays(){
@@ -87,6 +116,15 @@ export class DashboardComponent implements OnInit {
 
   getAllLeaveRequest(){
     this.leaveRequestService.getAllLeaveRequest()
+      .subscribe(
+        response => {
+          this.leaveRequests = response;
+        }
+      );
+  }
+
+  getAllLeaveRequestForUser(id : number){
+    this.leaveRequestService.getAllLeaveRequestsByUser(id)
       .subscribe(
         response => {
           this.leaveRequests = response;
@@ -148,8 +186,6 @@ export class DashboardComponent implements OnInit {
       leave.leaveRequestOfLeaveTypes.push(lrlt);
 
       this.JsonSerialized=((new Serializer()).serialize(leave));
-      console.log(leave);
-      console.log(this.JsonSerialized);
       this.leaveRequestService.ApplyLeaveRequest(this.JsonSerialized).subscribe(result => {
         console.log(result);
       });

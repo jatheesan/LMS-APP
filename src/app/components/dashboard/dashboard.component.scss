@@ -1,36 +1,9 @@
-.nav-bar{
-    height: 50px;
-    width: 100%;
-    background-color: rgb(255, 174, 0);
-
-    div.header{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .headerstyle{
-            display: flex;
-            align-items: center;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0px !important;
-            line-height : 1.6 !important;
-        }
-        .img-logo{
-            width: auto;
-            height: 50px;
-        }
-
-        .logoutbutton{
-            margin-right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent;
-            border: none;
-            color: #fff;
-        }
-    }
+.admin-header{
+  background-color: rgb(255, 174, 0);
+}
+.user-header{
+  background-color: #89d8d3 !important;
+  background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%) !important;
 }
 .addleave-section{
     position: fixed;

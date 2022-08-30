@@ -12,37 +12,37 @@
         <span *ngIf="isExpanded" class="menu-item">Dashboard</span>
       </mat-list-item>
 
-      <mat-list-item [routerLink]="'info'">
+      <!-- <mat-list-item [routerLink]="'info'">
         <mat-icon mat-list-icon>important_devices</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Info</span>
-      </mat-list-item>
+      </mat-list-item> -->
 
-      <mat-list-item (click)="showStaff()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showStaff()">
         <mat-icon mat-list-icon>supervisor_account</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Staff</span>
       </mat-list-item>
 
-      <mat-list-item (click)="showHoliday()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showHoliday()">
         <mat-icon mat-list-icon>event</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Holiday</span>
       </mat-list-item>
 
-      <mat-list-item (click)="showTeam()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showTeam()">
         <mat-icon mat-list-icon>group_add</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Team</span>
       </mat-list-item>
 
-      <mat-list-item (click)="showPosition()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showPosition()">
         <mat-icon mat-list-icon>ac_unit</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Position</span>
       </mat-list-item>
 
-      <mat-list-item (click)="showRole()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showRole()">
         <mat-icon mat-list-icon>layers</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Role</span>
       </mat-list-item>
 
-      <mat-list-item (click)="showLeaveType()">
+      <mat-list-item *ngIf="adminMode && !userMode" (click)="showLeaveType()">
         <mat-icon mat-list-icon>filter_none</mat-icon>
         <span *ngIf="isExpanded" class="menu-item">Leave Type</span>
       </mat-list-item>
@@ -50,19 +50,35 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- Content - rendered Content for the current router path into the <router-outlet>, e.g. /dashboard or /info-->
   <mat-sidenav-content>
-      <div class="nav-bar">
-        <div class="header">
-          <div class="headerstyle">
-            <!-- <p>Nav Bar</p> -->
-            <img src="assets/images/lms.png" class="img-logo" alt="lms">
-          </div>
-          <div class="headerstyle">
-            <button type="button" class="logoutbutton" (click)="lockOut()"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+      <header class="py-2 mb-1 border-bottom" [ngClass]="adminMode == true ? 'admin-header' : 'user-header'">
+        <div class="container-fluidalign-items-center">
+          <div class="row">
+            <div class="col-md-4">
+                <a href="#" class="d-flex align-items-center text-decoration-none">
+                  <img src="assets/images/lms.png" class="img-logo" alt="lms" width="70">
+                </a>
+            </div>
+            <div class="col-md-8 pe-4">
+              <div class="d-flex align-items-center justify-content-end">
+                <div class="flex-shrink-0 dropdown">
+                  <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img *ngIf="adminMode" src="assets/images/admin.jpg" alt="lms" class="rounded-circle" width="32" height="32">
+                    <img *ngIf="userMode"  src="assets/images/user.jpg" alt="lms" class="rounded-circle" width="32" height="32">
+                    {{ authUserName }}
+                  </a>
+                  <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a *ngIf="!authUserName" class="dropdown-item" href="#"><span class="pe-2"><i class="fa fa-user" aria-hidden="true"></i></span>Profile</a><a *ngIf="authUserName" class="dropdown-item" href="#"><span class="pe-2"><i class="fa fa-user" aria-hidden="true"></i></span>{{ authUserName | uppercase }}</a></li>
+                    <li><a class="dropdown-item" href="#"><span class="pe-2"><i class="fa fa-cogs" aria-hidden="true"></i></span>Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" (click)="lockOut()"><span class="pe-2"><i class="fa fa-sign-out" aria-hidden="true"></i></span>Sign out</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
       <div class="body">
         <section class="addleave-section" *ngIf="showComponent == 'calendar'">
@@ -76,12 +92,12 @@
             </div>
           </div>
         </section>
-        
+
         <div *ngIf="showComponent == 'calendar'">
-          <lms-calendar-month-view 
-          [todayDate]="date" 
-          [orderOfWorkWeekDays]="orderOfWorkWeekDays" 
-          [holidays] = "holidays" 
+          <lms-calendar-month-view
+          [todayDate]="date"
+          [orderOfWorkWeekDays]="orderOfWorkWeekDays"
+          [holidays] = "holidays"
           [leaveRequests] = "leaveRequests"
           [users] = "users"
           [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
@@ -142,11 +158,11 @@
       </div>
     </div>
   </section>
-  
-  <lms-calendar-month-view 
-    [todayDate]="date" 
-    [orderOfWorkWeekDays]="orderOfWorkWeekDays" 
-    [holidays] = "holidays" 
+
+  <lms-calendar-month-view
+    [todayDate]="date"
+    [orderOfWorkWeekDays]="orderOfWorkWeekDays"
+    [holidays] = "holidays"
     [leaveRequests] = "leaveRequests"
     [users] = "users"
     [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
