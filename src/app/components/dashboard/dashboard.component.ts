@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
   authUserName !: string;
   adminMode: boolean = false;
   userMode: boolean = false;
+  selectedStaff!: number;
 
   JsonSerialized='';
 
@@ -81,6 +82,7 @@ export class DashboardComponent implements OnInit {
     this.authUserRole = this.authguardServiceService.getAuthRole();
 
     if(this.authUserRole == 1 || this.authUserRole == 2){
+      this.selectedStaff = -1;
       this.getAllLeaveRequest();
       this.getAllUsers();
       this.adminMode = true;
@@ -102,6 +104,18 @@ export class DashboardComponent implements OnInit {
       this.leaveRequests = [];
       this.adminMode = false;
       this.userMode = false;
+    }
+  }
+
+  getUserId(id : number){
+    this.selectedStaff = id;
+    if(id){
+      if(id == -1){
+        this.getAllLeaveRequest();
+      }
+      else{
+        this.getAllLeaveRequestForUser(this.selectedStaff);
+      }
     }
   }
   

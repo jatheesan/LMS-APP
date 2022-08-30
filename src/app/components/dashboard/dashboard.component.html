@@ -93,6 +93,23 @@
           </div>
         </section>
 
+        <div *ngIf="adminMode" class="row search-section">
+          <div class="col-md-6">
+            <form>
+              <mat-form-field appearance="fill">
+                <mat-label>select staff</mat-label>
+                <select matNativeControl [(ngModel)]="selectedStaff" name="staff">
+                  <option value="" selected></option>
+                  <option [value]="-1" [selected]="selectedStaff === -1" (click)="getUserId(-1)">All Staff</option>
+                  <option *ngFor="let user of users" [value]="user.id" [selected]="selectedStaff === user.id" (click)="getUserId(user.id)">
+                    {{user.id}}{{'-'}}{{user.fullName}}
+                  </option>
+                </select>
+              </mat-form-field>
+            </form>            
+          </div>
+        </div>
+
         <div *ngIf="showComponent == 'calendar'">
           <lms-calendar-month-view
           [todayDate]="date"
