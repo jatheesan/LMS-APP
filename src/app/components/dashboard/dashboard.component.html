@@ -93,13 +93,13 @@
           </div>
         </section>
 
-        <div *ngIf="adminMode" class="row search-section">
+        <div *ngIf="adminMode && showComponent == 'calendar'" class="row search-section">
           <div class="col-sm-6">
             <form>
               <mat-form-field appearance="fill">
                 <mat-label>select staff</mat-label>
                 <select matNativeControl [(ngModel)]="selectedStaff" name="staff">
-                  <option value="" selected></option>
+                  <option value="0" [selected]="selectedStaff === 0"></option>
                   <option [value]="-1" [selected]="selectedStaff === -1" (click)="getUserId(-1)">All Staff</option>
                   <option *ngFor="let user of users" [value]="user.id" [selected]="selectedStaff === user.id" (click)="getUserId(user.id)">
                     {{user.id}}{{'-'}}{{user.fullName}}
@@ -113,8 +113,8 @@
               <mat-form-field appearance="fill">
                 <mat-label>select team</mat-label>
                 <select matNativeControl [(ngModel)]="selectedTeam" name="team">
-                  <option value="" selected></option>
-                  <option [value]="-1" [selected]="selectedStaff === -1" (click)="getLeaveByTeamId(-1)">All Team</option>
+                  <option value="0" [selected]="selectedTeam === 0"></option>
+                  <option [value]="-1" [selected]="selectedTeam === -1" (click)="getLeaveByTeamId(-1)">All Team</option>
                   <option *ngFor="let team of teams" [value]="team.id" [selected]="selectedTeam === team.id" (click)="getLeaveByTeamId(team.id)">
                     {{team.id}}{{'-'}}{{team.teamName}}
                   </option>

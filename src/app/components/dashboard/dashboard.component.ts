@@ -114,6 +114,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUserId(id : number){
+    this.selectedTeam = 0;
     this.selectedStaff = id;
     if(id){
       if(id == -1){
@@ -126,6 +127,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLeaveByTeamId(id : number){
+    this.selectedStaff = 0;
     if(id == -1){
       this.getAllLeaveRequest();
     }
