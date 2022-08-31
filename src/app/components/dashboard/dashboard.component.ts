@@ -96,6 +96,7 @@ export class DashboardComponent implements OnInit {
       
     }
     else if(this.authUserRole == 3){
+      this.getAllUsers();
       if(this.authUserId == null){
         this.leaveRequests = [];
       }

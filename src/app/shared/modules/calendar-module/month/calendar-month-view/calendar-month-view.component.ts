@@ -348,16 +348,22 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
     let lastday : any;
     let lastdayOfWeek: moment.Moment;
     if(this.Dates != null){
+      // first date of week
       firstday = this.Dates[rowIndex].date;
       firstdayOfWeek = moment(firstday);
+      // last date of week
       lastday = this.Dates[rowIndex + (this.noOfWorkWeekDays - 1)].date
       lastdayOfWeek = moment(lastday);
 
       if(this.leaveRequests != null){
+        //for each all leave request
         this.leaveRequests.forEach((item: LeaveRequest) => {
+          //staring date of leave 
           let firstdayofLeave = moment(item.startDate);
+          //ending date of leave
           let lastdayofLeave = moment(item.endDate);
 
+          //condition for fw fl lw ll
           if(
             ((firstdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0)) &&
             ((lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0 ) && (lastdayofLeave.diff(lastdayOfWeek, 'day') >= 0))
@@ -375,6 +381,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               );
               leaveRequest.push(item);
           }
+          //condition for fl fw ll lw
           else if(
             ((firstdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0)) &&
             ((lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0) && (lastdayOfWeek.diff(lastdayofLeave, 'day') >= 0))
@@ -392,6 +399,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               );
               leaveRequest.push(item);
           }
+          //condition for fl fw ll lw
           else if(
             ((firstdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0)) &&
             ((lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0) && (lastdayofLeave.diff(lastdayOfWeek, 'day') >= 0))
@@ -409,6 +417,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
               );
               leaveRequest.push(item);
           }
+          //condition for fw fl lw
           else if(
             ((firstdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(firstdayofLeave, 'day') >= 0)) &&
             ((lastdayofLeave.diff(firstdayOfWeek, 'day') >= 0 ) && (lastdayOfWeek.diff(lastdayofLeave, 'day') >= 0))
