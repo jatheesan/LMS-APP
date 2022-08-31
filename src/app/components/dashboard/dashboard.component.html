@@ -54,12 +54,12 @@
       <header class="py-2 mb-1 border-bottom" [ngClass]="adminMode == true ? 'admin-header' : 'user-header'">
         <div class="container-fluidalign-items-center">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-4">
                 <a href="#" class="d-flex align-items-center text-decoration-none">
                   <img src="assets/images/lms.png" class="img-logo" alt="lms" width="70">
                 </a>
             </div>
-            <div class="col-md-8 pe-4">
+            <div class="col-8 pe-4">
               <div class="d-flex align-items-center justify-content-end">
                 <div class="flex-shrink-0 dropdown">
                   <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -94,7 +94,7 @@
         </section>
 
         <div *ngIf="adminMode" class="row search-section">
-          <div class="col-md-6">
+          <div class="col-sm-6">
             <form>
               <mat-form-field appearance="fill">
                 <mat-label>select staff</mat-label>
@@ -103,6 +103,20 @@
                   <option [value]="-1" [selected]="selectedStaff === -1" (click)="getUserId(-1)">All Staff</option>
                   <option *ngFor="let user of users" [value]="user.id" [selected]="selectedStaff === user.id" (click)="getUserId(user.id)">
                     {{user.id}}{{'-'}}{{user.fullName}}
+                  </option>
+                </select>
+              </mat-form-field>
+            </form>            
+          </div>
+          <div class="col-sm-6">
+            <form>
+              <mat-form-field appearance="fill">
+                <mat-label>select team</mat-label>
+                <select matNativeControl [(ngModel)]="selectedTeam" name="team">
+                  <option value="" selected></option>
+                  <option [value]="-1" [selected]="selectedStaff === -1" (click)="getLeaveByTeamId(-1)">All Team</option>
+                  <option *ngFor="let team of teams" [value]="team.id" [selected]="selectedTeam === team.id" (click)="getLeaveByTeamId(team.id)">
+                    {{team.id}}{{'-'}}{{team.teamName}}
                   </option>
                 </select>
               </mat-form-field>

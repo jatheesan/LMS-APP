@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { Deserializer } from 'ts-json-api-formatter';
 import { Team } from '../models/team.model';
 
 @Injectable({
@@ -13,7 +14,9 @@ export class TeamService {
 
   getAllTeams(): Observable<any>{
     return this.http.get<any>(this.baseUrl).pipe(map((data : any) =>{
-      return this.mapDataToTeams(data.data)
+      //return this.mapDataToTeams(data.data)
+      let teamsObj=((new Deserializer()).deserialize(data));
+      return teamsObj;
     }))
   }
 

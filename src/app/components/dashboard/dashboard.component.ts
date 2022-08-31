@@ -16,6 +16,7 @@ import { AuthguardServiceService } from 'src/app/services/authguard-service.serv
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder } from '@angular/forms';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'lms-dashboard',
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
   noOfEventsShowInWeek = 3;
   holidays!: Holiday[];
   users!: any;
+  teams!: any;
   user!: User;
   leaveRequests!: any;
   leavedata !: any;
@@ -43,6 +45,7 @@ export class DashboardComponent implements OnInit {
   adminMode: boolean = false;
   userMode: boolean = false;
   selectedStaff!: number;
+  selectedTeam!: number;
 
   JsonSerialized='';
 
@@ -62,6 +65,7 @@ export class DashboardComponent implements OnInit {
     private userServise: UserService,
     private authguardServiceService : AuthguardServiceService,
     private authService : AuthService,
+    private teamService : TeamService,
     private http: HttpClient,
     private router : Router,
     private _formBuilder: FormBuilder
@@ -83,8 +87,10 @@ export class DashboardComponent implements OnInit {
 
     if(this.authUserRole == 1 || this.authUserRole == 2){
       this.selectedStaff = -1;
+      this.selectedTeam = -1;
       this.getAllLeaveRequest();
       this.getAllUsers();
+      this.getAllTeam();
       this.adminMode = true;
       this.userMode = false;
       
@@ -118,6 +124,26 @@ export class DashboardComponent implements OnInit {
       }
     }
   }
+
+  getLeaveByTeamId(id : number){
+    if(id == -1){
+      this.getAllLeaveRequest();
+    }
+    else{
+      let staff_Teams = this.teams.find((x : any) => x.id == id).staff_Teams;
+      if(staff_Teams.length == 0){
+        this.leaveRequests = [];
+      }
+      else{
+        this.leaveRequests = [];
+        staff_Teams.forEach((element: any) => {
+          this.leaveRequestService.getAllLeaveRequestsByUser(element.userId).subscribe(response => {
+            this.leaveRequests = this.leaveRequests.concat(response);
+          });
+        });
+      }
+    }
+  }
   
   getAllHolidays(){
     this.holidayService.getAllHolidays()
@@ -135,6 +161,12 @@ export class DashboardComponent implements OnInit {
           this.leaveRequests = response;
         }
       );
+  }
+
+  getAllTeam(){
+    this.teamService.getAllTeams().subscribe(response => {
+      this.teams = response;
+    })
   }
 
   getAllLeaveRequestForUser(id : number){
