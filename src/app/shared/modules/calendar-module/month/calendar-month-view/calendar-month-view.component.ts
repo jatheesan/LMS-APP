@@ -460,6 +460,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   getEventByRowIndex(sortedrowLeaveRequest: Rowevent[]) : any[][]{
+    
     let rowindexevent : number[][] = []; //2 dimention array of events for every row
     let rowevents : Rowevent[][] = [];
     let reverseRowEvents : Rowevent[][] = [];
@@ -544,6 +545,10 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       });
     }
     //reverseRowEvents = .reverse();
+    rowevents.forEach(element => {
+      element = element.sort((a, b) => 
+      (moment(a.rowEventStartDate) < moment(b.rowEventStartDate)) ? -1 : 1);
+    })
     return rowevents;
   }
 
@@ -598,7 +603,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
   }
 
   getMoveByLeft(event : Rowevent, index : number, rowEvent : Rowevent[], j : number) :number{
-    //console.log('-----');
+    //console.log('---------------------------------------------------');
     
     let diff = 0;
     let eventFirstday : any;
@@ -620,6 +625,11 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       firstdateOfWeek = this.Dates[index].date;
       indextOfFirstdateOfWeek = this.workweekofmonth.indexOf(moment(firstdateOfWeek).day());
       indextOfFirstdayOfEvent = this.workweekofmonth.indexOf(moment(event.rowEventStartDate).day());
+      //console.log(event.rowEventStartDate);
+      //console.log(moment(event.rowEventStartDate).day());
+      //console.log('indextOfFirstdateOfWeek' + indextOfFirstdateOfWeek);
+      //console.log('indextOfFirstdayOfEvent' + indextOfFirstdayOfEvent);
+      
 
       let sortedrowLeaveRequest = rowEvent.sort((a, b) => 
         (a.rowEventStartDate < b.rowEventStartDate) ? -1 : 1);
@@ -627,21 +637,25 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
       //console.log(event);
       
       //let eventindex = rowEvent.indexOf(event);
-      let eventindex = sortedrowLeaveRequest.findIndex((leave: any) => leave.rowEvent.id === event.rowEvent?.id && leave === event);
+      let eventindex = sortedrowLeaveRequest.findIndex((leave: any) => leave.rowEvent.id == event.rowEvent?.id);
+      //.log('eventindex ' + eventindex);
       //console.log(event.rowEvent?.id);
       //console.log(eventindex);
       
       if(eventindex > 0){
         let beforeevent = sortedrowLeaveRequest[eventindex - 1];
+        //console.log('beforeevent' + beforeevent);
         let indextOfEnddayOfBeforeEvent = this.workweekofmonth.indexOf(moment(beforeevent.rowEventEndDate).day());
+        //console.log('indextOfEnddayOfBeforeEvent' + indextOfEnddayOfBeforeEvent);
         let aftereevent = sortedrowLeaveRequest[eventindex + 1];
         let indextOfStartdayOfAfterEvent = this.workweekofmonth.indexOf(moment(beforeevent.rowEventStartDate).day());
 
         diff = indextOfFirstdayOfEvent - indextOfEnddayOfBeforeEvent - 1;
+        //console.log('diff' + diff);
         //diff = indextOfEnddayOfBeforeEvent - indextOfFirstdayOfEvent - 1;
-        widthstyle = 1.5;
+        widthstyle = 0.25;
           while(diff > 0){
-            widthstyle = widthstyle + celloffsetwidth + 0;
+            widthstyle = widthstyle + celloffsetwidth + 0.25;
             diff = diff - 1;
           }
       }
@@ -649,7 +663,7 @@ export class CalendarMonthViewComponent implements OnInit ,DoCheck {
         diff = indextOfFirstdayOfEvent - indextOfFirstdateOfWeek;
         widthstyle = 0.25;
           while(diff > 0){
-            widthstyle = widthstyle + celloffsetwidth + 0.5;
+            widthstyle = widthstyle + celloffsetwidth + 0.25;
             diff = diff - 1;
           }
       }
