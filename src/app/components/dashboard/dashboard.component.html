@@ -12,10 +12,10 @@
         <span *ngIf="isExpanded" class="menu-item">Dashboard</span>
       </mat-list-item>
 
-      <!-- <mat-list-item [routerLink]="'info'">
-        <mat-icon mat-list-icon>important_devices</mat-icon>
-        <span *ngIf="isExpanded" class="menu-item">Info</span>
-      </mat-list-item> -->
+      <mat-list-item [routerLink]="'profile'" (click)="showProfile()">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Profile</span>
+      </mat-list-item>
 
       <mat-list-item *ngIf="adminMode && !userMode" (click)="showStaff()">
         <mat-icon mat-list-icon>supervisor_account</mat-icon>
@@ -132,6 +132,10 @@
           [leaveRequests] = "leaveRequests"
           [users] = "users"
           [noOfEventsShowInWeek] = "noOfEventsShowInWeek"></lms-calendar-month-view>
+        </div>
+
+        <div *ngIf="showComponent == 'profile'">
+          <lms-user-profile [user]="user"></lms-user-profile>
         </div>
 
         <div *ngIf="showComponent == 'staff'">

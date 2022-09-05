@@ -82,6 +82,7 @@ export class DashboardComponent implements OnInit {
     this.getAllHolidays();
 
     this.authUserId = this.authguardServiceService.getAuthUserId();
+    this.getUserById(this.authUserId);
     this.authUserName = this.authguardServiceService.getAuthUserName();
     this.authUserRole = this.authguardServiceService.getAuthRole();
 
@@ -303,6 +304,10 @@ export class DashboardComponent implements OnInit {
 
   showLeaveType(){
     this.showComponent = 'leavetype';
+  }
+
+  showProfile(){
+    this.showComponent = 'profile';
   }
 
 }

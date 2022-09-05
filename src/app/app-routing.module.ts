@@ -8,6 +8,7 @@ import { RoleComponent } from './components/pages/role/role.component';
 import { StaffPositionComponent } from './components/pages/staff-position/staff-position.component';
 import { StaffComponent } from './components/pages/staff/staff.component';
 import { TeamComponent } from './components/pages/team/team.component';
+import { UserProfileComponent } from './components/pages/user-profile/user-profile.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { AuthenticationGuard } from './services/authentication.guard';
 
@@ -34,6 +35,12 @@ const routes: Routes = [
   canActivate: [AuthenticationGuard],
   data: {
     role: []
+  }},
+  { path: 'profile', 
+  component: UserProfileComponent, 
+  canActivate: [AuthenticationGuard],
+  data: {
+    role: ['Admin', 'User']
   }},
   { path: 'staff', 
   component: StaffComponent, 

@@ -32,6 +32,7 @@ import { AddEditHolidayComponent } from './shared/modals/holiday/add-edit-holida
 import { HolidayComponent } from './components/pages/holiday/holiday.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AddEditStaffTeamComponent } from './shared/modals/staff-team/add-edit-staff-team/add-edit-staff-team.component';
+import { UserProfileComponent } from './components/pages/user-profile/user-profile.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Session-User');
@@ -62,6 +63,7 @@ export function tokenGetter() {
     HolidayComponent,
     SidenavComponent,
     AddEditStaffTeamComponent,
+    UserProfileComponent,
   ],
   imports: [
     FormsModule,

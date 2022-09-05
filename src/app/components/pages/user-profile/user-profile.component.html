@@ -1,0 +1,142 @@
+<div class="container">
+    <div class="row mt-1">
+        <div class="col-12 d-flex mb-2">
+            <mat-icon class="me-3">keyboard_backspace</mat-icon><a href="">staff / admin</a>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-card class="example-card px-4 py-3">
+                        <mat-card-header>
+                          <div mat-card-avatar class="example-header-image me-3">
+                            <img src="assets/images/admin.jpg" alt="lms" class="rounded-circle" width="60px" height="60px">
+                          </div>
+                          <mat-card-title>{{userprofile.fullName}}</mat-card-title>
+                          <mat-card-subtitle>{{userprofile.role.roleType}}</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="row">
+                            <div class="col-6 fs-6 fw-bold">
+                                First Name
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.firstName}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                Last Name
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.lastName}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                User Name
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.username}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                Email
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.email}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                Position
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.staffPosition.position}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                Role
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                {{userprofile.role.roleType}}
+                            </div>
+                            <div class="col-6 fs-6 fw-bold">
+                                Teams
+                            </div>
+                            <div class="col-6 fs-6 text-end">
+                                <div *ngIf="getTeamNames(userprofile.staff_Teams).length != 0">
+                                        <p class="mat-chip-cell" *ngFor="let team of getTeamNames(userprofile.staff_Teams)">
+                                            {{team}}
+                                        </p>
+                                </div>
+                                <div *ngIf="getTeamNames(userprofile.staff_Teams).length == 0">
+                                    Not Assigned
+                                </div>
+                            </div>
+                          </div>
+                        </mat-card-content>
+                        <!-- <mat-card-actions>
+                          <button mat-button>LIKE</button>
+                          <button mat-button>SHARE</button>
+                        </mat-card-actions> -->
+                    </mat-card>                      
+                </div>
+                <div class="col-sm-6">
+                    <mat-card class="example-card px-4 py-3">
+                        <mat-card-header class="text-center">
+                          <mat-card-title>Available Leaves</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div *ngIf="userprofile.availableLeaveCounts.length == 0" class="row">
+                            Not Assigned
+                          </div>
+                          <div *ngIf="userprofile.availableLeaveCounts.length != 0">
+                            <div *ngFor="let leavecount of userprofile.availableLeaveCounts" class="row">
+                                <div class="col-6 fs-6 fw-bold">
+                                    {{ getLeaveName(leavecount.leaveTypeId) }}
+                                </div>
+                                <div *ngIf="leavecount.leaveTypeCount == null" class="col-6 fs-6 text-end">
+                                    {{ leavecount.takeLeaveTypeCount}}{{'/'}}{{ '0' }}
+                                </div>
+                                <div *ngIf="leavecount.leaveTypeCount != null" class="col-6 fs-6 text-end">
+                                    {{ leavecount.takeLeaveTypeCount}}{{'/'}}{{leavecount.leaveTypeCount}}
+                                </div>
+                            </div>
+                          </div>
+                        </mat-card-content>
+                    </mat-card>      
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-4">
+            <mat-card class="example-card px-4 py-3">
+                <mat-card-header>
+                  <h3 class="text-center">My Leaves</h3>
+                </mat-card-header>
+                <mat-card-content>
+                  <div *ngIf="userprofile.leaveRequests.length == 0" class="row">
+                    Not Take Yet
+                  </div>
+                  <div *ngIf="userprofile.leaveRequests.length > 0">
+                    <table class="table">
+                        <tbody>
+                          <tr *ngFor="let leave of userprofile.leaveRequests;let i = index" class="text-center">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{leave.reason}}</td>
+                            <td><span class="fw-bold">{{'From : '}}</span>{{leave.startDate | date}}</td>
+                            <td><span class="fw-bold">{{'To : '}}</span>{{leave.endDate | date}}</td>
+                            <td>
+                                <p *ngIf="!leave.timeOfLeaveday">---</p>
+                                <p *ngIf="leave.timeOfLeaveday">{{leave.timeOfLeaveday}}</p>
+                            </td>
+                            <!-- <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button type="button" class="btn btn-danger" (click)="deleteLeaveType(leavetype.id)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-success" (click)="editLeaveType(leavetype.id)">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </td> -->
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div>
+                </mat-card-content>
+            </mat-card> 
+        </div>
+    </div>
+</div>
