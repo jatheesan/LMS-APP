@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
@@ -16,6 +16,7 @@ import { Serializer } from 'ts-json-api-formatter';
 })
 export class StaffComponent implements OnInit {
   
+  @Input() authUserRole !: any;
   staffs!: any;
   teams!: Team[];
   JsonSerialized='';
@@ -63,15 +64,16 @@ export class StaffComponent implements OnInit {
       width : '500px',
       panelClass: 'custom-modalbox',
       data : {
-        staffId : id
+        staffId : id,
+        authUserRole : this.authUserRole
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       let editresult : User = {
         id: id,
-        firstname: result.firstname,
-        lastname: result.lastname,
+        firstName: result.firstName,
+        lastName: result.lastName,
         username: result.username,
         email: result.email,
         passwordHash: null as any,
@@ -93,15 +95,16 @@ export class StaffComponent implements OnInit {
       width : '500px',
       panelClass: 'custom-modalbox',
       data : {
-        staffId : null
+        staffId : null,
+        authUserRole : this.authUserRole
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       let newstaff : User = {
         id: -1,
-        firstname: result.firstname,
-        lastname: result.lastname,
+        firstName: result.firstName,
+        lastName: result.lastName,
         username: result.username,
         email: result.email,
         passwordHash: "b6CoqLH6CwxXVKQizVxwU3mSwtacqUfzgB1G2/7MOnw=",

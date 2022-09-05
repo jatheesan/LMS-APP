@@ -17,6 +17,7 @@ import { StaffPosition } from 'src/app/models/staff-position.model';
 })
 export class AddEditStaffComponent implements OnInit {
 
+  authUserRole : any;
   staffId !: number;
   staff !: User;
   isAddMode!: boolean;
@@ -44,6 +45,7 @@ export class AddEditStaffComponent implements OnInit {
 
   ngOnInit(): void {
     this.staffId = this.data.staffId;
+    this.authUserRole = this.data.authUserRole;
     this.isAddMode = !this.staffId;
 
     this.StaffAddForm = this.fb.group(

@@ -67,10 +67,11 @@
                             </div>
                           </div>
                         </mat-card-content>
-                        <!-- <mat-card-actions>
-                          <button mat-button>LIKE</button>
-                          <button mat-button>SHARE</button>
-                        </mat-card-actions> -->
+                        <mat-card-actions>
+                          <div class="d-grid gap-2">
+                            <button class="btn btn-outline-success" type="button" (click)="editProfile(userprofile.id)">Edit</button>
+                          </div>
+                        </mat-card-actions>
                     </mat-card>                      
                 </div>
                 <div class="col-sm-6">
