@@ -2,8 +2,8 @@ import { Team } from "./team.model";
 
 export class User {
     id : number | undefined;
-    firstName : string | undefined;
-    lastName : string | undefined;
+    firstname : string | undefined;
+    lastname : string | undefined;
     username : string | undefined;
     email : string | undefined;
     passwordHash : string = null as any;
@@ -14,8 +14,8 @@ export class User {
 
     constructor(data:any){
         this.id = data.id;
-        this.firstName = data.attributes.firstName;
-        this.lastName = data.attributes.lastName;
+        this.firstname = data.attributes.firstName;
+        this.lastname = data.attributes.lastName;
         this.username = data.attributes.username;
         this.email = data.attributes.email;
         this.passwordHash = data.attributes.passwordHash;

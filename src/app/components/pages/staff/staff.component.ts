@@ -72,8 +72,8 @@ export class StaffComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let editresult : User = {
         id: id,
-        firstName: result.firstName,
-        lastName: result.lastName,
+        firstname: result.firstName,
+        lastname: result.lastName,
         username: result.username,
         email: result.email,
         passwordHash: null as any,
@@ -103,8 +103,8 @@ export class StaffComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let newstaff : User = {
         id: -1,
-        firstName: result.firstName,
-        lastName: result.lastName,
+        firstname: result.firstName,
+        lastname: result.lastName,
         username: result.username,
         email: result.email,
         passwordHash: "b6CoqLH6CwxXVKQizVxwU3mSwtacqUfzgB1G2/7MOnw=",

@@ -86,8 +86,8 @@ export class UserProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let editresult : User = {
         id: id,
-        firstName: result.firstName,
-        lastName: result.lastName,
+        firstname: result.firstName,
+        lastname: result.lastName,
         username: result.username,
         email: result.email,
         passwordHash: null as any,

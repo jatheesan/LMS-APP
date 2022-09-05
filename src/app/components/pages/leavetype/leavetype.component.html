@@ -27,7 +27,7 @@
                     <td>{{leavetype.leaveTypeName}}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger" (click)="deleteLeaveType(leavetype.id)">
+                            <button type="button" class="btn btn-danger" (click)="deleteLeaveType(leavetype.id)" disabled="false">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
                             <button type="button" class="btn btn-success" (click)="editLeaveType(leavetype.id)">
